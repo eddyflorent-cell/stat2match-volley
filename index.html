@@ -420,6 +420,43 @@
       align-items: center;
       gap: 6px;
     }
+        /* Temps morts compacts sous le score */
+    #timeout-inline {
+      margin-top: 6px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 12px;
+      font-size: 11px;
+      align-items: center;
+    }
+    .tm-inline {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tm-inline-label {
+      color: #dddddd;
+      margin-right: 4px;
+    }
+    .tm-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid #888;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+    }
+    .tm-dot.tm-used {
+      background: #ffb300;
+      border-color: #ffb300;
+    }
+    .tm-inline-count {
+      font-size: 10px;
+      color: #aaaaaa;
+      margin-left: 2px;
+    }
+
     .tm-controls button {
       width: 26px;
       height: 26px;
@@ -930,9 +967,12 @@
       </div>
     </section>
 
-    <!-- SCORE DU MATCH -->
+           <!-- SCORE DU MATCH -->
     <section id="score-section" class="no-select">
-      <h2 id="score-title">Score du match <span id="score-set-label">(set 1)</span></h2>
+      <h2 id="score-title">
+        Score du match <span id="score-set-label">(set 1)</span>
+      </h2>
+
       <div id="set-selector-main">
         <span>Set :</span>
         <button class="set-btn-main active" data-set="1">1</button>
@@ -941,17 +981,19 @@
         <button class="set-btn-main" data-set="4">4</button>
         <button class="set-btn-main" data-set="5">5</button>
       </div>
+
       <div class="score-board">
         <div class="score-team">
-  <div class="score-label" id="score-label-nous">Nous</div>
+          <div class="score-label" id="score-label-nous">Nous</div>
           <div class="score-controls">
             <button class="score-btn-minus" data-team="nous">-</button>
             <span class="score-value" data-team="nous">0</span>
             <button class="score-btn-plus" data-team="nous">+</button>
           </div>
         </div>
+
         <div class="score-team">
-  <div class="score-label" id="score-label-adv">Adversaire</div>
+          <div class="score-label" id="score-label-adv">Adversaire</div>
           <div class="score-controls">
             <button class="score-btn-minus" data-team="eux">-</button>
             <span class="score-value" data-team="eux">0</span>
@@ -959,7 +1001,8 @@
           </div>
         </div>
       </div>
-            <!-- BANDEAU STATS RALLYE -->
+
+      <!-- BANDEAU RALLYE -->
       <div id="rally-bar">
         <div class="rally-group" data-skill="attaque">
           <span class="rally-label">Attaque</span>
@@ -993,46 +1036,34 @@
         </div>
       </div>
 
-            <!-- TEMPS MORTS -->
-      <div id="timeout-panel" class="no-select" style="margin-top:10px;">
-        <h3 style="margin:4px 0 6px;font-size:14px;">Temps morts (set en cours)</h3>
-
-        <!-- Temps morts techniques (communs aux 2 équipes) -->
-        <div class="tm-row">
-          <div class="tm-label">Temps morts techniques (communs)</div>
-          <div class="tm-controls">
-            <button type="button" data-tm-type="tech" data-tm-dir="minus">-</button>
-            <span id="tm-tech-count">0/2</span>
-            <button type="button" data-tm-type="tech" data-tm-dir="plus">+</button>
-          </div>
+      <!-- TEMPS MORTS – VERSION COMPACTE -->
+      <div id="timeout-inline" class="no-select" style="margin-top:8px;">
+        <!-- Temps morts techniques (communs) -->
+        <div class="tm-inline tm-inline-tech">
+          <span class="tm-inline-label">TM tech.</span>
+          <button type="button" class="tm-dot" data-tm-type="tech" data-tm-index="1"></button>
+          <button type="button" class="tm-dot" data-tm-type="tech" data-tm-index="2"></button>
+          <span class="tm-inline-count" id="tm-tech-count">0/2</span>
         </div>
 
         <!-- Temps morts pour notre équipe -->
-        <div class="tm-row">
-          <div class="tm-label">
-            Temps morts <span id="tm-nous-name">Nous</span>
-          </div>
-          <div class="tm-controls">
-            <button type="button" data-tm-type="nous" data-tm-dir="minus">-</button>
-            <span id="tm-nous-count">0/2</span>
-            <button type="button" data-tm-type="nous" data-tm-dir="plus">+</button>
-          </div>
+        <div class="tm-inline tm-inline-nous">
+          <span class="tm-inline-label">Temps morts nous</span>
+          <button type="button" class="tm-dot" data-tm-type="nous" data-tm-index="1"></button>
+          <button type="button" class="tm-dot" data-tm-type="nous" data-tm-index="2"></button>
+          <span class="tm-inline-count" id="tm-nous-count">0/2</span>
         </div>
 
         <!-- Temps morts pour l'adversaire -->
-        <div class="tm-row">
-          <div class="tm-label">
-            Temps morts <span id="tm-eux-name">Adversaire</span>
-          </div>
-          <div class="tm-controls">
-            <button type="button" data-tm-type="eux" data-tm-dir="minus">-</button>
-            <span id="tm-eux-count">0/2</span>
-            <button type="button" data-tm-type="eux" data-tm-dir="plus">+</button>
-          </div>
+        <div class="tm-inline tm-inline-eux">
+          <span class="tm-inline-label">Temps morts eux</span>
+          <button type="button" class="tm-dot" data-tm-type="eux" data-tm-index="1"></button>
+          <button type="button" class="tm-dot" data-tm-type="eux" data-tm-index="2"></button>
+          <span class="tm-inline-count" id="tm-eux-count">0/2</span>
         </div>
       </div>
-
     </section>
+
 
     <!-- STATS ADVERSAIRES -->
     <section id="opponent" class="no-select">
@@ -1078,11 +1109,12 @@
     </section>
   </div>
 
-  <!-- VUE STATS JOUEUSE -->
+    <!-- VUE STATS JOUEUSE -->
   <div class="container" id="stats-container" style="display:none;">
     <section id="stats-view" class="no-select">
       <button id="btn-back">← Retour au terrain</button>
       <h2 id="stats-player-title">Statistiques</h2>
+
       <div id="set-selector-stats">
         <span>Set :</span>
         <button class="set-btn-stats active" data-set="1">1</button>
@@ -1197,29 +1229,35 @@
           </div>
         </div>
       </div>
-</div>
 
       <!-- Bilan saison sur tous les matchs archivés -->
       <div id="player-season-block" style="margin-top:10px;border-top:1px solid #444;padding-top:6px;">
         <h3 style="margin:4px 0 6px;font-size:14px;">Bilan saison (matchs archivés)</h3>
         <div id="player-season-content">
-         <small>Aucun match archivé pour le moment.</small>
-
+          <small>Aucun match archivé pour le moment.</small>
         </div>
       </div>
-     <!-- Rapport individuel exportable -->
-<div id="player-report-block" style="margin-top:10px;border-top:1px solid #444;padding-top:6px;">
-  <h3 style="margin:4px 0 4px;font-size:14px;">
-    Rapport individuel à partager (joueuse / joueur)
-  </h3>
-  <small style="display:block;margin-bottom:6px;color:#bbb;font-size:11px;">
-    Ce rapport concerne uniquement la joueuse / le joueur affiché ci-dessus.
-    Pour le bilan complet du match (toute l’équipe + adversaire + toutes les stats),
-    utilise l’onglet « Historique » et copie le « Résumé détaillé » du match.
-  </small>
-  <textarea id="player-report-text" readonly></textarea>
-  <button id="btn-player-report-copy">Générer & copier le rapport individuel</button>
-</div>
+
+      <!-- Rapport individuel exportable -->
+      <div id="player-report-block" style="margin-top:10px;border-top:1px solid #444;padding-top:6px;">
+        <h3 style="margin:4px 0 4px;font-size:14px;">
+          Rapport individuel à partager (joueuse / joueur)
+        </h3>
+        <small style="display:block;margin-bottom:6px;color:#bbb;font-size:11px;">
+          Ce rapport concerne uniquement la joueuse / le joueur affiché ci-dessus.
+          Pour le bilan complet du match (toute l’équipe + adversaire + toutes les stats),
+          utilise l’onglet « Historique » et copie le « Résumé détaillé » du match.
+        </small>
+        <textarea id="player-report-text" readonly></textarea>
+        <button id="btn-player-report-copy">Générer & copier le rapport individuel</button>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- TABLEAU DE BORD -->
+  <div class="container" id="dashboard-container" style="display:none;">
+
 
 
    <!-- TABLEAU DE BORD -->
@@ -1313,90 +1351,155 @@
   </div>
     <!-- TUTORIEL / AIDE -->
   <div class="container" id="help-container" style="display:none;">
-    <section id="help" class="no-select">
+       <section id="help" class="no-select">
       <button id="btn-back-from-help">← Retour au terrain</button>
-      <h2>Tutoriel rapide – stat2match-volley</h2>
+      <h2>Tutoriel rapide – stat2match-volley (v1.3)</h2>
 
       <p style="font-size:13px;color:#ccc;">
         Cette page résume comment utiliser l’application en match : préparer l’effectif,
-        placer les joueur·euses, saisir les stats, lire les bilans et archiver.
+        placer les joueur·euses, utiliser le mode <strong>rallye</strong>, gérer le score,
+        les temps morts, lire les bilans et archiver les matchs.
       </p>
 
-      <h3>1. Préparer l’effectif</h3>
+      <h3>1. Préparer l’effectif et l’effectif de match</h3>
       <ul style="font-size:13px;color:#ddd;">
-        <li>Clique sur <strong>“Gérer l’effectif”</strong>.</li>
-        <li>Ajoute chaque joueur·euse : prénom, n°, poste, licence, couleur de maillot.</li>
-        <li>Tout est sauvegardé automatiquement dans ton navigateur.</li>
+        <li>Clique sur <strong>« Gérer l’effectif »</strong>.</li>
+        <li>Ajoute chaque joueur·euse : <strong>Prénom, n°, poste, licence, couleur</strong>.</li>
+        <li>La case <strong>« Dans l’effectif du match »</strong> détermine qui est disponible pour ce match :
+          seuls les joueurs cochés apparaissent sur le terrain et sur le banc.</li>
+        <li>Tu peux décocher quelqu’un (blessure, absence) : il disparaît du banc et des listes du terrain,
+          mais reste dans l’effectif général.</li>
+        <li>Tout est <strong>enregistré automatiquement</strong> dans le navigateur (même hors ligne).</li>
       </ul>
 
-      <h3>2. Placer les joueur·euses sur le terrain</h3>
+      <h3>2. Placer les joueur·euses sur le terrain et gérer le banc</h3>
       <ul style="font-size:13px;color:#ddd;">
-        <li>Dans la zone <strong>“Terrain (4 joueuses)”</strong>, choisis une joueuse dans chaque liste.</li>
-        <li>Une même personne ne peut pas être sur deux postes : si elle est déjà sur le terrain, elle apparaît “(sur le terrain)”.</li>
-        <li>Le <strong>banc</strong> se met à jour automatiquement.</li>
-        <li>La composition du terrain est mémorisée même si la page est rafraîchie.</li>
+        <li>Dans la zone <strong>« Terrain (4 joueuses) »</strong>, choisis une joueuse dans chaque liste déroulante
+          (Avant gauche, Avant droit, Arrière gauche, Arrière droit).</li>
+        <li>Une joueuse déjà sur le terrain ne peut pas être choisie à un autre poste :
+          elle est marquée comme déjà utilisée.</li>
+        <li>Le <strong>banc</strong> liste automatiquement tous les joueurs :
+          <ul>
+            <li>cochés « dans l’effectif du match » ;</li>
+            <li>et qui ne sont pas actuellement sur le terrain.</li>
+          </ul>
+        </li>
+        <li>La composition du terrain est <strong>mémorisée</strong> : si tu rafraîchis la page,
+          les postes et le banc sont récupérés depuis la sauvegarde.</li>
       </ul>
 
-      <h3>3. Saisir les stats en live</h3>
+      <h3>3. Utiliser le bandeau « rallye » en live</h3>
       <ul style="font-size:13px;color:#ddd;">
-        <li>Sur le terrain ou le banc, clique sur une joueuse pour ouvrir sa fiche stats.</li>
-        <li>Choisis le <strong>set</strong> en haut, puis utilise <strong>+</strong> et <strong>–</strong> pour chaque rubrique
-          (attaque, service, bloc, réception, défense, passe).</li>
-        <li>Un clic sur le nombre ouvre une boîte de dialogue pour corriger rapidement une valeur.</li>
+        <li>Le bandeau sous le score propose 6 catégories :
+          <strong>Attaque, Service, Bloc, Récep., Défense, Passe</strong>, chacune avec un bouton <strong>+ / -</strong>.</li>
+        <li>À chaque <strong>rallye</strong> :
+          <ul>
+            <li>appuie sur la catégorie concernée (<strong>+ = point marqué</strong>,
+              <strong>- = faute / point perdu</strong>) ;</li>
+            <li>une fenêtre s’ouvre avec les <strong>joueuses du terrain</strong> ;</li>
+            <li>tapote sur le nom de la ou des joueuses impliquées :
+              chaque clic ajoute 1 action, le compteur <strong>x2, x3…</strong> s’affiche à côté du nom.</li>
+          </ul>
+        </li>
+        <li>Quand l’échange est terminé, appuie sur <strong>« Terminer le rallye »</strong> pour fermer la fenêtre.</li>
+        <li>Les stats sont automatiquement ajoutées dans la fiche individuelle de chaque joueuse,
+          pour le <strong>set en cours</strong>.</li>
+        <li>Tu peux ensuite affiner / corriger dans la fiche stats si besoin.</li>
       </ul>
 
-      <h3>4. Score du match & stats adverses</h3>
+      <h3>4. Voir et corriger les stats individuelles</h3>
       <ul style="font-size:13px;color:#ddd;">
-        <li>Dans <strong>“Score du match”</strong>, tu gères le score par set avec + / – ou en corrigeant le chiffre.</li>
-        <li>Dans <strong>“Stats adversaires”</strong>, tu notes leurs services, blocs, cadeaux et points.</li>
-        <li>Ces données sont utilisées dans le tableau de bord et dans le rapport de match.</li>
+        <li>Sur le terrain ou le banc, clique sur une joueuse pour ouvrir sa <strong>fiche stats</strong>.</li>
+        <li>Choisis le <strong>set</strong> en haut, puis utilise <strong>+ / -</strong> pour ajuster attaque,
+          service, bloc, réception, défense, passe.</li>
+        <li>Le bloc <strong>« Récap du set »</strong> affiche fautes, points, delta et impact
+          dans le set / dans le match.</li>
+        <li>Le bloc <strong>« Bilan saison (matchs archivés) »</strong> résume ses stats sur tous les matchs clos.</li>
       </ul>
 
-      <h3>5. Tableau de bord</h3>
+      <h3>5. Gérer le score du match et les temps morts</h3>
       <ul style="font-size:13px;color:#ddd;">
-        <li>Clique sur <strong>“Tableau de bord”</strong> pour voir le bilan par set.</li>
-        <li>Tu y retrouves : score, estimation des points offerts, synthèse par secteur de jeu.</li>
+        <li>Dans <strong>« Score du match »</strong> :
+          <ul>
+            <li>choisis le set (1 à 5) avec les boutons en haut ;</li>
+            <li>utilise <strong>+ / -</strong> pour mettre à jour le score de chaque équipe.</li>
+          </ul>
+        </li>
+        <li>Les <strong>temps morts</strong> sont gérés dans la barre juste sous le score :
+          <ul>
+            <li><strong>TM tech.</strong> : 2 temps morts techniques communs aux deux équipes ;</li>
+            <li><strong>Temps morts nous</strong> : 2 temps morts pour ton équipe ;</li>
+            <li><strong>Temps morts eux</strong> : 2 temps morts pour l’adversaire.</li>
+          </ul>
+        </li>
+        <li>Clique sur chaque <strong>pastille</strong> pour marquer un temps mort pris
+          (le compteur passe de 0/2 à 1/2, puis 2/2).</li>
       </ul>
 
-      <h3>6. Clôturer et archiver un match</h3>
+      <h3>6. Renseigner les stats adverses</h3>
       <ul style="font-size:13px;color:#ddd;">
-        <li>Dans le tableau de bord, clique sur <strong>“Clôturer ce match et l’archiver”</strong>.</li>
-        <li>Donne un nom de match (ex. “Tournoi du 03/12 – Poule B”) et éventuellement l’adversaire.</li>
-        <li>Le match bascule dans l’onglet <strong>“Historique”</strong> avec toutes les stats sauvegardées.</li>
+        <li>Dans la carte <strong>« Stats adversaires – [Nom] »</strong>, tu peux suivre :
+          <strong>services, bloc, cadeaux, points hors service</strong>.</li>
+        <li>Ces données alimentent le tableau de bord et le rapport final,
+          notamment pour mesurer les <strong>points offerts</strong> à l’adversaire.</li>
       </ul>
 
-      <h3>7. Historique & rapports PDF</h3>
+      <h3>7. Utiliser le tableau de bord</h3>
       <ul style="font-size:13px;color:#ddd;">
-        <li>Dans <strong>“Historique”</strong> : chaque match archivé affiche score, date, adversaire.</li>
-        <li>Tu peux :
+        <li>Clique sur <strong>« Tableau de bord »</strong> pour ouvrir la vue synthèse.</li>
+        <li>Choisis le set en haut : tu vois alors le score, nos fautes estimées,
+          et une <strong>vue d’ensemble par secteur de jeu</strong> (attaque, service, bloc, etc.).</li>
+        <li>Le bloc <strong>« Distinctions du match »</strong> te permet de choisir :
+          <strong>MVP, meilleur·e bloqueur·euse, meilleur soutien</strong>.</li>
+        <li>Quand tout est saisi, clique sur <strong>« Clôturer ce match et l’archiver »</strong>
+          pour enregistrer le match dans l’historique.</li>
+      </ul>
+
+      <h3>8. Historique des matchs & rapports PDF</h3>
+      <ul style="font-size:13px;color:#ddd;">
+        <li>Dans <strong>« Historique »</strong>, chaque match archivé affiche :
+          <strong>nom du match, score, adversaire, date</strong>.</li>
+        <li>Pour chaque match, tu peux :
           <ul>
             <li>Afficher / cacher les <strong>résumés</strong> (détaillé + court).</li>
-            <li><strong>Copier</strong> un résumé pour le coller dans WhatsApp / mail.</li>
-            <li>Ouvrir une <strong>page imprimable</strong> et l’exporter en PDF.</li>
-            <li>Supprimer un match de l’historique.</li>
+            <li><strong>Copier</strong> un résumé pour l’envoyer dans WhatsApp / mail.</li>
+            <li>Ouvrir une <strong>page imprimable</strong> :
+              depuis cette page tu peux imprimer ou exporter en PDF.</li>
+            <li><strong>Supprimer</strong> un match de l’historique si besoin.</li>
           </ul>
         </li>
       </ul>
 
-      <h3>8. Fiche individuelle joueuse</h3>
+      <h3>9. Rapport individuel joueuse / joueur</h3>
       <ul style="font-size:13px;color:#ddd;">
-        <li>Depuis la fiche stats d’une joueuse, la zone <strong>“Rapport individuel”</strong> génère
-          un texte prêt à partager.</li>
-        <li>Clique sur <strong>“Générer & copier le rapport individuel”</strong> pour l’envoyer à la joueuse ou au staff.</li>
+        <li>Dans la fiche stats d’une joueuse, la zone
+          <strong>« Rapport individuel à partager »</strong> génère un texte prêt à envoyer.</li>
+        <li>Clique sur <strong>« Générer & copier le rapport individuel »</strong> :
+          le texte est copié, tu peux le coller dans WhatsApp, mail, etc.</li>
+        <li>Ce rapport ne concerne que la joueuse affichée : pour le bilan complet,
+          utilise l’onglet <strong>« Historique »</strong>.</li>
       </ul>
 
-      <h3>9. Sauvegarde & partage de configuration</h3>
+      <h3>10. Sauvegarder / partager la configuration</h3>
       <ul style="font-size:13px;color:#ddd;">
-        <li>Dans <strong>“Effectif”</strong>, utilise <strong>“Exporter la configuration”</strong> pour copier l’effectif + réglages.</li>
-        <li>Pour un autre coach ou appareil : colle le texte reçu dans la zone, puis clique sur
-          <strong>“Importer la configuration”</strong>.</li>
+        <li>Dans <strong>« Effectif »</strong>, la zone <strong>« Export / import configuration »</strong> te permet de :
+          <ul>
+            <li>cliquer sur <strong>« Exporter la configuration »</strong> pour copier effectif + noms d’équipes +
+              composition du terrain ;</li>
+            <li>coller ce texte dans WhatsApp, mail ou notes ;</li>
+            <li>sur un autre appareil, coller ce texte puis cliquer sur
+              <strong>« Importer la configuration »</strong> pour retrouver la même équipe.</li>
+          </ul>
+        </li>
       </ul>
 
       <p style="font-size:12px;color:#888;margin-top:10px;">
-        Astuce : garde cette page ouverte sur un deuxième téléphone ou tablette pour les adjoints, 
-        pendant que tu tiens le terrain sur ton appareil principal.
+        Astuce : tu peux utiliser l’app sur un seul téléphone pendant le match, ou bien
+        partager la configuration à un adjoint (deuxième appareil) pour qu’il suive
+        les stats pendant que tu te concentres sur le coaching.
       </p>
     </section>
+
   </div>
 
 
@@ -1821,7 +1924,8 @@
         return;
       }
 
-      // Joueurs
+      
+
       if (Array.isArray(parsed.players)) {
         players = parsed.players;
         savePlayers();
@@ -2270,21 +2374,14 @@ function getCourtAssignments() {
     }
 
     /* --------- score du set ---------- */
-        function renderTimeouts() {
+           function renderTimeouts() {
       const s = getSetScore(currentSet);
-
-      const techSpan = document.getElementById("tm-tech-count");
-      const ourSpan = document.getElementById("tm-nous-count");
-      const oppSpan = document.getElementById("tm-eux-count");
-
-      if (!techSpan || !ourSpan || !oppSpan) {
-        return;
-      }
 
       let tmTech = s.tmTech || 0;
       let tmNous = s.tmNous || 0;
       let tmEux = s.tmEux || 0;
 
+      // On borne entre 0 et 2
       if (tmTech < 0) tmTech = 0;
       if (tmTech > 2) tmTech = 2;
       if (tmNous < 0) tmNous = 0;
@@ -2296,10 +2393,31 @@ function getCourtAssignments() {
       s.tmNous = tmNous;
       s.tmEux = tmEux;
 
-      techSpan.textContent = tmTech + "/2";
-      ourSpan.textContent = tmNous + "/2";
-      oppSpan.textContent = tmEux + "/2";
+      const techSpan = document.getElementById("tm-tech-count");
+      const ourSpan  = document.getElementById("tm-nous-count");
+      const oppSpan  = document.getElementById("tm-eux-count");
+
+      if (techSpan) techSpan.textContent = tmTech + "/2";
+      if (ourSpan)  ourSpan.textContent  = tmNous + "/2";
+      if (oppSpan)  oppSpan.textContent  = tmEux + "/2";
+
+      // Mise à jour visuelle des pastilles
+      const updateDots = (type, count) => {
+        const dots = document.querySelectorAll('.tm-dot[data-tm-type="' + type + '"]');
+        dots.forEach((btn, index) => {
+          if (index < count) {
+            btn.classList.add("tm-used");
+          } else {
+            btn.classList.remove("tm-used");
+          }
+        });
+      };
+
+      updateDots("tech", tmTech);
+      updateDots("nous", tmNous);
+      updateDots("eux", tmEux);
     }
+
 
     function renderSetScore() {
       const s = getSetScore(currentSet);
@@ -2376,11 +2494,13 @@ function getCourtAssignments() {
           return;
         }
 
-        // Gestion des temps morts
+               
+
         if (tmBtn) {
           const s = getSetScore(currentSet);
-          const type = tmBtn.dataset.tmType; // "tech" | "nous" | "eux"
-          const dir = tmBtn.dataset.tmDir;   // "plus" | "minus"
+          const type = tmBtn.dataset.tmType;        // "tech" | "nous" | "eux"
+          const dir = tmBtn.dataset.tmDir || null;  // "plus" | "minus" (anciens boutons)
+          const indexStr = tmBtn.dataset.tmIndex || null; // "1" | "2" pour les pastilles
 
           let key;
           if (type === "tech") {
@@ -2391,22 +2511,45 @@ function getCourtAssignments() {
             key = "tmEux";
           }
 
-          const delta = dir === "plus" ? 1 : -1;
-          let val = (s[key] || 0) + delta;
+          let val = s[key] || 0;
 
-          if (val < 0) {
-            val = 0;
+          // Nouveau mode : pastilles à cocher (data-tm-index)
+          if (indexStr !== null) {
+            const usedClass = "tm-used";
+            const alreadyUsed = tmBtn.classList.contains(usedClass);
+
+            if (alreadyUsed) {
+              // On "rend" ce temps mort
+              val = Math.max(0, val - 1);
+              tmBtn.classList.remove(usedClass);
+            } else {
+              if (val < 2) {
+                val = val + 1;
+                tmBtn.classList.add(usedClass);
+              }
+            }
+
+            s[key] = val;
+            saveSetScores();
+            renderTimeouts();
+            return;
           }
-          if (val > 2) {
-            val = 2;
+
+          // Ancien mode +/- (au cas où tu remets des boutons plus tard)
+          if (dir) {
+            const delta = dir === "plus" ? 1 : -1;
+            val = val + delta;
+
+            if (val < 0) val = 0;
+            if (val > 2) val = 2;
+
+            s[key] = val;
+            saveSetScores();
+            renderTimeouts();
           }
-
-          s[key] = val;
-
-          saveSetScores();
-          renderTimeouts();
           return;
         }
+
       });
     }
 
@@ -3751,10 +3894,6 @@ function computeOurTeamTotalsFromSnapshot(statsSnapshot) {
 
   <div id="app-signature">
     © Coach Eddy Takougang · stat2match-volley
-  </div>
-
-      <div id="app-signature">
-  © Coach Eddy Takougang · stat2match-volley
 </div>
 </body>
 </html>
