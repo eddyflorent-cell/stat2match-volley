@@ -1108,12 +1108,11 @@
       </div>
     </section>
   </div>
-
-    <!-- VUE STATS JOUEUSE -->
+  <!-- FICHE STATS JOUEUSE -->
   <div class="container" id="stats-container" style="display:none;">
     <section id="stats-view" class="no-select">
       <button id="btn-back">← Retour au terrain</button>
-      <h2 id="stats-player-title">Statistiques</h2>
+      <h2 id="stats-player-title">Statistiques :</h2>
 
       <div id="set-selector-stats">
         <span>Set :</span>
@@ -1128,136 +1127,92 @@
         <div class="stat-row" data-cat="attaque">
           <div class="stat-label">Attaque</div>
           <div class="stat-controls">
-            <button class="btn-stat-minus" data-type="minus">-</button>
+            <button class="btn-stat-minus">-</button>
             <span class="stat-value stat-value-minus">0</span>
-            <span class="stat-sep">perdus / marqués</span>
+            <span class="stat-sep">fautes / points</span>
             <span class="stat-value stat-value-plus">0</span>
-            <button class="btn-stat-plus" data-type="plus">+</button>
+            <button class="btn-stat-plus">+</button>
           </div>
         </div>
         <div class="stat-row" data-cat="service">
           <div class="stat-label">Service</div>
           <div class="stat-controls">
-            <button class="btn-stat-minus" data-type="minus">-</button>
+            <button class="btn-stat-minus">-</button>
             <span class="stat-value stat-value-minus">0</span>
-            <span class="stat-sep">perdus / marqués</span>
+            <span class="stat-sep">fautes / points</span>
             <span class="stat-value stat-value-plus">0</span>
-            <button class="btn-stat-plus" data-type="plus">+</button>
+            <button class="btn-stat-plus">+</button>
           </div>
         </div>
         <div class="stat-row" data-cat="bloc">
           <div class="stat-label">Bloc</div>
           <div class="stat-controls">
-            <button class="btn-stat-minus" data-type="minus">-</button>
+            <button class="btn-stat-minus">-</button>
             <span class="stat-value stat-value-minus">0</span>
-            <span class="stat-sep">perdus / marqués</span>
+            <span class="stat-sep">fautes / points</span>
             <span class="stat-value stat-value-plus">0</span>
-            <button class="btn-stat-plus" data-type="plus">+</button>
+            <button class="btn-stat-plus">+</button>
           </div>
         </div>
         <div class="stat-row" data-cat="reception">
           <div class="stat-label">Réception</div>
           <div class="stat-controls">
-            <button class="btn-stat-minus" data-type="minus">-</button>
+            <button class="btn-stat-minus">-</button>
             <span class="stat-value stat-value-minus">0</span>
-            <span class="stat-sep">fautes / réussies</span>
+            <span class="stat-sep">fautes / points</span>
             <span class="stat-value stat-value-plus">0</span>
-            <button class="btn-stat-plus" data-type="plus">+</button>
+            <button class="btn-stat-plus">+</button>
           </div>
         </div>
         <div class="stat-row" data-cat="defense">
           <div class="stat-label">Défense</div>
           <div class="stat-controls">
-            <button class="btn-stat-minus" data-type="minus">-</button>
+            <button class="btn-stat-minus">-</button>
             <span class="stat-value stat-value-minus">0</span>
-            <span class="stat-sep">fautes / réussies</span>
+            <span class="stat-sep">fautes / points</span>
             <span class="stat-value stat-value-plus">0</span>
-            <button class="btn-stat-plus" data-type="plus">+</button>
+            <button class="btn-stat-plus">+</button>
           </div>
         </div>
         <div class="stat-row" data-cat="passe">
           <div class="stat-label">Passe</div>
           <div class="stat-controls">
-            <button class="btn-stat-minus" data-type="minus">-</button>
+            <button class="btn-stat-minus">-</button>
             <span class="stat-value stat-value-minus">0</span>
-            <span class="stat-sep">fautes / réussies</span>
+            <span class="stat-sep">fautes / points</span>
             <span class="stat-value stat-value-plus">0</span>
-            <button class="btn-stat-plus" data-type="plus">+</button>
+            <button class="btn-stat-plus">+</button>
           </div>
         </div>
       </div>
 
-      <!-- RÉCAP INDIVIDUEL + EFFICACITÉ -->
-      <div id="player-summary" style="margin-top:10px;border-top:1px solid #444;padding-top:6px;">
-        <h3 style="margin:4px 0 6px;font-size:14px;">
-          Récap du set <span id="player-summary-set">1</span>
-        </h3>
-        <div class="stat-row">
-          <div class="stat-label">Total fautes</div>
-          <div class="stat-controls">
-            <span class="stat-value" id="player-total-fautes">0</span>
-          </div>
-        </div>
-        <div class="stat-row">
-          <div class="stat-label">Total points marqués</div>
-          <div class="stat-controls">
-            <span class="stat-value" id="player-total-points">0</span>
-          </div>
-        </div>
-        <div class="stat-row">
-          <div class="stat-label">Delta (points - fautes)</div>
-          <div class="stat-controls">
-            <span class="stat-value" id="player-delta">0</span>
-          </div>
-        </div>
-        <div class="stat-row">
-          <div class="stat-label">Impact sur le set</div>
-          <div class="stat-controls">
-            <span class="stat-value" id="player-pct-set-points">0%</span>
-            <span class="stat-sep">de nos points</span>
-            <span class="stat-value" id="player-pct-set-fautes">0%</span>
-            <span class="stat-sep">des leurs</span>
-          </div>
-        </div>
-        <div class="stat-row">
-          <div class="stat-label">Impact sur le match</div>
-          <div class="stat-controls">
-            <span class="stat-value" id="player-pct-match-points">0%</span>
-            <span class="stat-sep">de nos points</span>
-            <span class="stat-value" id="player-pct-match-fautes">0%</span>
-            <span class="stat-sep">des leurs</span>
-          </div>
-        </div>
+      <div id="player-stats-summary">
+        <h3>Impact dans le set <span id="player-summary-set">1</span></h3>
+        <p>
+          Fautes : <strong><span id="player-total-fautes">0</span></strong> ·
+          Points : <strong><span id="player-total-points">0</span></strong> ·
+          Delta : <strong><span id="player-delta">0</span></strong>
+        </p>
+        <p>
+          Contribution au score du set :
+          <strong><span id="player-pct-set-points">0%</span></strong> des points marqués,
+          <strong><span id="player-pct-set-fautes">0%</span></strong> des points concédés.
+        </p>
+        <p>
+          Sur tout le match :
+          <strong><span id="player-pct-match-points">0%</span></strong> des points marqués,
+          <strong><span id="player-pct-match-fautes">0%</span></strong> des points concédés.
+        </p>
       </div>
 
-      <!-- Bilan saison sur tous les matchs archivés -->
-      <div id="player-season-block" style="margin-top:10px;border-top:1px solid #444;padding-top:6px;">
-        <h3 style="margin:4px 0 6px;font-size:14px;">Bilan saison (matchs archivés)</h3>
-        <div id="player-season-content">
-          <small>Aucun match archivé pour le moment.</small>
-        </div>
-      </div>
-
-      <!-- Rapport individuel exportable -->
-      <div id="player-report-block" style="margin-top:10px;border-top:1px solid #444;padding-top:6px;">
-        <h3 style="margin:4px 0 4px;font-size:14px;">
-          Rapport individuel à partager (joueuse / joueur)
-        </h3>
-        <small style="display:block;margin-bottom:6px;color:#bbb;font-size:11px;">
-          Ce rapport concerne uniquement la joueuse / le joueur affiché ci-dessus.
-          Pour le bilan complet du match (toute l’équipe + adversaire + toutes les stats),
-          utilise l’onglet « Historique » et copie le « Résumé détaillé » du match.
-        </small>
-        <textarea id="player-report-text" readonly></textarea>
-        <button id="btn-player-report-copy">Générer & copier le rapport individuel</button>
-      </div>
-
+      <h3>Rapport individuel à partager</h3>
+      <textarea id="player-report-text"
+        placeholder="Le rapport sera généré automatiquement après chaque rallye."></textarea>
+      <button id="btn-player-report-copy" type="button">
+        Générer & copier le rapport individuel
+      </button>
     </section>
   </div>
-
-  <!-- TABLEAU DE BORD -->
-  <div class="container" id="dashboard-container" style="display:none;">
-
 
 
    <!-- TABLEAU DE BORD -->
@@ -2765,72 +2720,68 @@ function getCourtAssignments() {
       updateCourtWarningsForSet();
     }
 
+    /* --------- STATS JOUEUSE : contrôles ---------- */
     function initStatsControls() {
-      const container = document.getElementById("stats-list");
-      container.addEventListener("click", function(e) {
-        const btn = e.target.closest("button[data-type]");
-        const valueSpan = e.target.closest(".stat-value");
-
-        if (btn) {
+      const statsList = document.getElementById("stats-list");
+      if (statsList) {
+        statsList.addEventListener("click", function(e) {
+          const minusBtn = e.target.closest(".btn-stat-minus");
+          const plusBtn  = e.target.closest(".btn-stat-plus");
+          if (!minusBtn && !plusBtn) return;
           if (!currentStatsPlayerId) return;
-          const row = btn.closest(".stat-row");
+
+          const row = e.target.closest(".stat-row");
+          if (!row) return;
           const cat = row.dataset.cat;
-          const type = btn.dataset.type;
+          if (!cat) return;
+
           const s = getPlayerSetStats(currentStatsPlayerId, currentSet);
-          const key = cat + (type === "plus" ? "Plus" : "Minus");
-          s[key] = (s[key] || 0) + 1;
+          if (minusBtn) {
+            const keyMinus = cat + "Minus";
+            s[keyMinus] = (s[keyMinus] || 0) + 1;
+          }
+          if (plusBtn) {
+            const keyPlus = cat + "Plus";
+            s[keyPlus] = (s[keyPlus] || 0) + 1;
+          }
           saveStats();
           renderStatsForCurrent();
           renderDashboard();
-          return;
-        }
+          updateCourtWarningsForSet();
+        });
+      }
 
-        if (valueSpan && currentStatsPlayerId) {
-          const row = valueSpan.closest(".stat-row");
-          const cat = row.dataset.cat;
-          const isPlus = valueSpan.classList.contains("stat-value-plus");
-          const s = getPlayerSetStats(currentStatsPlayerId, currentSet);
-          const key = cat + (isPlus ? "Plus" : "Minus");
-          const current = s[key] || 0;
-          const label = row.querySelector(".stat-label").textContent.trim();
-          const typeLabel = isPlus ? "actions positives" : "fautes";
-          const input = prompt("Corriger " + label + " (" + typeLabel + ", set " + currentSet + ")", current);
-          if (input === null) return;
-          const val = parseInt(input, 10);
-          if (!Number.isNaN(val) && val >= 0) {
-            s[key] = val;
-            saveStats();
-            renderStatsForCurrent();
-            renderDashboard();
-          }
-        }
-      });
+      const btnBack = document.getElementById("btn-back");
+      if (btnBack) {
+        btnBack.addEventListener("click", function() {
+          const statsContainer = document.getElementById("stats-container");
+          const mainView = document.getElementById("main-view");
+          if (statsContainer) statsContainer.style.display = "none";
+          if (mainView) mainView.style.display = "block";
+        });
+      }
 
-      document.getElementById("btn-back").onclick = () => {
-        document.getElementById("stats-container").style.display = "none";
-        document.getElementById("main-view").style.display = "block";
-      };
-
-      // bouton fiche individuelle
-      const btnReport = document.getElementById("btn-player-report-copy");
-      if (btnReport) {
-        btnReport.onclick = () => {
-          if (!currentStatsPlayerId) {
-            alert("Aucune joueuse sélectionnée.");
+      const btnCopy = document.getElementById("btn-player-report-copy");
+      if (btnCopy) {
+        btnCopy.addEventListener("click", function() {
+          const area = document.getElementById("player-report-text");
+          if (!area) {
+            alert("Aucun rapport à copier.");
             return;
           }
-          const text = buildPlayerReportText(currentStatsPlayerId);
-          const area = document.getElementById("player-report-text");
-          if (area) area.value = text;
+          const text = area.value || "";
           if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(
-              () => alert("Rapport copié, tu peux le coller dans WhatsApp."),
-              () => fallbackCopy(area)
-            );
+            navigator.clipboard.writeText(text)
+              .then(() => {
+                alert("Rapport copié, prêt à coller dans WhatsApp / mail.");
+              })
+              .catch(() => {
+                fallbackCopy(area);
+              });
           } else {
             fallbackCopy(area);
           }
-        };
+        });
       }
     }
 
@@ -3760,123 +3711,139 @@ function computeOurTeamTotalsFromSnapshot(statsSnapshot) {
       document.getElementById("dashboard-container").style.display = "none";
       document.getElementById("main-view").style.display = "block";
     };
-
-        document.getElementById("btn-history").addEventListener("click", function(){
+      // Bouton Historique
+    document.getElementById("btn-history").addEventListener("click", function(){
       document.getElementById("main-view").style.display = "none";
       document.getElementById("stats-container").style.display = "none";
       document.getElementById("dashboard-container").style.display = "none";
+      document.getElementById("help-container").style.display = "none";
       document.getElementById("history-container").style.display = "block";
       renderHistory();
     });
-    // Bouton Tutoriel / Aide
-    const btnHelp = document.getElementById("btn-help");
-    if (btnHelp) {
-      btnHelp.addEventListener("click", function() {
-        document.getElementById("main-view").style.display = "none";
-        document.getElementById("stats-container").style.display = "none";
-        document.getElementById("dashboard-container").style.display = "none";
-        document.getElementById("history-container").style.display = "none";
-        document.getElementById("help-container").style.display = "block";
-      });
-    }
 
-    const btnHelpBack = document.getElementById("btn-back-from-help");
-    if (btnHelpBack) {
-      btnHelpBack.onclick = () => {
-        document.getElementById("help-container").style.display = "none";
-        document.getElementById("main-view").style.display = "block";
-      };
-    }
-
-    // Bouton "Retour au terrain" depuis l'historique
-       function goBackFromHistory() {
+     // Bouton Tutoriel / Aide
+  const btnHelp = document.getElementById("btn-help");
+  if (btnHelp) {
+    btnHelp.addEventListener("click", function() {
+      document.getElementById("main-view").style.display = "none";
+      document.getElementById("stats-container").style.display = "none";
+      document.getElementById("dashboard-container").style.display = "none";
       document.getElementById("history-container").style.display = "none";
-      document.getElementById("main-view").style.display = "block";
-    }
-
-    const btnHistoryTop = document.getElementById("btn-back-from-history");
-    if (btnHistoryTop) btnHistoryTop.onclick = goBackFromHistory;
-
-    const btnHistoryBottom = document.getElementById("btn-back-from-history-bottom");
-    if (btnHistoryBottom) btnHistoryBottom.onclick = goBackFromHistory;
-
-
-    document.getElementById("btn-close-match").addEventListener("click", archiveCurrentMatch);
-
-       /* --------- init globale ---------- */
-    loadPlayers();
-    loadStats();
-    loadSetScores();
-    loadOpponentStats();
-    loadHistory();
-    loadTeamNames();
-
-    renderRoster();
-    applyCourtFromStorage();      // 🔥 réinjecte la compo sauvegardée (si elle existe)
-    initSetButtonsMain();
-    initSetButtonsStats();
-    initSetButtonsDashboard();
-    initStatsControls();
-    initScoreControls();
-        // Mode rallye : boutons d'action
-    document.querySelectorAll(".rally-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const cat = btn.dataset.skill;
-        const outcome = btn.dataset.outcome;
-        openRallyOverlay(cat, outcome);
-      });
+      document.getElementById("help-container").style.display = "block";
     });
+  }
 
-    // Fermeture overlay rallye
-    const rallyOverlay = document.getElementById("rally-overlay");
-    const rallyBackdrop = document.getElementById("rally-overlay-backdrop");
-    const rallyCloseBtn = document.getElementById("rally-close-btn");
+  const btnHelpBack = document.getElementById("btn-back-from-help");
+  if (btnHelpBack) {
+    btnHelpBack.onclick = () => {
+      document.getElementById("help-container").style.display = "none";
+      document.getElementById("main-view").style.display = "block";
+    };
+  }
 
-    if (rallyBackdrop) {
-      rallyBackdrop.onclick = closeRallyOverlay;
-    }
-    if (rallyCloseBtn) {
-      rallyCloseBtn.onclick = closeRallyOverlay;
-    }
+  // Bouton "Retour au terrain" depuis l'historique
+  function goBackFromHistory() {
+    document.getElementById("history-container").style.display = "none";
+    document.getElementById("main-view").style.display = "block";
+  }
 
-    initOpponentControls();
-    initHistoryEvents();
-    setCurrentSet(1);
+  const btnHistoryTop = document.getElementById("btn-back-from-history");
+  if (btnHistoryTop) btnHistoryTop.onclick = goBackFromHistory;
 
-    updateTeamNamesUI();
+  const btnHistoryBottom = document.getElementById("btn-back-from-history-bottom");
+  if (btnHistoryBottom) btnHistoryBottom.onclick = goBackFromHistory;
 
-    // écouteurs sur les champs de noms d’équipe
-    const inpOurTeam = document.getElementById("team-name-input");
-    const inpOppTeam = document.getElementById("opponent-name-input");
+  // Bouton "Clôturer ce match" (tableau de bord)
+  const btnCloseMatch = document.getElementById("btn-close-match");
+  if (btnCloseMatch) {
+    btnCloseMatch.addEventListener("click", archiveCurrentMatch);
+  }
 
-    if (inpOurTeam) {
-      inpOurTeam.addEventListener("change", function() {
-        teamNames.our = this.value.trim();
-        saveTeamNames();
-        updateTeamNamesUI();
-      });
-    }
+  /* --------- init globale ---------- */
+  loadPlayers();
+  loadStats();
+  loadSetScores();
+  loadOpponentStats();
+  loadHistory();
+  loadTeamNames();
 
-    if (inpOppTeam) {
-      inpOppTeam.addEventListener("change", function() {
-        teamNames.opp = this.value.trim();
-        saveTeamNames();
-        updateTeamNamesUI();
-      });
-    }
-    const btnExportConfig = document.getElementById("btn-export-config");
-    if (btnExportConfig) {
-      btnExportConfig.addEventListener("click", exportConfigToTextarea);
-    }
+  renderRoster();
+  applyCourtFromStorage();      // réinjecte la compo sauvegardée (si elle existe)
+  initSetButtonsMain();
+  initSetButtonsStats();
+  initSetButtonsDashboard();
+  initStatsControls();
+  initScoreControls();
+  initOpponentControls();
+  initHistoryEvents();
+  setCurrentSet(1);
+  updateTeamNamesUI();
 
-    const btnImportConfig = document.getElementById("btn-import-config");
-    if (btnImportConfig) {
-      btnImportConfig.addEventListener("click", importConfigFromTextarea);
-    }
+  // écouteurs sur les champs de noms d’équipe
+  const inpOurTeam = document.getElementById("team-name-input");
+  const inpOppTeam = document.getElementById("opponent-name-input");
 
+  if (inpOurTeam) {
+    inpOurTeam.addEventListener("change", function() {
+      teamNames.our = this.value.trim();
+      saveTeamNames();
+      updateTeamNamesUI();
+    });
+  }
 
-  </script>
-    <!-- OVERLAY RALLYE : LISTE DES JOUEUSES SUR LE TERRAIN -->
+  if (inpOppTeam) {
+    inpOppTeam.addEventListener("change", function() {
+      teamNames.opp = this.value.trim();
+      saveTeamNames();
+      updateTeamNamesUI();
+    });
+  }
+
+  const btnExportConfig = document.getElementById("btn-export-config");
+  if (btnExportConfig) {
+    btnExportConfig.addEventListener("click", exportConfigToTextarea);
+  }
+
+  const btnImportConfig = document.getElementById("btn-import-config");
+  if (btnImportConfig) {
+    btnImportConfig.addEventListener("click", importConfigFromTextarea);
+  }
+
+  // Mode rallye : boutons d'action
+  document.querySelectorAll(".rally-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const cat = btn.dataset.skill;
+      const outcome = btn.dataset.outcome;
+      openRallyOverlay(cat, outcome);
+    });
+  });
+
+  // Fermeture overlay rallye
+  const rallyOverlay = document.getElementById("rally-overlay");
+  const rallyBackdrop = document.getElementById("rally-overlay-backdrop");
+  const rallyCloseBtn = document.getElementById("rally-close-btn");
+
+  if (rallyBackdrop) {
+    rallyBackdrop.onclick = closeRallyOverlay;
+  }
+  if (rallyCloseBtn) {
+    rallyCloseBtn.onclick = closeRallyOverlay;
+  }
+  // Sécurité : si le bouton de fin de rallye est créé après ce script,
+   // on capte le clic au niveau du document.
+   document.addEventListener("click", function(e) {
+     const target = e.target;
+    if (!target) return;
+    if (target.id === "rally-close-btn" ||
+        (typeof target.closest === "function" && target.closest("#rally-close-btn"))) {
+       e.preventDefault();
+       closeRallyOverlay();
+     }
+   });
+ 
+</script>
+
+  <!-- OVERLAY RALLYE : LISTE DES JOUEUSES SUR LE TERRAIN -->
   <div id="rally-overlay">
     <div id="rally-overlay-backdrop"></div>
     <div id="rally-overlay-panel">
@@ -3885,15 +3852,14 @@ function computeOurTeamTotalsFromSnapshot(statsSnapshot) {
         Tape sur le ou les noms pour ajouter l’action à ce rallye.
       </p>
       <div id="rally-player-list"></div>
-          <button id="rally-close-btn" type="button" onclick="closeRallyOverlay()">
-      Terminer le rallye
-    </button>
-
+      <button id="rally-close-btn" type="button">
+        Terminer le rallye
+      </button>
     </div>
   </div>
 
   <div id="app-signature">
     © Coach Eddy Takougang · stat2match-volley
-</div>
+  </div>
 </body>
 </html>
