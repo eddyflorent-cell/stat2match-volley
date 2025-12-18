@@ -714,6 +714,28 @@
       border:1px solid #444;
       background:#18191c;
     }
+
+    /* Highlights */
+    #dash-highlights-summary{
+      margin-top:10px;
+      padding:10px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.14);
+      border-left:8px solid var(--c-pink);
+      background:
+        linear-gradient(135deg, rgba(216,27,96,0.10), rgba(179,107,255,0.08)),
+        rgba(24,25,28,0.95);
+    }
+    #dash-highlights-summary h3{
+      display:flex; align-items:center; gap:8px;
+      margin:0 0 8px 0;
+    }
+    #dash-highlights-body .stat-row{
+      padding:8px 0;
+    }
+    #dash-highlights-body .stat-value{
+      color:#fff;
+    }
     .compare-row{
       display:flex;
       justify-content:space-between;
@@ -895,148 +917,380 @@
       font-size: 13px;
       cursor: pointer;
     }
-  
-/* ===========================
-   TUTORIEL "FUNKY" (4x4)
-   =========================== */
-.help-wrap { padding: 12px; }
-.help-back{
-  border: 1px solid #29b6f6;
-  background:#0f141a;
-  color:#7ad1ff;
-  border-radius: 999px;
-  padding: 7px 12px;
+  /* =========================
+     HELP / TUTORIEL (FUNKY)
+     ========================= */
+#help.help-page{
+  background: transparent;
+}
+#help-container{
+  padding-bottom: 16px;
+}
+#help-container #help{
+  background: transparent;
+}
+#help .help-back{
+  background:#171717;
+  color:#fff;
+  border:1px solid #4a4a4a;
+  border-radius:999px;
+  padding:8px 14px;
+  font-size:13px;
   cursor:pointer;
-  margin-bottom:10px;
 }
-.help-hero{
-  background: radial-gradient(1200px 600px at 20% 0%, rgba(0,119,255,0.25), transparent 60%),
-              radial-gradient(900px 500px at 90% 10%, rgba(0,230,118,0.20), transparent 55%),
-              linear-gradient(180deg, #15171b, #101114);
-  border: 1px solid #2c2f36;
-  border-radius: 16px;
-  padding: 14px;
+#help .help-hero{
+  margin-top:10px;
+  padding:14px;
+  border-radius:16px;
+  background: linear-gradient(135deg, rgba(41,182,246,0.22), rgba(0,230,118,0.10), rgba(255,179,0,0.12));
+  border: 1px solid rgba(255,255,255,0.10);
   box-shadow: 0 10px 24px rgba(0,0,0,0.35);
-  margin-bottom: 12px;
 }
-.help-hero-top{ display:flex; gap:12px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; }
-.help-title{ margin:0; font-size: 22px; letter-spacing: 0.2px; }
-.help-sub{ margin:4px 0 0; color:#c6c9d1; font-size: 13px; }
-.help-badges{ display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-end; }
-.help-badge{
-  font-size: 12px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid #2c2f36;
-  background:#0f1012;
-  color:#eaeaea;
-  white-space: nowrap;
+#help .help-hero-top{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  justify-content:space-between;
+  flex-wrap:wrap;
 }
-.help-badge.b-blue{ border-color: rgba(0,119,255,0.55); color:#9fc6ff; }
-.help-badge.b-green{ border-color: rgba(0,230,118,0.55); color:#98ffcd; }
-.help-badge.b-orange{ border-color: rgba(255,179,0,0.55); color:#ffd38a; }
-.help-badge.b-purple{ border-color: rgba(142,36,170,0.55); color:#e5b6ff; }
-
-.help-hero-note{
-  margin-top: 10px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: rgba(0,0,0,0.25);
-  border: 1px solid rgba(255,255,255,0.06);
-  color:#dde2ee;
+#help .help-hero h2{
+  margin:0 0 4px 0;
+  letter-spacing:0.2px;
+}
+#help .help-hero p{
+  margin:0;
+  color: rgba(255,255,255,0.80);
   font-size: 13px;
   line-height: 1.35;
 }
-.help-hero-note span{ color:#b9c0d3; }
-
-.help-grid{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-  margin-bottom: 10px;
+#help .help-badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
 }
-@media (min-width: 760px){
-  .help-grid{ grid-template-columns: 1fr 1fr; }
-  .help-grid.help-grid-2{ grid-template-columns: 1fr 1fr; }
-}
-.help-card{
-  background: linear-gradient(180deg, #17181c, #121317);
-  border: 1px solid #2c2f36;
-  border-radius: 16px;
-  padding: 12px 12px 10px;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.28);
-  position: relative;
-  overflow: hidden;
-}
-.help-card::before{
-  content:"";
-  position:absolute;
-  left:0; top:0; bottom:0;
-  width: 5px;
-  background: #3a3d45;
-  opacity: 0.9;
-}
-.help-card.c-blue::before{ background:#0077ff; }
-.help-card.c-green::before{ background:#00e676; }
-.help-card.c-orange::before{ background:#ffb300; }
-.help-card.c-purple::before{ background:#8e24aa; }
-.help-card.c-slate::before{ background:#29b6f6; }
-.help-card.c-pink::before{ background:#ff4f8b; }
-.help-card.c-dark::before{ background:#666; }
-
-.help-card-head{ display:flex; gap:10px; align-items:center; margin-bottom: 6px; }
-.help-card-head h3{ margin:0; font-size: 16px; }
-.help-step{
-  width: 28px; height: 28px;
-  border-radius: 10px;
-  display:flex; align-items:center; justify-content:center;
-  font-weight: 800;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.10);
+#help .help-badge{
+  font-size:12px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.25);
   color:#fff;
-  flex: 0 0 auto;
+  white-space:nowrap;
 }
-.help-list{ margin: 6px 0 0; padding-left: 16px; color:#d9dbe2; font-size: 13px; line-height: 1.35; }
-.help-list li{ margin: 6px 0; }
-.help-callout{
-  margin: 10px 0 8px;
-  padding: 10px 10px;
-  border-radius: 12px;
-  background: rgba(0,0,0,0.22);
-  border: 1px solid rgba(255,255,255,0.08);
-}
-.help-callout.small{ margin-top: 8px; }
-.help-callout-title{ font-weight: 800; font-size: 13px; color:#fff; margin-bottom: 4px; }
-.help-callout-text{ margin:0; font-size: 13px; color:#cfd3df; }
+#help .badge-blue{ border-color: rgba(41,182,246,0.55); }
+#help .badge-green{ border-color: rgba(0,230,118,0.55); }
+#help .badge-amber{ border-color: rgba(255,179,0,0.55); }
+#help .badge-pink{ border-color: rgba(255,82,82,0.55); }
 
-.help-split{
-  display:grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
-  margin-top: 8px;
+#help .help-rule{
+  margin-top:12px;
+  padding:12px;
+  border-radius:14px;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.10);
 }
-@media (min-width: 760px){
-  .help-split{ grid-template-columns: 1fr 1fr; }
+#help .help-rule h3{
+  margin:0 0 6px 0;
+  font-size:14px;
 }
-.help-mini{
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(0,0,0,0.18);
-  border-radius: 12px;
-  padding: 10px;
+#help .help-rule ul{
+  margin:8px 0 0 18px;
+  padding:0;
+  color: rgba(255,255,255,0.86);
+  font-size:13px;
+  line-height:1.45;
 }
-.help-mini-title{ font-weight: 800; font-size: 13px; margin-bottom: 6px; }
-.help-mini-list{ margin: 0; padding-left: 16px; color:#d9dbe2; font-size: 13px; }
-.help-mini-list li{ margin: 5px 0; }
-.help-footnote{ margin: 8px 0 0; font-size: 12px; color:#b6bdd2; }
-.help-last{ margin-top: 2px; }
-.help-signature{
-  margin: 12px 0 0;
-  text-align: center;
-  color:#b9c0d3;
+#help .help-rule li{
+  margin:6px 0;
+}
+#help .help-rule code{
+  background: rgba(0,0,0,0.35);
+  padding: 2px 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.10);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 12px;
 }
 
-  </style>
+#help .help-grid{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap:10px;
+}
+#help .help-card{
+  grid-column: span 12;
+  background:#303134;
+  border-radius:14px;
+  padding:12px;
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+@media (min-width: 860px){
+  #help .help-card.span-6{ grid-column: span 6; }
+  #help .help-card.span-4{ grid-column: span 4; }
+  #help .help-card.span-8{ grid-column: span 8; }
+}
+#help .help-card h3{
+  margin:0 0 6px 0;
+  font-size:14px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+#help .help-card p{
+  margin:0 0 8px 0;
+  color: rgba(255,255,255,0.84);
+  font-size:13px;
+  line-height:1.45;
+}
+#help .help-card ul{
+  margin:6px 0 0 18px;
+  padding:0;
+  color: rgba(255,255,255,0.86) !important;
+  font-size:13px !important;
+  line-height:1.45;
+}
+#help .help-kbd{
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:8px;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.12);
+  font-size:12px;
+  margin:0 2px;
+}
+#help .accent{
+  color:#29b6f6;
+  font-weight:700;
+}
+#help .accent2{
+  color:#00e676;
+  font-weight:700;
+}
+#help .accent3{
+  color:#ffb300;
+  font-weight:700;
+}
+#help .help-callout{
+  margin-top:12px;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.10);
+  background: linear-gradient(135deg, rgba(0,0,0,0.25), rgba(41,182,246,0.08));
+}
+#help .help-callout h3{
+  margin:0 0 6px 0;
+  font-size:14px;
+}
+#help .help-callout p{
+  margin:0;
+  color: rgba(255,255,255,0.84);
+  font-size:13px;
+  line-height:1.45;
+}
+#help .help-footer{
+  margin-top:10px;
+  text-align:center;
+  color: rgba(255,255,255,0.65);
+  font-size:12px;
+}
+#help .help-divider{
+  height:1px;
+  background: rgba(255,255,255,0.10);
+  margin:10px 0;
+}
+
+
+
+
+/* =========================================================
+   Funky theme v16 — applied everywhere (match / stats / dashboard / history)
+   Objectif : plus lisible, plus "fun", sans casser le JS.
+   ========================================================= */
+:root{
+  --c-blue:#4992db;
+  --c-orange:#ec4f21;
+  --c-yellow:#f49a1e;
+  --c-green:#9ece09;
+  --c-purple:#b36bff;
+  --c-pink:#d81b60;
+
+  --bg0:#0f1115;
+  --bg1:#14171d;
+  --card:#202124;
+  --card2:#2a2c31;
+  --txt:#f2f4f8;
+  --muted:#b8beca;
+  --line:rgba(255,255,255,.10);
+
+  --shadow: 0 10px 30px rgba(0,0,0,.45);
+  --shadow-soft: 0 6px 18px rgba(0,0,0,.35);
+}
+
+body{
+  background:
+    radial-gradient(900px 600px at 10% 0%, rgba(73,146,219,.18), transparent 55%),
+    radial-gradient(900px 600px at 90% 10%, rgba(236,79,33,.16), transparent 55%),
+    radial-gradient(900px 600px at 30% 100%, rgba(158,206,9,.14), transparent 60%),
+    linear-gradient(180deg, var(--bg0), var(--bg1));
+  color: var(--txt);
+}
+
+h1,h2,h3{
+  letter-spacing:.2px;
+}
+
+.container{
+  position: relative;
+}
+
+/* “Cards” : mêmes vibes partout */
+#court,
+#score-section,
+#stats-view,
+#opponent,
+#dashboard,
+#history,
+#help{
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Accents par rubrique */
+#court{ border-left: 6px solid rgba(244,154,30,.95); }
+#score-section{ border-left: 6px solid rgba(73,146,219,.95); }
+#stats-view{ border-left: 6px solid rgba(158,206,9,.95); }
+#opponent{ border-left: 6px solid rgba(236,79,33,.95); }
+#dashboard{ border-left: 6px solid rgba(179,107,255,.95); }
+#history{ border-left: 6px solid rgba(244,154,30,.95); }
+#help{ border-left: 6px solid rgba(73,146,219,.95); }
+
+/* Boutons : un peu plus “punchy” */
+button{
+  transition: transform .08s ease, filter .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+button:hover{
+  filter: brightness(1.06);
+}
+button:active{
+  transform: translateY(1px);
+}
+
+/* Boutons dashboard : colorés */
+.dash-actions{
+  gap: 8px;
+}
+.dash-action-btn{
+  border: 1px solid rgba(255,255,255,.18) !important;
+  background: rgba(0,0,0,.25);
+  box-shadow: 0 6px 16px rgba(0,0,0,.28);
+}
+#btn-dashboard-print{ border-left: 4px solid var(--c-yellow); }
+#btn-dashboard-share{ border-left: 4px solid var(--c-blue); }
+#btn-dashboard-copy{ border-left: 4px solid var(--c-green); }
+#btn-dashboard-wa{ border-left: 4px solid #25D366; }
+#btn-dashboard-tg{ border-left: 4px solid #2AABEE; }
+
+/* Dashboard : compartiments plus visibles (couleurs) */
+#dash-score-box,
+#dash-team-summary,
+#dash-opponent-summary,
+#dash-compare-summary,
+#match-awards{
+  border-radius: 14px !important;
+  margin: 12px 0 !important;
+  padding: 12px 14px !important;
+  border: 1px solid rgba(255,255,255,.12) !important;
+  box-shadow: 0 10px 24px rgba(0,0,0,.28);
+}
+
+#dash-score-box{
+  border-left: 8px solid var(--c-yellow) !important;
+  background: linear-gradient(135deg, rgba(244,154,30,.16), rgba(244,154,30,.06)) !important;
+}
+#dash-team-summary{
+  border-left: 8px solid var(--c-blue) !important;
+  background: linear-gradient(135deg, rgba(73,146,219,.16), rgba(73,146,219,.06)) !important;
+}
+#dash-opponent-summary{
+  border-left: 8px solid var(--c-orange) !important;
+  background: linear-gradient(135deg, rgba(236,79,33,.16), rgba(236,79,33,.06)) !important;
+}
+#dash-compare-summary{
+  border-left: 8px solid var(--c-green) !important;
+  background: linear-gradient(135deg, rgba(158,206,9,.14), rgba(158,206,9,.05)) !important;
+}
+#match-awards{
+  border-left: 8px solid var(--c-purple) !important;
+  background: linear-gradient(135deg, rgba(179,107,255,.14), rgba(179,107,255,.05)) !important;
+}
+
+#dash-team-summary h3,
+#dash-opponent-summary h3,
+#dash-compare-summary h3,
+#match-awards h3{
+  margin: 0 0 8px !important;
+  font-size: 14px !important;
+}
+#dash-team-summary h3::before{ content:"🟦 "; }
+#dash-opponent-summary h3::before{ content:"🟥 "; }
+#dash-compare-summary h3::before{ content:"🟨 "; }
+#match-awards h3::before{ content:"🏅 "; }
+
+/* Stat rows : mini-accents par catégorie */
+.stat-row{
+  border-left: 4px solid transparent;
+  padding-left: 10px;
+}
+.stat-row[data-cat="attaque"]{ border-left-color: var(--c-orange); }
+.stat-row[data-cat="service"]{ border-left-color: var(--c-blue); }
+.stat-row[data-cat="bloc"]{ border-left-color: var(--c-purple); }
+.stat-row[data-cat="reception"]{ border-left-color: var(--c-yellow); }
+.stat-row[data-cat="defense"]{ border-left-color: var(--c-green); }
+.stat-row[data-cat="passe"]{ border-left-color: #35d0ff; }
+
+/* Overlay : header plus “rubrique”, sans confondre */
+#rally-overlay-panel{
+  border: 1px solid rgba(255,255,255,.12);
+  background:
+    radial-gradient(600px 200px at 10% 0%, rgba(73,146,219,.16), transparent 60%),
+    radial-gradient(600px 220px at 90% 10%, rgba(236,79,33,.12), transparent 60%),
+    rgba(32,33,36,.92);
+  backdrop-filter: blur(10px);
+}
+#rally-overlay-title{
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+}
+#rally-overlay-panel[data-cat="attaque"] #rally-overlay-title{ border-left: 6px solid var(--c-orange); }
+#rally-overlay-panel[data-cat="service"] #rally-overlay-title{ border-left: 6px solid var(--c-blue); }
+#rally-overlay-panel[data-cat="bloc"] #rally-overlay-title{ border-left: 6px solid var(--c-purple); }
+#rally-overlay-panel[data-cat="reception"] #rally-overlay-title{ border-left: 6px solid var(--c-yellow); }
+#rally-overlay-panel[data-cat="defense"] #rally-overlay-title{ border-left: 6px solid var(--c-green); }
+#rally-overlay-panel[data-cat="passe"] #rally-overlay-title{ border-left: 6px solid #35d0ff; }
+#rally-overlay-panel[data-cat="rally"] #rally-overlay-title{ border-left: 6px solid var(--c-pink); }
+
+.rally-player-btn{
+  border: 1px solid rgba(255,255,255,.14) !important;
+  background: rgba(0,0,0,.22) !important;
+}
+.rally-player-btn:hover{
+  box-shadow: 0 10px 18px rgba(0,0,0,.28);
+}
+
+/* Historique : plus sexy */
+.history-item{
+  border: 1px solid rgba(255,255,255,.12) !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)) !important;
+  box-shadow: var(--shadow-soft);
+}
+
+</style>
 </head>
 <body>
   <!-- VUE PRINCIPALE -->
@@ -1448,6 +1702,12 @@
         <div id="dash-compare-body"></div>
       </div>
 
+      <div id="dash-highlights-summary">
+        <h3>⭐ Highlights – Ce qui ressort</h3>
+        <div id="dash-highlights-body"></div>
+      </div>
+
+
            <div id="match-awards">
         <h3>Distinctions du match</h3>
 
@@ -1500,157 +1760,137 @@
   </div>
     <!-- TUTORIEL / AIDE -->
   <div class="container" id="help-container" style="display:none;">
-    <section id="help" class="no-select help-wrap">
+    <section id="help" class="no-select help-page">
       <button id="btn-back-from-help" class="help-back">← Retour au terrain</button>
 
       <div class="help-hero">
         <div class="help-hero-top">
           <div>
-            <h2 class="help-title">Stat2Match 4x4</h2>
-            <p class="help-sub">Le guide “match-day” : simple, rapide, sans prises de tête.</p>
+            <h2>Stat2Match Volley 4x4 — Guide express</h2>
+            <p>
+              Objectif : <strong>noter vite</strong> sans casser le rythme.
+              Le <strong>mode Rallye</strong> sert uniquement à capturer un <em>échange long</em>.
+            </p>
           </div>
           <div class="help-badges">
-            <span class="help-badge b-blue">⚡ Saisie rapide</span>
-            <span class="help-badge b-green">✅ Offline-ready</span>
-            <span class="help-badge b-orange">📊 Dashboard</span>
-            <span class="help-badge b-purple">🔁 Rallye Défense/Passe</span>
+            <span class="help-badge badge-green">✅ Offline OK</span>
+            <span class="help-badge badge-blue">⚡ Saisie rapide</span>
+            <span class="help-badge badge-amber">📊 Dashboard + Awards</span>
+            <span class="help-badge badge-pink">🧠 Rallye intelligent</span>
           </div>
         </div>
 
-        <div class="help-hero-note">
-          <strong>Idée clé :</strong> tu notes les actions en 2 secondes. <br/>
-          <span>Attaque/Service/Bloc/Récep = “one‑tap”. Défense+ & Passe+ = mode rallye (enchaînement).</span>
+        <div class="help-rule">
+          <h3>🧠 Règle d’or du mode Rallye</h3>
+          <p style="margin:0;color:rgba(255,255,255,0.86);font-size:13px;line-height:1.45;">
+            On <strong>ouvre</strong> un rallye uniquement quand on veut noter l’enchaînement :
+            <span class="accent">Défense +</span> ou <span class="accent">Passe +</span>.
+            Tout le reste est soit <strong>instantané</strong>, soit une <strong>fin de rallye</strong>.
+          </p>
+
+          <div class="help-divider"></div>
+
+          <ul>
+            <li><strong>Dans un rallye</strong>, <span class="accent">Défense +</span> et <span class="accent">Passe +</span> = ça <strong>continue</strong> l’échange (le rallye reste ouvert).</li>
+            <li><strong>Le rallye se termine uniquement</strong> si tu cliques une action qui “met fin aux débats” :
+              <ul>
+                <li><code>Passe −</code> ou <code>Défense −</code> (faute / ballon perdu)</li>
+                <li><code>Attaque +</code> ou <code>Attaque −</code> (point ou faute en attaque)</li>
+                <li><code>Bloc +</code> ou <code>Bloc −</code> (point au bloc ou faute au bloc)</li>
+                <li><code>Point adverse +</code> ou <code>Point adverse −</code> (ils marquent / ou on leur donne)</li>
+              </ul>
+            </li>
+            <li>Important : un rallye <strong>ne peut pas</strong> se terminer par <code>Service</code> ou <code>Réception</code> (par définition, on est déjà “dans l’échange”).</li>
+          </ul>
         </div>
       </div>
 
       <div class="help-grid">
-        <div class="help-card c-blue">
-          <div class="help-card-head">
-            <span class="help-step">1</span>
-            <h3>Avant le match</h3>
-          </div>
-          <ul class="help-list">
-            <li><strong>Gérer l’effectif</strong> → ajoute Prénom, n°, poste, licence, couleur.</li>
-            <li>Coche <strong>“Dans l’effectif du match”</strong> pour celles disponibles aujourd’hui.</li>
-            <li>Renseigne <strong>Nom équipe</strong> & <strong>Adversaire</strong> en haut.</li>
-            <li>Tout est sauvegardé automatiquement (même hors ligne).</li>
+        <div class="help-card span-6">
+          <h3>1) 👥 Effectif</h3>
+          <p>Construis ta base de joueuses, puis active l’effectif du match.</p>
+          <ul>
+            <li>Clique <span class="help-kbd">Gérer l’effectif</span></li>
+            <li>Ajoute/modifie : <strong>Prénom, n°, poste, licence, couleur</strong></li>
+            <li>Coche <strong>Dans l’effectif du match</strong> pour afficher terrain + banc</li>
+            <li>Puis clique <span class="help-kbd">Valider l’effectif du match</span> (rafraîchit listes + awards)</li>
           </ul>
         </div>
 
-        <div class="help-card c-green">
-          <div class="help-card-head">
-            <span class="help-step">2</span>
-            <h3>Terrain & banc</h3>
-          </div>
-          <ul class="help-list">
-            <li>Choisis les 4 joueuses sur le terrain (AG, AD, ARG, ARD).</li>
-            <li>Le banc se met à jour tout seul : toutes les joueuses “match” non sur le terrain.</li>
-            <li>Astuce : clique sur une joueuse (terrain ou banc) pour ouvrir sa <strong>fiche stats</strong>.</li>
+        <div class="help-card span-6">
+          <h3>2) 🏐 Terrain + rotations</h3>
+          <p>Assigne tes 6 postes et utilise la rotation pour gagner du temps.</p>
+          <ul>
+            <li>AG / AC / AD / ARG / ARC / ARD</li>
+            <li>Anti-doublon : une joueuse ne peut pas être 2 fois sur le terrain</li>
+            <li><span class="help-kbd">Rotation (horaire)</span> / <span class="help-kbd">Rotation (inverse)</span></li>
           </ul>
         </div>
 
-        <div class="help-card c-orange">
-          <div class="help-card-head">
-            <span class="help-step">3</span>
-            <h3>Score & sets</h3>
-          </div>
-          <ul class="help-list">
-            <li>Choisis le <strong>set actif</strong> (1→5) puis ajuste le score avec <strong>+ / −</strong>.</li>
-            <li>Les <strong>temps morts</strong> (tech, nous, eux) se cochent via les pastilles.</li>
-            <li>Tout ce que tu saisis est enregistré dans le <strong>set courant</strong>.</li>
+        <div class="help-card span-8">
+          <h3>3) ✍️ Saisie des actions</h3>
+          <p>
+            En dehors du rallye, tout est <span class="accent2">instantané</span> :
+            tu cliques, tu choisis la joueuse, c’est enregistré, ça se ferme.
+          </p>
+          <ul>
+            <li><strong>Instantané</strong> : Attaque / Service / Bloc / Réception (hors rallye)</li>
+            <li><strong>Rallye</strong> : uniquement Défense <strong>+</strong> et Passe <strong>+</strong> (enchaînements)</li>
+            <li>Dans un rallye, si tu cliques une action “finissante” (Attaque, Bloc, Passe−, Défense−, Point adverse), ça <strong>termine le rallye automatiquement</strong>.</li>
           </ul>
         </div>
 
-        <div class="help-card c-purple">
-          <div class="help-card-head">
-            <span class="help-step">4</span>
-            <h3>Mode Rallye (Défense & Passe)</h3>
-          </div>
-
-          <div class="help-callout">
-            <div class="help-callout-title">🔁 Quand tu es “dans l’échange”</div>
-            <p class="help-callout-text">
-              Le rallye sert à enchaîner <strong>Défense+</strong> et <strong>Passe+</strong> (plusieurs fois) avant la conclusion du point.
-            </p>
-          </div>
-
-          <ul class="help-list">
-            <li><strong>Défense +</strong> ou <strong>Passe +</strong> → ouvre la fenêtre “Rallye” (flottante).</li>
-            <li>Tu peux cliquer plusieurs fois : tu empiles les actions <strong>dans le même échange</strong>.</li>
-            <li>La fenêtre est <strong>déplaçable</strong> (glisse par le titre). Double‑clic sur le titre = reset position.</li>
+        <div class="help-card span-4">
+          <h3>4) 🎯 Points adverses</h3>
+          <p>Si l’adversaire marque pendant l’échange, tu le notes côté adverse.</p>
+          <ul>
+            <li><strong>Point adverse +</strong> : ils gagnent l’échange “sur leur jeu”</li>
+            <li><strong>Point adverse −</strong> : on leur donne (faute / cadeau)</li>
+            <li>Dans un rallye : ça <strong>termine</strong> le rallye</li>
           </ul>
+        </div>
 
-          <div class="help-split">
-            <div class="help-mini">
-              <div class="help-mini-title">✅ Pour terminer un rallye</div>
-              <ul class="help-mini-list">
-                <li><strong>Attaque + / Attaque −</strong></li>
-                <li><strong>Bloc + / Bloc −</strong></li>
-                <li><strong>Passe −</strong> ou <strong>Défense −</strong></li>
-                <li><strong>Point adverse</strong> via <em>Stats adverses</em> → Bloc / Points (hors service)</li>
-              </ul>
-            </div>
-            <div class="help-mini">
-              <div class="help-mini-title">⛔ Ce qui n’est pas une fin de rallye</div>
-              <ul class="help-mini-list">
-                <li><strong>Service</strong> et <strong>Réception</strong> (c’est le début du point, pas la fin de l’échange).</li>
-              </ul>
-            </div>
-          </div>
+        <div class="help-card span-6">
+          <h3>5) 📊 Tableau de bord</h3>
+          <p>Lecture rapide + comparatif <strong>Nous vs Eux</strong>, et export “propre” pour partager aux joueuses / au staff.</p>
+          <ul>
+            <li><strong>Compartiments</strong> : Nos stats / Stats adverses / Comparatif / Distinctions</li>
+            <li><strong>Impact des fautes</strong> : on voit clairement combien de points viennent de nos erreurs</li>
+            <li><strong>Export complet</strong> via les boutons : <em>Imprimer/PDF</em>, <em>Copier</em>, <em>Partager</em>, <em>WhatsApp</em>, <em>Telegram</em></li>
+            <li>Astuce : le panneau de partage affiche parfois un <em>aperçu</em> (court) — mais le texte copié / envoyé contient bien tout le tableau.</li>
+          </ul>
+        </div>
 
-          <p class="help-footnote">
-            Note : Attaque/Service/Bloc/Récep restent des actions “one‑tap” (tu choisis la joueuse → c’est enregistré → ça se ferme).
+        <div class="help-card span-6">
+          <h3>6) 🏅 Distinctions (rappel des règles)</h3>
+          <p>Les sélections se pré-remplissent selon les stats du moment.</p>
+          <ul>
+            <li><strong>MVP</strong> : total d’actions <span class="accent2">positives</span> le plus élevé, avec un <strong>delta (Δ) &gt; 0 obligatoire</strong></li>
+<li><strong>Meilleur·e bloqueur·euse</strong> : <strong>Bloc +</strong> le plus élevé</li>
+            <li><strong>Meilleur soutien</strong> : <strong>Défense +</strong> + <strong>Réception +</strong> le plus élevé</li>
+          </ul>
+          <p style="margin:8px 0 0;color:rgba(255,255,255,0.78);font-size:12px;line-height:1.35;">
+            Tu peux toujours modifier manuellement : l’auto-suggestion sert de base, elle ne remplace pas ton jugement de coach.
           </p>
         </div>
       </div>
 
-      <div class="help-grid help-grid-2">
-        <div class="help-card c-slate">
-          <div class="help-card-head">
-            <span class="help-step">5</span>
-            <h3>Stats adverses</h3>
-          </div>
-          <ul class="help-list">
-            <li>Suis : <strong>Services</strong>, <strong>Bloc</strong>, <strong>Cadeaux</strong>, <strong>Points (hors service)</strong>.</li>
-            <li>Ça nourrit le comparatif “Nous vs Eux” et le rapport final.</li>
-            <li>Si un rallye est ouvert, cliquer sur <strong>Bloc</strong> ou <strong>Points (hors service)</strong> clôture l’échange.</li>
-          </ul>
-        </div>
-
-        <div class="help-card c-pink">
-          <div class="help-card-head">
-            <span class="help-step">6</span>
-            <h3>Tableau de bord (à partager)</h3>
-          </div>
-          <ul class="help-list">
-            <li>Vue claire : <strong>Nos stats</strong>, <strong>Stats adverses</strong>, <strong>Comparatif</strong>, <strong>Distinctions</strong>.</li>
-            <li>Les distinctions peuvent être <strong>pré‑remplies</strong> automatiquement (tu peux modifier).</li>
-            <li>Boutons : <strong>Imprimer/PDF</strong>, <strong>Partager</strong>, <strong>Copier</strong>, <strong>WhatsApp</strong>, <strong>Telegram</strong>.</li>
-          </ul>
-          <div class="help-callout small">
-            <div class="help-callout-title">📌 Astuce coaching</div>
-            <p class="help-callout-text">Partage le dashboard au groupe après chaque set : ça donne une dynamique, et ça fixe les axes de travail.</p>
-          </div>
-        </div>
+      <div class="help-callout">
+        <h3>🚀 Routine “propre” en match</h3>
+        <p>
+          Si tu vises la perf : garde l’agressivité… mais chasse les cadeaux.
+          Ton focus : <strong>moins de fautes gratuites</strong>, et une saisie fluide.
+          L’appli est faite pour que tu notes <strong>en 2 clics max</strong> dans 90% des cas.
+        </p>
       </div>
 
-      <div class="help-card c-dark help-last">
-        <div class="help-card-head">
-          <span class="help-step">7</span>
-          <h3>Historique & archivage</h3>
-        </div>
-        <ul class="help-list">
-          <li><strong>Clôturer ce match</strong> → l’app archive le match (date, score, stats, distinctions).</li>
-          <li>Dans <strong>Historique</strong> tu peux relire, copier un résumé, imprimer/exporter en PDF.</li>
-          <li>Les données restent locales dans le navigateur (tu peux exporter/importer la config).</li>
-        </ul>
+      <div class="help-footer">
+        Astuce : si quelqu’un te dit “c’est trop de boutons”, c’est qu’il n’a pas encore le rythme.
+        Deux sets d’habitude, et ça devient automatique. 🏐
       </div>
-
-      <p class="help-signature">🎯 Objectif : noter vite, analyser juste, progresser match après match.</p>
     </section>
   </div>
-
-  <!-- OVERLAY RALLYE : LISTE DES JOUEUSES SUR LE TERRAIN -->
+<!-- OVERLAY RALLYE : LISTE DES JOUEUSES SUR LE TERRAIN -->
   <div id="rally-overlay">
     <div id="rally-overlay-backdrop"></div>
     <div id="rally-overlay-panel">
@@ -1929,6 +2169,8 @@ function openRallyOverlayMultiDefensePasse() {
   setRallyCloseVisible(true);
 
   const overlay = document.getElementById("rally-overlay");
+  const panelEl = document.getElementById("rally-overlay-panel");
+  if (panelEl) panelEl.setAttribute("data-cat", "rally");
   const titleEl = document.getElementById("rally-overlay-title");
   const hintEl = document.getElementById("rally-overlay-hint");
   const listEl = document.getElementById("rally-player-list");
@@ -2061,6 +2303,8 @@ function openRallyOverlayMultiDefensePasse() {
   rallyCurrentOutcome = outcome;
 
   const overlay = document.getElementById("rally-overlay");
+  const panelEl = document.getElementById("rally-overlay-panel");
+  if (panelEl) panelEl.setAttribute("data-cat", cat || "");
   const titleEl = document.getElementById("rally-overlay-title");
   const hintEl = document.getElementById("rally-overlay-hint");
   const listEl = document.getElementById("rally-player-list");
@@ -2291,9 +2535,7 @@ function openRallyOverlayMultiDefensePasse() {
       }
     }
 
-    function buildDashboardShareText(setNumber) {
-      setNumber = setNumber || currentSet;
-
+    function computeDashboardData(setNumber) {
       const score = getSetScore(setNumber);
       const os = getOpponentSetStats(setNumber);
 
@@ -2343,10 +2585,10 @@ function openRallyOverlayMultiDefensePasse() {
       const oppPos = (os.servicePlus||0) + (os.blocPlus||0) + (os.pointsPlus||0);
       const oppNeg = (os.serviceMinus||0) + (os.cadeauxPlus||0) + (os.pointsMinus||0);
 
-      const pct = (num, den) => {
+      const pctNum = (num, den) => {
         const d = Number(den || 0);
-        if (!d || d <= 0) return "0%";
-        return Math.round((Number(num || 0) / d) * 100) + "%";
+        if (!d || d <= 0) return 0;
+        return Math.round((Number(num || 0) / d) * 100);
       };
 
       const ourTeam = getOurTeamName() || "Nous";
@@ -2366,80 +2608,303 @@ function openRallyOverlayMultiDefensePasse() {
       const selBlock = (document.getElementById("select-best-block") || {}).value || "";
       const selSupport = (document.getElementById("select-best-support") || {}).value || "";
 
-      // --- Texte complet (doit refléter le tableau de bord) ---
+      const impactOurPct = pctNum(ourPos, ourPos + ourNeg);
+      const impactOppPct = pctNum(oppNeg, oppPos + oppNeg);
+
+      return {
+        setNumber,
+        score,
+        os,
+        acc,
+        totalPlus,
+        totalMinus,
+        namesMap,
+        sepFor,
+        ourPos,
+        ourNeg,
+        oppPos,
+        oppNeg,
+        impactOurPct,
+        impactOppPct,
+        ourTeam,
+        oppTeam,
+        bestSupport,
+        bestBlock,
+        bestMVP,
+        selMVP,
+        selBlock,
+        selSupport,
+        fmtPlayer
+      };
+    }
+    // ======= Helpers : highlights par set (top delta / soutien / fautes) =======
+    function computeSetPlayerTotals(setNumber) {
+      const out = [];
+      for (const p of players) {
+        const s = (stats[p.id] && stats[p.id][setNumber]) ? stats[p.id][setNumber] : {};
+        let plus = 0, minus = 0;
+        for (const cat of STAT_CATEGORIES) {
+          plus  += Number(s[cat + "Plus"]  || 0);
+          minus += Number(s[cat + "Minus"] || 0);
+        }
+        const delta = plus - minus;
+        const support = Number(s.defensePlus||0) + Number(s.receptionPlus||0);
+        const attack  = Number(s.attaquePlus||0);
+        const block   = Number(s.blocPlus||0);
+        out.push({ id: p.id, plus, minus, delta, support, attack, block });
+      }
+      return out;
+    }
+
+    function getSetHighlights(setNumber) {
+      const totals = computeSetPlayerTotals(setNumber);
+
+      const topDelta   = totals.slice().sort((a,b)=> (b.delta - a.delta) || (b.plus - a.plus)).slice(0,3);
+      const topSupport = totals.slice().sort((a,b)=> (b.support - a.support) || (b.delta - a.delta)).slice(0,3);
+      const topFaults  = totals.slice().sort((a,b)=> (b.minus - a.minus) || (a.delta - b.delta)).slice(0,3);
+
+      return { topDelta, topSupport, topFaults };
+    }
+
+
+
+    function buildDashboardShareText(setNumber) {
+      const d = computeDashboardData(setNumber);
+
       const lines = [];
-      lines.push("📊 Stat2Match – Tableau de bord (set " + setNumber + ")");
-      lines.push(ourTeam + " " + (score.nous||0) + " - " + (score.eux||0) + " " + oppTeam);
+      lines.push(`📊 Stat2Match — Tableau de bord (set ${d.setNumber})`);
+      lines.push(`${d.ourTeam} ${d.score.nous||0} - ${d.score.eux||0} ${d.oppTeam}`);
+      lines.push("━━━━━━━━━━━━━━━━━━━━");
       lines.push("");
 
-      lines.push("🟦 Nos stats (set " + setNumber + ")");
+      lines.push("🟦 NOS STATS");
       STAT_CATEGORIES.forEach(cat => {
-        const label = namesMap[cat] || cat;
-        lines.push(label + " : " + (acc[cat+"Minus"]||0) + " " + sepFor(cat) + " " + (acc[cat+"Plus"]||0));
+        const label = d.namesMap[cat] || cat;
+        lines.push(`• ${label} : ${(d.acc[cat+"Minus"]||0)} ${d.sepFor(cat)} ${(d.acc[cat+"Plus"]||0)}`);
       });
-      lines.push("TOTAL (impact score) : " + totalMinus + " fautes / " + totalPlus + " points marqués (Att + Serv + Bloc)");
+      lines.push(`• TOTAL (impact score) : ${d.totalMinus} fautes / ${d.totalPlus} points marqués (Att + Serv + Bloc)`);
       lines.push("");
 
-      lines.push("🟥 Stats adverses (set " + setNumber + ")");
-      lines.push("Services : " + (os.serviceMinus||0) + " fautes / " + (os.servicePlus||0) + " points");
-      lines.push("Bloc : " + (os.blocPlus||0) + " points");
-      lines.push("Cadeaux (points offerts) : " + (os.cadeauxPlus||0) + " points pour nous");
-      lines.push("Points (hors service) : " + (os.pointsMinus||0) + " pour nous / " + (os.pointsPlus||0) + " pour eux");
+      lines.push("🟥 ADVERSAIRE");
+      lines.push(`• Services : ${(d.os.serviceMinus||0)} fautes / ${(d.os.servicePlus||0)} points`);
+      lines.push(`• Bloc : ${(d.os.blocPlus||0)} points`);
+      lines.push(`• Cadeaux (points offerts) : ${(d.os.cadeauxPlus||0)} points pour nous`);
+      lines.push(`• Points (hors service) : ${(d.os.pointsMinus||0)} pour nous / ${(d.os.pointsPlus||0)} pour eux`);
       lines.push("");
 
-      lines.push("🟨 Comparatif – Nous vs Eux (set " + setNumber + ")");
-      lines.push("Actions positives : " + ourPos + " (nous) | " + oppPos + " (" + oppTeam + ")");
-      lines.push("Actions négatives : " + ourNeg + " (nous) | " + oppNeg + " (" + oppTeam + ")");
-      lines.push("Impact fautes : " + ourNeg + " (nous) | " + oppNeg + " (" + oppTeam + ")");
-      lines.push("Impact global : " + pct(ourPos, ourPos + ourNeg) + " de nos points / " + pct(oppNeg, oppPos + oppNeg) + " des points adverses (sur nos fautes)");
+      lines.push("🟨 COMPARATIF — NOUS vs EUX");
+      lines.push(`• Actions positives : ${d.ourPos} (nous) | ${d.oppPos} (${d.oppTeam})`);
+      lines.push(`• Actions négatives : ${d.ourNeg} (nous) | ${d.oppNeg} (${d.oppTeam})`);
+      lines.push(`• Impact global : ${d.impactOurPct}% de nos points / ${d.impactOppPct}% des points adverses (sur nos fautes)`);
       lines.push("");
 
-      lines.push("🏅 Distinctions du match");
-      lines.push("MVP : " + fmtPlayer(selMVP) + " | suggestion auto : " + (bestMVP ? fmtPlayer(bestMVP.id) + " (Δ " + bestMVP.delta + ")" : "—"));
-      lines.push("Meilleur·e bloqueur·euse : " + fmtPlayer(selBlock) + " | suggestion auto : " + (bestBlock ? fmtPlayer(bestBlock.id) : "—"));
-      lines.push("Meilleur soutien : " + fmtPlayer(selSupport) + " | suggestion auto : " + (bestSupport ? fmtPlayer(bestSupport.id) : "—"));
+      
+      lines.push("⭐ HIGHLIGHTS (set)");
+      const hi = getSetHighlights(d.setNumber);
+      const hiList = (arr, fmt) => (arr && arr.length) ? arr.map(fmt).join(" | ") : "—";
+      lines.push(`• Top Δ : ${hiList(hi.topDelta, x => d.fmtPlayer(x.id) + " (Δ " + x.delta + ")")}`);
+      lines.push(`• Top soutien (Déf+ & Récep+) : ${hiList(hi.topSupport, x => d.fmtPlayer(x.id) + " (" + x.support + ")")}`);
+      lines.push(`• Fautes à surveiller : ${hiList(hi.topFaults, x => d.fmtPlayer(x.id) + " (" + x.minus + ")")}`);
       lines.push("");
-      lines.push("Export généré le " + new Date().toLocaleString());
+lines.push("🏅 DISTINCTIONS");
+      lines.push(`• MVP : ${d.fmtPlayer(d.selMVP)} | auto : ${d.bestMVP ? d.fmtPlayer(d.bestMVP.id) + " (Δ " + d.bestMVP.delta + ")" : "—"}`);
+      lines.push(`• Meilleur·e bloqueur·euse : ${d.fmtPlayer(d.selBlock)} | auto : ${d.bestBlock ? d.fmtPlayer(d.bestBlock.id) : "—"}`);
+      lines.push(`• Meilleur soutien : ${d.fmtPlayer(d.selSupport)} | auto : ${d.bestSupport ? d.fmtPlayer(d.bestSupport.id) : "—"}`);
+      lines.push("");
 
+      lines.push("🕒 Export généré le " + new Date().toLocaleString());
       return lines.join("\n");
     }
 
+    function buildDashboardPrintHTML(setNumber) {
+      const d = computeDashboardData(setNumber);
+
+      const esc = (v) => String(v ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+      const row = (label, val) => `<div class="row"><div class="k">${esc(label)}</div><div class="v">${esc(val)}</div></div>`;
+
+      const ourLine = `${d.ourTeam} ${d.score.nous||0} - ${d.score.eux||0} ${d.oppTeam}`;
+
+      const statsRows = STAT_CATEGORIES.map(cat => {
+        const label = d.namesMap[cat] || cat;
+        return row(label, `${(d.acc[cat+"Minus"]||0)} ${d.sepFor(cat)} ${(d.acc[cat+"Plus"]||0)}`);
+      }).join("");
+
+      const oppRows = [
+        row("Services", `${(d.os.serviceMinus||0)} fautes / ${(d.os.servicePlus||0)} points`),
+        row("Bloc", `${(d.os.blocPlus||0)} points`),
+        row("Cadeaux (points offerts)", `${(d.os.cadeauxPlus||0)} points pour nous`),
+        row("Points (hors service)", `${(d.os.pointsMinus||0)} pour nous / ${(d.os.pointsPlus||0)} pour eux`)
+      ].join("");
+
+      const cmpRows = [
+        row("Actions positives", `${d.ourPos} (nous) | ${d.oppPos} (${d.oppTeam})`),
+        row("Actions négatives", `${d.ourNeg} (nous) | ${d.oppNeg} (${d.oppTeam})`),
+        row("Impact global", `${d.impactOurPct}% (nos points) | ${d.impactOppPct}% (leurs points sur nos fautes)`)
+      ].join("");
+
+      const awardsRows = [
+        row("MVP", `${d.fmtPlayer(d.selMVP)}  ·  auto : ${d.bestMVP ? d.fmtPlayer(d.bestMVP.id) + " (Δ " + d.bestMVP.delta + ")" : "—"}`),
+        row("Meilleur·e bloqueur·euse", `${d.fmtPlayer(d.selBlock)}  ·  auto : ${d.bestBlock ? d.fmtPlayer(d.bestBlock.id) : "—"}`),
+        row("Meilleur soutien", `${d.fmtPlayer(d.selSupport)}  ·  auto : ${d.bestSupport ? d.fmtPlayer(d.bestSupport.id) : "—"}`)
+      ].join("");
+
+      const now = new Date().toLocaleString();
+
+      return `<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stat2Match — Tableau de bord (set ${esc(d.setNumber)})</title>
+  <style>
+    :root{
+      --c-blue:#4992db; --c-orange:#ec4f21; --c-yellow:#f49a1e; --c-green:#9ece09; --c-purple:#b36bff;
+      --bg:#ffffff; --txt:#15161a; --muted:#5b6270; --line:rgba(0,0,0,.10);
+      --shadow: 0 10px 28px rgba(0,0,0,.10);
+      --r: 16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; padding:24px;
+      font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+      background: var(--bg); color: var(--txt);
+    }
+    .wrap{max-width:900px;margin:0 auto}
+    .top{
+      display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:10px;
+      margin-bottom:14px;
+    }
+    h1{margin:0;font-size:20px}
+    .meta{color:var(--muted);font-size:12px}
+    .scoreline{
+      margin-top:8px;
+      padding:12px 14px;
+      border:1px solid var(--line);
+      border-left:8px solid var(--c-yellow);
+      border-radius: var(--r);
+      background: linear-gradient(135deg, rgba(244,154,30,.14), rgba(244,154,30,.04));
+      box-shadow: var(--shadow);
+      font-weight:700;
+    }
+    .grid{display:grid; gap:12px; grid-template-columns:1fr; margin-top:12px}
+    @media (min-width: 860px){ .grid{ grid-template-columns: 1fr 1fr; } }
+    .card{
+      border:1px solid var(--line);
+      border-radius: var(--r);
+      padding:12px 14px;
+      box-shadow: var(--shadow);
+      background: #fff;
+    }
+    .card h2{margin:0 0 8px; font-size:14px}
+    .card.blue{border-left:8px solid var(--c-blue); background: linear-gradient(135deg, rgba(73,146,219,.12), rgba(73,146,219,.03));}
+    .card.orange{border-left:8px solid var(--c-orange); background: linear-gradient(135deg, rgba(236,79,33,.12), rgba(236,79,33,.03));}
+    .card.green{border-left:8px solid var(--c-green); background: linear-gradient(135deg, rgba(158,206,9,.12), rgba(158,206,9,.03));}
+    .card.purple{border-left:8px solid var(--c-purple); background: linear-gradient(135deg, rgba(179,107,255,.12), rgba(179,107,255,.03));}
+    .card.pink{border-left:8px solid var(--c-pink)}
+    .row{display:flex; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px dashed rgba(0,0,0,.12)}
+    .row:last-child{border-bottom:none}
+    .k{color:var(--muted); font-size:12px}
+    .v{font-weight:700; font-size:12.5px; text-align:right}
+    .footer{margin-top:12px; color:var(--muted); font-size:11px}
+    .btn{
+      display:inline-block; padding:8px 10px; border-radius:10px;
+      border:1px solid var(--line); background:#111; color:#fff; cursor:pointer;
+    }
+    @media print{
+      body{padding:14px}
+      .btn{display:none}
+      .card, .scoreline{box-shadow:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1>Stat2Match — Tableau de bord</h1>
+        <div class="meta">Set ${esc(d.setNumber)} · ${esc(now)}</div>
+      </div>
+      <button class="btn" onclick="window.print()">Imprimer / PDF</button>
+    </div>
+
+    <div class="scoreline">${esc(ourLine)}</div>
+
+    <div class="grid">
+      <section class="card blue">
+        <h2>🟦 Nos stats</h2>
+        ${statsRows}
+        ${row("TOTAL (impact score)", `${d.totalMinus} fautes / ${d.totalPlus} points (Att + Serv + Bloc)`)}
+      </section>
+
+      <section class="card orange">
+        <h2>🟥 Stats adverses</h2>
+        ${oppRows}
+      </section>
+
+      <section class="card green">
+        <h2>🟨 Comparatif</h2>
+        ${cmpRows}
+      </section>
+
+      <section class="card purple">
+        <h2>🏅 Distinctions</h2>
+        ${awardsRows}
+      </section>
+    </div>
+
+    <div class="footer">© Stat2Match — export depuis l’application (4x4)</div>
+  </div>
+</body>
+</html>`;
+    }
+
     function printDashboardNow() {
-      const txt = buildDashboardShareText(currentSet);
+      const html = buildDashboardPrintHTML(currentSet);
       const w = window.open("", "_blank");
       if (!w) {
         alert("Impossible d’ouvrir la fenêtre d’impression (popup bloquée).");
         return;
       }
       w.document.open();
-      w.document.write(
-        "<!doctype html><html><head><meta charset='utf-8'><title>Tableau de bord</title>" +
-        "<meta name='viewport' content='width=device-width,initial-scale=1'/>" +
-        "<style>body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;padding:18px}h1{margin:0 0 10px}pre{white-space:pre-wrap;font-size:13px;line-height:1.35;border:1px solid #ddd;border-radius:8px;padding:12px}</style>" +
-        "</head><body>" +
-        "<h1>Stat2Match – Tableau de bord</h1>" +
-        "<pre>" + (txt.replace(/</g,"&lt;").replace(/>/g,"&gt;")) + "</pre>" +
-        "" +
-        "</body></html>"
-      );
+      w.document.write(html);
       w.document.close();
-    
       try { w.focus(); } catch(e) {}
-      setTimeout(() => { try { w.print(); } catch(e) {} }, 250);
-}
+      // pas d'auto-print agressif : l'utilisateur clique "Imprimer / PDF"
+    }
 
     async function shareDashboardNow() {
       const txt = buildDashboardShareText(currentSet);
+      const title = `Stat2Match — Tableau de bord (set ${currentSet})`;
+
       try {
         if (navigator.share) {
-          await navigator.share({ title: "Stat2Match – Tableau de bord", text: txt });
+          // 1) tentative "share as file" (souvent mieux pour WhatsApp/Telegram)
+          try {
+            const file = new File(
+              [txt],
+              `stat2match_tableau_de_bord_set_${currentSet}.txt`,
+              { type: "text/plain" }
+            );
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+              await navigator.share({ title, files: [file], text: "Tableau de bord Stat2Match" });
+              return;
+            }
+          } catch(e) {}
+
+          // 2) fallback texte
+          await navigator.share({ title, text: txt });
           return;
         }
       } catch (e) {
         // si l'utilisateur annule, on ne fait rien
         return;
       }
-      // fallback : copie
+
+      // 3) fallback : copie
       try {
         await navigator.clipboard.writeText(txt);
         alert("Tableau de bord copié.");
@@ -3792,6 +4257,41 @@ function initStatsControls() {
       // Total de nos fautes (sert aussi au commentaire)
       const elTotFautes  = document.getElementById("dash-total-fautes-pour-eux");
       if (elTotFautes) elTotFautes.textContent = totalMinus;
+
+
+      // --- Highlights (top delta / soutien / fautes) ---
+      const hiBody = document.getElementById("dash-highlights-body");
+      if (hiBody) {
+        hiBody.innerHTML = "";
+        const hi = getSetHighlights(currentSet);
+
+        const makeRow = (label, value) => {
+          const r = document.createElement("div");
+          r.className = "stat-row";
+          const l = document.createElement("div");
+          l.className = "stat-label";
+          l.textContent = label;
+          const v = document.createElement("div");
+          v.className = "stat-value";
+          v.textContent = value;
+          r.appendChild(l);
+          r.appendChild(v);
+          return r;
+        };
+
+        const fmt = (id) => {
+          const p = players.find(x => x.id === id);
+          if (!p) return String(id);
+          return (p.number ? "#" + p.number + " " : "") + (p.name || "");
+        };
+
+        const list = (arr, mapFn) => (arr && arr.length) ? arr.map(mapFn).join(" · ") : "—";
+
+        hiBody.appendChild(makeRow("Top Δ", list(hi.topDelta, x => `${fmt(x.id)} (Δ ${x.delta})`)));
+        hiBody.appendChild(makeRow("Top soutien (Déf+ & Récep+)", list(hi.topSupport, x => `${fmt(x.id)} (${x.support})`)));
+        hiBody.appendChild(makeRow("Fautes à surveiller", list(hi.topFaults, x => `${fmt(x.id)} (${x.minus})`)));
+      }
+
 
       // Distinctions : préremplissage automatique selon les stats du match
       applyAwardsAutofill();
