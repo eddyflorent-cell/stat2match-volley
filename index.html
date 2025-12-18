@@ -1,14 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-
-</body>
-</html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
@@ -527,19 +517,32 @@
       background: rgba(0, 0, 0, 0.6);
     }
     #rally-overlay-panel {
-      position: relative;
+      position: fixed; /* flottant */
+      right: 10px;
+      bottom: 120px; /* au-dessus du bandeau rallye */
       background: #202124;
       border-radius: 10px;
       padding: 12px;
-      width: 90%;
+      width: calc(100vw - 20px);
       max-width: 360px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.7);
       z-index: 1;
     }
+    #rally-overlay-panel.rally-dragging {
+      opacity: 0.98;
+    }
+    #rally-overlay-panel.rally-dragging #rally-overlay-title {
+      cursor: grabbing;
+    }
+
     #rally-overlay-title {
       margin: 0 0 4px;
       font-size: 16px;
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
     }
+
     #rally-overlay-hint {
       margin: 0 0 8px;
       font-size: 11px;
@@ -689,6 +692,41 @@
       margin-top:4px;
       display:block;
     }
+
+    /* Actions dashboard (imprimer / partager / copier) */
+    .dash-action-btn{
+      border-radius:999px;
+      padding:6px 12px;
+      font-size:13px;
+      cursor:pointer;
+      border:1px solid #555;
+      background:#171717;
+      color:#fff;
+    }
+    .dash-action-btn:hover{ border-color:#888; }
+    .dash-action-btn:active{ transform: translateY(1px); }
+
+    /* Comparatif nous vs eux */
+    #dash-compare-summary{
+      margin-top:10px;
+      padding:8px;
+      border-radius:8px;
+      border:1px solid #444;
+      background:#18191c;
+    }
+    .compare-row{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      padding:6px 0;
+      border-bottom:1px solid #2d2e31;
+      font-size:13px;
+    }
+    .compare-row:last-child{ border-bottom:none; }
+    .compare-label{ color:#ddd; }
+    .compare-values{ text-align:right; color:#fff; font-weight:600; }
+    .compare-sub{ display:block; font-weight:400; color:#bbb; font-size:11px; margin-top:2px; }
+    .award-hint{ font-size:12px; color:#bbb; margin:4px 0 8px; }
 
     #btn-close-match {
       width: 100%;
@@ -1221,6 +1259,15 @@
       <button id="btn-back-from-dashboard">← Retour au terrain</button>
       <h2>Tableau de bord</h2>
 
+      <div id="dash-actions" style="display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px;">
+        <button id="btn-dashboard-print" type="button" class="dash-action-btn">Imprimer / PDF</button>
+        <button id="btn-dashboard-share" type="button" class="dash-action-btn">Partager</button>
+        <button id="btn-dashboard-copy" type="button" class="dash-action-btn">Copier</button>
+        <button id="btn-dashboard-wa" type="button" class="dash-action-btn">WhatsApp</button>
+        <button id="btn-dashboard-tg" type="button" class="dash-action-btn">Telegram</button>
+      </div>
+
+
       <div id="set-selector-dashboard">
         <span>Set :</span>
         <button class="set-btn-dashboard active" data-set="1">1</button>
@@ -1251,7 +1298,13 @@
       </div>
 
       <div id="dash-opponent-summary">
-        ...
+        <h3>Stats adverses (set <span id="dash-opp-set-label">1</span>)</h3>
+        <div id="dash-opponent-body"></div>
+      </div>
+
+      <div id="dash-compare-summary">
+        <h3>Comparatif – Nous vs Eux</h3>
+        <div id="dash-compare-body"></div>
       </div>
 
            <div id="match-awards">
@@ -1346,23 +1399,32 @@
       <h3>3. Utiliser le bandeau « rallye » en live</h3>
       <ul style="font-size:13px;color:#ddd;">
         <li>Le bandeau sous le score propose 6 catégories :
-          <strong>Attaque, Service, Bloc, Récep., Défense, Passe</strong>, chacune avec un bouton <strong>+ / -</strong>.</li>
-        <li>À chaque <strong>rallye</strong> :
+          <strong>Attaque, Service, Bloc, Récep., Défense, Passe</strong>, chacune avec <strong>+ / -</strong>.</li>
+
+        <li>À chaque clic sur <strong>+</strong> ou <strong>-</strong>, une petite fenêtre s’ouvre avec les
+          <strong>joueuses actuellement sur le terrain</strong>.</li>
+
+        <li><strong>Attaque / Service / Bloc / Récep.</strong> : tu choisis une joueuse → l’action est enregistrée →
+          la fenêtre se ferme automatiquement (pas besoin de cliquer sur « Terminer le rallye »).</li>
+
+        <li><strong>Défense + Passe</strong> : les <strong>+</strong> de Défense et de Passe peuvent rester ouverts ensemble
+          pour enregistrer plusieurs défenses et passes dans le même échange.</li>
+
+        <li><strong>Fin d’échange</strong> :
           <ul>
-            <li>appuie sur la catégorie concernée (<strong>+ = point marqué</strong>,
-              <strong>- = faute / point perdu</strong>) ;</li>
-            <li>une fenêtre s’ouvre avec les <strong>joueuses du terrain</strong> ;</li>
-            <li>tapote sur le nom de la ou des joueuses impliquées :
-              chaque clic ajoute 1 action, le compteur <strong>x2, x3…</strong> s’affiche à côté du nom.</li>
+            <li>clique sur n’importe quel bouton <strong>-</strong> (dans n’importe quelle catégorie) pour enregistrer la faute / point adverse ;</li>
+            <li>ou, côté <strong>stats adverses</strong>, clique sur <strong>Bloc</strong> ou <strong>Points (hors service)</strong> (<strong>+</strong> ou <strong>-</strong>) : ça clôture aussi le rallye.</li>
           </ul>
+          Si les menus Défense/Passe étaient ouverts, ils se ferment automatiquement.
         </li>
-        <li>Quand l’échange est terminé, appuie sur <strong>« Terminer le rallye »</strong> pour fermer la fenêtre.</li>
-        <li>Les stats sont automatiquement ajoutées dans la fiche individuelle de chaque joueuse,
-          pour le <strong>set en cours</strong>.</li>
-        <li>Tu peux ensuite affiner / corriger dans la fiche stats si besoin.</li>
+
+        <li><strong>Fenêtre rallye</strong> : elle est <strong>flottante</strong> et <strong>déplaçable</strong> (glisse-la par le titre).
+          Double-clic sur le titre pour <strong>réinitialiser</strong> sa position.</li>
+
+        <li>Tout est compté sur le <strong>set actif</strong> (1–5). Tu peux corriger ensuite via les stats si besoin.</li>
       </ul>
 
-      <h3>4. Voir et corriger les stats individuelles</h3>
+<h3>4. Voir et corriger les stats individuelles</h3>
       <ul style="font-size:13px;color:#ddd;">
         <li>Sur le terrain ou le banc, clique sur une joueuse pour ouvrir sa <strong>fiche stats</strong>.</li>
         <li>Choisis le <strong>set</strong> en haut, puis utilise <strong>+ / -</strong> pour ajuster attaque,
@@ -1404,8 +1466,10 @@
         <li>Clique sur <strong>« Tableau de bord »</strong> pour ouvrir la vue synthèse.</li>
         <li>Choisis le set en haut : tu vois alors le score, nos fautes estimées,
           et une <strong>vue d’ensemble par secteur de jeu</strong> (attaque, service, bloc, etc.).</li>
-        <li>Le bloc <strong>« Distinctions du match »</strong> te permet de choisir :
-          <strong>MVP, meilleur·e bloqueur·euse, meilleur soutien</strong>.</li>
+        <li>Le bloc <strong>« Distinctions du match »</strong> est <strong>pré-rempli automatiquement</strong> selon les stats du match
+          (tu peux toujours modifier si besoin) : <strong>MVP, meilleur·e bloqueur·euse, meilleur soutien</strong>.</li>
+        <li>Boutons en haut : <strong>Imprimer/PDF</strong>, <strong>Copier</strong>, <strong>Partager</strong> (et en direct <strong>WhatsApp</strong> / <strong>Telegram</strong>).
+          Les exports incluent toutes les sections (nos stats, stats adverses, comparatif, distinctions).</li>
         <li>Quand tout est saisi, clique sur <strong>« Clôturer ce match et l’archiver »</strong>
           pour enregistrer le match dans l’historique.</li>
       </ul>
@@ -1458,6 +1522,23 @@
   </div>
 
 
+
+  
+
+  <!-- OVERLAY RALLYE : LISTE DES JOUEUSES SUR LE TERRAIN -->
+  <div id="rally-overlay">
+    <div id="rally-overlay-backdrop"></div>
+    <div id="rally-overlay-panel">
+      <h3 id="rally-overlay-title">Action</h3>
+      <p id="rally-overlay-hint">
+        Tape sur le ou les noms pour ajouter l’action à ce rallye.
+      </p>
+      <div id="rally-player-list"></div>
+      <button id="rally-close-btn" type="button">
+        Terminer le rallye
+      </button>
+    </div>
+  </div>
 
   <script>
        const STORAGE_KEY  = "volley-team-4x4";
@@ -1537,6 +1618,282 @@
     let rallyCurrentCat = null;
     let rallyCurrentOutcome = null;
 
+// --- Mode rallye : overlay flottant (Défense + Passe) ---
+let rallyOverlayMode = "single"; // "single" | "multi"
+let rallyOverlayConfigured = false;
+
+// Les "+" de Défense et Passe peuvent rester ouverts ensemble
+const RALLY_MULTI_PLUS_CATS = ["defense", "passe"];
+
+// Actions "one-tap" : sélection joueuse => enregistrement immédiat + fermeture automatique
+const NON_RALLY_CATS = ["attaque","service","bloc","reception"];
+
+function configureRallyOverlayUI() {
+  if (rallyOverlayConfigured) return;
+
+  const overlay = document.getElementById("rally-overlay");
+  const backdrop = document.getElementById("rally-overlay-backdrop");
+  const panel = document.getElementById("rally-overlay-panel");
+  const titleHandle = document.getElementById("rally-overlay-title");
+  if (!overlay || !panel) return;
+
+  // Overlay = non bloquant (on clique à travers), panel = flottant
+  overlay.style.alignItems = "stretch";
+  overlay.style.justifyContent = "stretch";
+  overlay.style.pointerEvents = "none";
+
+  panel.style.pointerEvents = "auto";
+  panel.style.position = "fixed";
+  panel.style.maxHeight = "60vh";
+  panel.style.overflowY = "auto";
+
+  // Position par défaut (au-dessus du bandeau rallye) — modifiable par glisser-déposer
+  const POS_KEY = "stat2match_rally_panel_pos_v1";
+
+  const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
+
+  const resetPos = () => {
+    try { localStorage.removeItem(POS_KEY); } catch (e) {}
+    panel.style.left = "auto";
+    panel.style.top = "auto";
+    panel.style.right = "10px";
+    panel.style.bottom = "120px";
+  };
+
+  const loadPos = () => {
+    try {
+      const raw = localStorage.getItem(POS_KEY);
+      if (!raw) return false;
+      const pos = JSON.parse(raw);
+      if (!pos || typeof pos.left !== "number" || typeof pos.top !== "number") return false;
+      panel.style.left = pos.left + "px";
+      panel.style.top = pos.top + "px";
+      panel.style.right = "auto";
+      panel.style.bottom = "auto";
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
+
+  const ensureInViewport = () => {
+    // Si position custom en left/top, on la recale dans l'écran
+    if (panel.style.right !== "auto") return;
+
+    const rect = panel.getBoundingClientRect();
+    const maxLeft = Math.max(6, window.innerWidth - rect.width - 6);
+    const maxTop = Math.max(6, window.innerHeight - rect.height - 6);
+
+    const left = clamp(rect.left, 6, maxLeft);
+    const top = clamp(rect.top, 6, maxTop);
+
+    panel.style.left = left + "px";
+    panel.style.top = top + "px";
+  };
+
+  // 1) Position initiale
+  const hasSaved = loadPos();
+  if (!hasSaved) resetPos();
+  ensureInViewport();
+
+  // 2) On enlève le voile noir (sinon ça empêche le clic sur les boutons +/- derrière)
+  if (backdrop) {
+    backdrop.style.display = "none";
+    backdrop.style.pointerEvents = "none";
+  }
+
+  // 3) Drag & drop du panel via le titre (handle)
+  if (titleHandle && !titleHandle.dataset.dragInit) {
+    titleHandle.dataset.dragInit = "1";
+
+    let dragging = false;
+    let startX = 0;
+    let startY = 0;
+    let startLeft = 0;
+    let startTop = 0;
+    let panelW = 0;
+    let panelH = 0;
+
+    const onMove = (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+
+      const maxLeft = Math.max(6, window.innerWidth - panelW - 6);
+      const maxTop = Math.max(6, window.innerHeight - panelH - 6);
+
+      const left = clamp(startLeft + dx, 6, maxLeft);
+      const top = clamp(startTop + dy, 6, maxTop);
+
+      panel.style.left = left + "px";
+      panel.style.top = top + "px";
+    };
+
+    const endDrag = () => {
+      if (!dragging) return;
+      dragging = false;
+      panel.classList.remove("rally-dragging");
+      try {
+        const rect = panel.getBoundingClientRect();
+        localStorage.setItem(POS_KEY, JSON.stringify({ left: rect.left, top: rect.top }));
+      } catch (e) {}
+    };
+
+    titleHandle.addEventListener("pointerdown", (e) => {
+      // uniquement bouton principal souris / touch
+      if (typeof e.button === "number" && e.button !== 0) return;
+
+      const rect = panel.getBoundingClientRect();
+      startX = e.clientX;
+      startY = e.clientY;
+      startLeft = rect.left;
+      startTop = rect.top;
+      panelW = rect.width;
+      panelH = rect.height;
+
+      panel.style.left = startLeft + "px";
+      panel.style.top = startTop + "px";
+      panel.style.right = "auto";
+      panel.style.bottom = "auto";
+
+      dragging = true;
+      panel.classList.add("rally-dragging");
+
+      try { titleHandle.setPointerCapture(e.pointerId); } catch (err) {}
+      e.preventDefault();
+    });
+
+    window.addEventListener("pointermove", onMove, { passive: false });
+    window.addEventListener("pointerup", endDrag);
+    window.addEventListener("pointercancel", endDrag);
+
+    // Double-clic (ou double tap sur desktop) : reset position
+    titleHandle.addEventListener("dblclick", (e) => {
+      e.preventDefault();
+      resetPos();
+    });
+
+    // Sur resize/orientation : recaler dans l'écran
+    window.addEventListener("resize", () => {
+      ensureInViewport();
+    });
+  }
+
+  rallyOverlayConfigured = true;
+}
+
+function setRallyCloseVisible(isVisible) {
+  const btn = document.getElementById("rally-close-btn");
+  if (!btn) return;
+  btn.style.display = isVisible ? "block" : "none";
+}
+
+function isRallyOverlayVisible() {
+  const overlay = document.getElementById("rally-overlay");
+  if (!overlay) return false;
+  return overlay.style.display === "flex";
+}
+
+function isRallyMultiOpen() {
+  return isRallyOverlayVisible() && rallyOverlayMode === "multi";
+}
+
+function openRallyOverlayMultiDefensePasse() {
+  configureRallyOverlayUI();
+
+  setRallyCloseVisible(true);
+
+  const overlay = document.getElementById("rally-overlay");
+  const titleEl = document.getElementById("rally-overlay-title");
+  const hintEl = document.getElementById("rally-overlay-hint");
+  const listEl = document.getElementById("rally-player-list");
+  if (!overlay || !titleEl || !hintEl || !listEl) return;
+
+  // Si déjà ouvert en multi, on ne rebuild pas (on garde les compteurs visuels)
+  if (isRallyMultiOpen()) {
+    overlay.style.display = "flex";
+    return;
+  }
+
+  rallyOverlayMode = "multi";
+  rallyCurrentCat = null;
+  rallyCurrentOutcome = null;
+
+  titleEl.textContent = "Rallye : Défense + Passe";
+  hintEl.textContent =
+    "Tu peux enregistrer Défense et Passe dans le même rallye. " +
+    "Les 2 menus '+' restent ouverts. Clique sur n’importe quel '-' pour terminer et noter la faute.";
+
+  // Construction : 2 sections (Défense + / Passe +)
+  listEl.innerHTML = "";
+  listEl.style.display = "block";
+
+  const onCourt = getOnCourtPlayers();
+  if (onCourt.length === 0) {
+    const msg = document.createElement("div");
+    msg.textContent = "Aucune joueuse sur le terrain. Renseigne les 4 postes.";
+    msg.style.fontSize = "12px";
+    msg.style.color = "#f88";
+    listEl.appendChild(msg);
+  } else {
+    const mkSection = (label, cat) => {
+      const sec = document.createElement("div");
+      sec.style.marginBottom = "10px";
+
+      const h = document.createElement("div");
+      h.textContent = label + " (+)";
+      h.style.fontSize = "12px";
+      h.style.fontWeight = "600";
+      h.style.margin = "6px 0 6px";
+      h.style.color = "#ddd";
+
+      const sub = document.createElement("div");
+      sub.style.display = "flex";
+      sub.style.flexWrap = "wrap";
+      sub.style.gap = "6px";
+
+      onCourt.forEach((p) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "rally-player-btn";
+
+        const numSpan = document.createElement("span");
+        numSpan.textContent = p.number || "-";
+
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = p.name || "";
+
+        const countSpan = document.createElement("span");
+        countSpan.className = "rally-count";
+        countSpan.textContent = "";
+
+        btn.appendChild(numSpan);
+        btn.appendChild(nameSpan);
+        btn.appendChild(countSpan);
+
+        let count = 0;
+        btn.addEventListener("click", () => {
+          addRallyStat(p.id, cat, true);
+          count++;
+          countSpan.textContent = count > 0 ? " x" + count : "";
+        });
+
+        sub.appendChild(btn);
+      });
+
+      sec.appendChild(h);
+      sec.appendChild(sub);
+      return sec;
+    };
+
+    listEl.appendChild(mkSection("Défense", "defense"));
+    listEl.appendChild(mkSection("Passe", "passe"));
+  }
+
+  overlay.style.display = "flex";
+}
+
+
     function getOnCourtPlayers() {
       const ids = getSelectedIds();
       const idSet = new Set(ids.filter(Boolean));
@@ -1553,6 +1910,28 @@
     }
 
     function openRallyOverlay(cat, outcome) {
+  // Compat : on garde l’appel unique openRallyOverlay(cat, outcome) depuis les boutons.
+  // Nouveau comportement :
+  // - Les "+" de Défense et Passe peuvent rester ouverts en même temps (même rallye).
+  // - L’overlay devient un "menu flottant" non bloquant pour pouvoir cliquer sur les "-" derrière.
+  configureRallyOverlayUI();
+
+  const autoClose = (outcome === "minus") || NON_RALLY_CATS.includes(cat);
+
+  // 🔹 Mode spécial : Défense + Passe en simultané (menus "+")
+  if (outcome === "plus" && RALLY_MULTI_PLUS_CATS.includes(cat)) {
+    openRallyOverlayMultiDefensePasse();
+    return;
+  }
+
+  setRallyCloseVisible(!autoClose);
+
+  // Si on sort du multi, on ferme/repasse en single
+  if (isRallyMultiOpen()) {
+    closeRallyOverlay();
+  }
+
+  rallyOverlayMode = "single";
   rallyCurrentCat = cat;
   rallyCurrentOutcome = outcome;
 
@@ -1561,7 +1940,7 @@
   const hintEl = document.getElementById("rally-overlay-hint");
   const listEl = document.getElementById("rally-player-list");
 
-  if (!overlay || !titleEl || !listEl) return;
+  if (!overlay || !titleEl || !hintEl || !listEl) return;
 
   const labelMap = {
     attaque: "Attaque",
@@ -1571,16 +1950,16 @@
     defense: "Défense",
     passe: "Passe"
   };
-  const outcomeLabel = outcome === "plus"
-    ? "point gagné"
-    : "faute / point perdu";
+  const outcomeLabel = outcome === "plus" ? "point gagné" : "faute / point perdu";
 
   titleEl.textContent = labelMap[cat] || cat;
-  hintEl.textContent =
-    "Tape sur le ou les noms pour ajouter " + outcomeLabel + " sur ce rallye.";
+  hintEl.textContent = autoClose
+    ? "Choisis la joueuse : l’action est enregistrée et la fenêtre se ferme automatiquement."
+    : ("Tape sur le ou les noms pour ajouter " + outcomeLabel + " sur ce rallye.");
 
-  // On vide la liste et on recrée les boutons
+  // On rebascule la zone en mode liste simple
   listEl.innerHTML = "";
+  listEl.style.display = "flex";
 
   const onCourt = getOnCourtPlayers();
   if (onCourt.length === 0) {
@@ -1613,6 +1992,11 @@
       btn.addEventListener("click", () => {
         const isPlus = outcome === "plus";
         addRallyStat(p.id, cat, isPlus);
+
+        if (autoClose) {
+          closeRallyOverlay();
+          return;
+        }
         count++;
         countSpan.textContent = count > 0 ? " x" + count : "";
       });
@@ -1626,13 +2010,14 @@
 
 
     function closeRallyOverlay() {
-      const overlay = document.getElementById("rally-overlay");
-      if (overlay) {
-        overlay.style.display = "none";
-      }
-      rallyCurrentCat = null;
-      rallyCurrentOutcome = null;
-    }
+  const overlay = document.getElementById("rally-overlay");
+  const listEl = document.getElementById("rally-player-list");
+  if (overlay) overlay.style.display = "none";
+  if (listEl) listEl.innerHTML = "";
+  rallyCurrentCat = null;
+  rallyCurrentOutcome = null;
+  rallyOverlayMode = "single";
+}
 
     /* --------- stockage scores sets ---------- */
     function loadSetScores() {
@@ -1681,6 +2066,285 @@
       if (!opponentStats[setNumber]) opponentStats[setNumber] = createEmptyOpponentStats();
       return opponentStats[setNumber];
     }
+    /* --------- DASHBOARD : comparatif + distinctions auto + partage/impression ---------- */
+
+    function getPlayerMatchAgg(playerId) {
+      const bySet = stats[playerId] || {};
+      const out = {
+        plus: 0,
+        minus: 0,
+        delta: 0,
+        byCatPlus: {},
+        byCatMinus: {}
+      };
+      STAT_CATEGORIES.forEach(cat => {
+        out.byCatPlus[cat] = 0;
+        out.byCatMinus[cat] = 0;
+      });
+
+      for (const sn in bySet) {
+        const s = bySet[sn] || {};
+        STAT_CATEGORIES.forEach(cat => {
+          const p = Number(s[cat + "Plus"] || 0);
+          const m = Number(s[cat + "Minus"] || 0);
+          out.byCatPlus[cat] += p;
+          out.byCatMinus[cat] += m;
+          out.plus += p;
+          out.minus += m;
+        });
+      }
+      out.delta = out.plus - out.minus;
+      return out;
+    }
+
+    function suggestAwardsFromCurrentMatch() {
+      // candidates = joueuses cochées "dans l'effectif du match" (ou toutes si la propriété n'existe pas)
+      const candidates = players.filter(p => p && p.id).filter(p => (p.inMatch !== false));
+
+      let bestSupport = null; // {id, score}
+      let bestBlock   = null; // {id, score}
+      let bestMVP     = null; // {id, score}
+
+      candidates.forEach(p => {
+        const agg = getPlayerMatchAgg(p.id);
+
+        const supportScore = (agg.byCatPlus.defense || 0) + (agg.byCatPlus.reception || 0);
+        const blockScore   = (agg.byCatPlus.bloc || 0);
+        const mvpScore     = agg.plus;
+
+        if (!bestSupport || supportScore > bestSupport.score) bestSupport = { id: p.id, score: supportScore, agg };
+        if (!bestBlock   || blockScore   > bestBlock.score)   bestBlock   = { id: p.id, score: blockScore,   agg };
+
+        // MVP => plus grand nombre d'actions positives, delta obligatoirement > 0
+        if (agg.delta > 0) {
+          if (!bestMVP || mvpScore > bestMVP.score) bestMVP = { id: p.id, score: mvpScore, agg };
+        }
+      });
+
+      return { bestSupport, bestBlock, bestMVP };
+    }
+
+    function applyAwardsAutofill() {
+      const { bestSupport, bestBlock, bestMVP } = suggestAwardsFromCurrentMatch();
+
+      const mvpSelect     = document.getElementById("select-mvp");
+      const supportSelect = document.getElementById("select-best-support");
+      const blockSelect   = document.getElementById("select-best-block");
+
+      const mvpHint     = document.getElementById("mvp-suggestion");
+      const supportHint = document.getElementById("support-suggestion");
+      const blockHint   = document.getElementById("block-suggestion");
+
+      const fmtPlayer = (id) => {
+        const p = players.find(x => x.id === id);
+        if (!p) return "";
+        return (p.number ? "#" + p.number + " " : "") + (p.name || "");
+      };
+
+      if (mvpSelect) mvpSelect.value = bestMVP ? bestMVP.id : "";
+      if (supportSelect) supportSelect.value = bestSupport ? bestSupport.id : "";
+      if (blockSelect) blockSelect.value = bestBlock ? bestBlock.id : "";
+
+      if (mvpHint) {
+        if (!bestMVP) {
+          mvpHint.textContent = "Suggestion auto : aucune (personne n’a un delta > 0 pour l’instant).";
+        } else {
+          mvpHint.textContent =
+            "Suggestion auto : " + fmtPlayer(bestMVP.id) +
+            " — Actions + : " + bestMVP.agg.plus + " | Actions - : " + bestMVP.agg.minus + " | Δ " + bestMVP.agg.delta;
+        }
+      }
+      if (supportHint && bestSupport) {
+        supportHint.textContent =
+          "Suggestion auto : " + fmtPlayer(bestSupport.id) +
+          " — Défense+ (" + (bestSupport.agg.byCatPlus.defense||0) + ") + Récep+ (" + (bestSupport.agg.byCatPlus.reception||0) + ") = " + bestSupport.score;
+      }
+      if (blockHint && bestBlock) {
+        blockHint.textContent =
+          "Suggestion auto : " + fmtPlayer(bestBlock.id) +
+          " — Bloc+ : " + bestBlock.score;
+      }
+    }
+
+    function buildDashboardShareText(setNumber) {
+      setNumber = setNumber || currentSet;
+
+      const score = getSetScore(setNumber);
+      const os = getOpponentSetStats(setNumber);
+
+      // --- Totaux équipe sur le set ---
+      const acc = {};
+      STAT_CATEGORIES.forEach(cat => {
+        acc[cat + "Plus"] = 0;
+        acc[cat + "Minus"] = 0;
+      });
+
+      let totalPlus = 0;   // Att + Serv + Bloc
+      let totalMinus = 0;  // fautes (toutes catégories "FAULT_CATEGORIES")
+
+      for (const pid in stats) {
+        const s = (stats[pid] && stats[pid][setNumber]) ? stats[pid][setNumber] : null;
+        if (!s) continue;
+
+        STAT_CATEGORIES.forEach(cat => {
+          const p = Number(s[cat + "Plus"] || 0);
+          const m = Number(s[cat + "Minus"] || 0);
+
+          acc[cat + "Plus"] += p;
+          acc[cat + "Minus"] += m;
+
+          if (POINT_CATEGORIES.includes(cat)) totalPlus += p;
+          if (FAULT_CATEGORIES.includes(cat)) totalMinus += m;
+        });
+      }
+
+      const namesMap = {
+        attaque: "Attaque",
+        service: "Service",
+        bloc: "Bloc",
+        reception: "Réception",
+        defense: "Défense",
+        passe: "Passe"
+      };
+
+      const sepFor = (cat) => (cat === "reception" || cat === "defense" || cat === "passe")
+        ? "fautes / réussies"
+        : "perdus / marqués";
+
+      // --- Comparatif Nous vs Eux ---
+      const ourPos = (acc.attaquePlus||0) + (acc.servicePlus||0) + (acc.blocPlus||0);
+      const ourNeg = totalMinus;
+
+      const oppPos = (os.servicePlus||0) + (os.blocPlus||0) + (os.pointsPlus||0);
+      const oppNeg = (os.serviceMinus||0) + (os.cadeauxPlus||0) + (os.pointsMinus||0);
+
+      const pct = (num, den) => {
+        const d = Number(den || 0);
+        if (!d || d <= 0) return "0%";
+        return Math.round((Number(num || 0) / d) * 100) + "%";
+      };
+
+      const ourTeam = getOurTeamName() || "Nous";
+      const oppTeam = getOppTeamName() || "Eux";
+
+      // --- Distinctions (sélection + suggestion auto) ---
+      const { bestSupport, bestBlock, bestMVP } = suggestAwardsFromCurrentMatch();
+
+      const fmtPlayer = (id) => {
+        if (!id) return "—";
+        const p = players.find(x => x.id === id);
+        if (!p) return String(id);
+        return (p.number ? "#" + p.number + " " : "") + (p.name || "");
+      };
+
+      const selMVP = (document.getElementById("select-mvp") || {}).value || "";
+      const selBlock = (document.getElementById("select-best-block") || {}).value || "";
+      const selSupport = (document.getElementById("select-best-support") || {}).value || "";
+
+      // --- Texte complet (doit refléter le tableau de bord) ---
+      const lines = [];
+      lines.push("📊 Stat2Match – Tableau de bord (set " + setNumber + ")");
+      lines.push(ourTeam + " " + (score.nous||0) + " - " + (score.eux||0) + " " + oppTeam);
+      lines.push("");
+
+      lines.push("🟦 Nos stats (set " + setNumber + ")");
+      STAT_CATEGORIES.forEach(cat => {
+        const label = namesMap[cat] || cat;
+        lines.push(label + " : " + (acc[cat+"Minus"]||0) + " " + sepFor(cat) + " " + (acc[cat+"Plus"]||0));
+      });
+      lines.push("TOTAL (impact score) : " + totalMinus + " fautes / " + totalPlus + " points marqués (Att + Serv + Bloc)");
+      lines.push("");
+
+      lines.push("🟥 Stats adverses (set " + setNumber + ")");
+      lines.push("Services : " + (os.serviceMinus||0) + " fautes / " + (os.servicePlus||0) + " points");
+      lines.push("Bloc : " + (os.blocPlus||0) + " points");
+      lines.push("Cadeaux (points offerts) : " + (os.cadeauxPlus||0) + " points pour nous");
+      lines.push("Points (hors service) : " + (os.pointsMinus||0) + " pour nous / " + (os.pointsPlus||0) + " pour eux");
+      lines.push("");
+
+      lines.push("🟨 Comparatif – Nous vs Eux (set " + setNumber + ")");
+      lines.push("Actions positives : " + ourPos + " (nous) | " + oppPos + " (" + oppTeam + ")");
+      lines.push("Actions négatives : " + ourNeg + " (nous) | " + oppNeg + " (" + oppTeam + ")");
+      lines.push("Impact fautes : " + ourNeg + " (nous) | " + oppNeg + " (" + oppTeam + ")");
+      lines.push("Impact global : " + pct(ourPos, ourPos + ourNeg) + " de nos points / " + pct(oppNeg, oppPos + oppNeg) + " des points adverses (sur nos fautes)");
+      lines.push("");
+
+      lines.push("🏅 Distinctions du match");
+      lines.push("MVP : " + fmtPlayer(selMVP) + " | suggestion auto : " + (bestMVP ? fmtPlayer(bestMVP.id) + " (Δ " + bestMVP.delta + ")" : "—"));
+      lines.push("Meilleur·e bloqueur·euse : " + fmtPlayer(selBlock) + " | suggestion auto : " + (bestBlock ? fmtPlayer(bestBlock.id) : "—"));
+      lines.push("Meilleur soutien : " + fmtPlayer(selSupport) + " | suggestion auto : " + (bestSupport ? fmtPlayer(bestSupport.id) : "—"));
+      lines.push("");
+      lines.push("Export généré le " + new Date().toLocaleString());
+
+      return lines.join("\n");
+    }
+
+    function printDashboardNow() {
+      const txt = buildDashboardShareText(currentSet);
+      const w = window.open("", "_blank");
+      if (!w) {
+        alert("Impossible d’ouvrir la fenêtre d’impression (popup bloquée).");
+        return;
+      }
+      w.document.open();
+      w.document.write(
+        "<!doctype html><html><head><meta charset='utf-8'><title>Tableau de bord</title>" +
+        "<meta name='viewport' content='width=device-width,initial-scale=1'/>" +
+        "<style>body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;padding:18px}h1{margin:0 0 10px}pre{white-space:pre-wrap;font-size:13px;line-height:1.35;border:1px solid #ddd;border-radius:8px;padding:12px}</style>" +
+        "</head><body>" +
+        "<h1>Stat2Match – Tableau de bord</h1>" +
+        "<pre>" + (txt.replace(/</g,"&lt;").replace(/>/g,"&gt;")) + "</pre>" +
+        "" +
+        "</body></html>"
+      );
+      w.document.close();
+    
+      try { w.focus(); } catch(e) {}
+      setTimeout(() => { try { w.print(); } catch(e) {} }, 250);
+}
+
+    async function shareDashboardNow() {
+      const txt = buildDashboardShareText(currentSet);
+      try {
+        if (navigator.share) {
+          await navigator.share({ title: "Stat2Match – Tableau de bord", text: txt });
+          return;
+        }
+      } catch (e) {
+        // si l'utilisateur annule, on ne fait rien
+        return;
+      }
+      // fallback : copie
+      try {
+        await navigator.clipboard.writeText(txt);
+        alert("Tableau de bord copié.");
+      } catch (e) {
+        prompt("Copie ce tableau de bord :", txt);
+      }
+    }
+
+    function shareDashboardWhatsApp() {
+      const txt = buildDashboardShareText(currentSet);
+      const url = "https://wa.me/?text=" + encodeURIComponent(txt);
+      window.open(url, "_blank");
+    }
+
+    function shareDashboardTelegram() {
+      const txt = buildDashboardShareText(currentSet);
+      const url = "https://t.me/share/url?url=&text=" + encodeURIComponent(txt);
+      window.open(url, "_blank");
+    }
+
+    async function copyDashboardNow() {
+      const txt = buildDashboardShareText(currentSet);
+      try {
+        await navigator.clipboard.writeText(txt);
+        alert("Résumé du tableau de bord copié.");
+      } catch (e) {
+        prompt("Copie ce résumé :", txt);
+      }
+    }
+
 
     /* --------- historique ---------- */
     function loadHistory() {
@@ -2546,6 +3210,11 @@ function getCourtAssignments() {
           const type = btn.dataset.type;
           const row = btn.closest(".stat-row");
           const cat = row.dataset.ocat;
+          // 🔹 Fin auto du rallye si tu valides un point adverse au bloc ou "hors service"
+          // (ex: on avait Défense/Passe ouverts, puis l’adversaire marque).
+          if (cat === "bloc" || cat === "points") {
+            closeRallyOverlay();
+          }
           const key = cat + (type === "plus" ? "Plus" : "Minus");
           s[key] = (s[key] || 0) + 1;
           saveOpponentStats();
@@ -2916,27 +3585,92 @@ function initStatsControls() {
 
       document.getElementById("dash-team-set-label").textContent = currentSet;
 
-            const os = getOpponentSetStats(currentSet);
+            
+      const os = getOpponentSetStats(currentSet);
+      const elSetLabel = document.getElementById("dash-opp-set-label");
+      if (elSetLabel) elSetLabel.textContent = currentSet;
 
-      const elServFautes = document.getElementById("dash-opp-service-fautes");
-      const elServPts    = document.getElementById("dash-opp-service-points");
-      const elBlocPts    = document.getElementById("dash-opp-bloc-points");
-      const elCad        = document.getElementById("dash-opp-cadeaux");
-      const elPNous      = document.getElementById("dash-opp-points-pourNous");
-      const elPEux       = document.getElementById("dash-opp-points-pourEux");
-      const elSetLabel   = document.getElementById("dash-opp-set-label");
+      // --- Bloc "Stats adverses"
+      const oppBody = document.getElementById("dash-opponent-body");
+      if (oppBody) {
+        oppBody.innerHTML = "";
+
+        const mkRow = (label, value) => {
+          const r = document.createElement("div");
+          r.className = "stat-row";
+          const l = document.createElement("div");
+          l.className = "stat-label";
+          l.textContent = label;
+          const v = document.createElement("div");
+          v.style.fontWeight = "600";
+          v.textContent = value;
+          r.appendChild(l);
+          r.appendChild(v);
+          return r;
+        };
+
+        oppBody.appendChild(mkRow("Services", (os.serviceMinus||0) + " fautes / " + (os.servicePlus||0) + " points"));
+        oppBody.appendChild(mkRow("Bloc", (os.blocPlus||0) + " points"));
+        oppBody.appendChild(mkRow("Cadeaux (points offerts)", (os.cadeauxPlus||0) + " points pour nous"));
+        oppBody.appendChild(mkRow("Points (hors service)", (os.pointsMinus||0) + " pour nous / " + (os.pointsPlus||0) + " pour eux"));
+      }
+
+      // --- Comparatif Nous vs Eux (set courant)
+      const compareBody = document.getElementById("dash-compare-body");
+      if (compareBody) {
+        compareBody.innerHTML = "";
+
+        const ourPos = (acc.attaquePlus||0) + (acc.servicePlus||0) + (acc.blocPlus||0);
+        const ourNeg = totalMinus;
+
+        const oppPos = (os.servicePlus||0) + (os.blocPlus||0) + (os.pointsPlus||0);
+        const oppNeg = (os.serviceMinus||0) + (os.cadeauxPlus||0) + (os.pointsMinus||0);
+
+        const pct = (num, den) => {
+          if (!den || den <= 0) return "0%";
+          return Math.round((num/den)*100) + "%";
+        };
+
+        const addCompare = (label, left, right, subLeft, subRight) => {
+          const r = document.createElement("div");
+          r.className = "compare-row";
+
+          const l = document.createElement("div");
+          l.className = "compare-label";
+          l.textContent = label;
+
+          const v = document.createElement("div");
+          v.className = "compare-values";
+          v.innerHTML = (left + "  |  " + right);
+
+          if (subLeft || subRight) {
+            const s = document.createElement("span");
+            s.className = "compare-sub";
+            s.textContent = (subLeft||"") + (subLeft && subRight ? " — " : "") + (subRight||"");
+            v.appendChild(s);
+          }
+
+          r.appendChild(l);
+          r.appendChild(v);
+          compareBody.appendChild(r);
+        };
+
+        addCompare("Score", (getOurTeamName()||"Nous") + " " + (score.nous||0), (getOppTeamName()||"Eux") + " " + (score.eux||0));
+        addCompare("Actions positives", ourPos, oppPos, "Nous : attaque+ + service+ + bloc+", "Eux : (services+ + bloc+ + points hors service +)");
+        addCompare("Actions négatives", ourNeg, oppNeg, "Notre déchet (toutes catégories -)", "Leurs fautes estimées (service fautes + cadeaux + points pour nous)");
+        addCompare("Impact fautes", pct(ourNeg, (score.eux||0)), pct(oppNeg, (score.nous||0)),
+          "% des points adverses venant de nos fautes (approx.)",
+          "% de nos points venant de leurs fautes (approx.)"
+        );
+      }
+
+      // Total de nos fautes (sert aussi au commentaire)
       const elTotFautes  = document.getElementById("dash-total-fautes-pour-eux");
+      if (elTotFautes) elTotFautes.textContent = totalMinus;
 
-      if (elServFautes) elServFautes.textContent = os.serviceMinus || 0;
-      if (elServPts)    elServPts.textContent    = os.servicePlus  || 0;
-      if (elBlocPts)    elBlocPts.textContent    = os.blocPlus     || 0;
-      if (elCad)        elCad.textContent        = os.cadeauxPlus  || 0;
-      if (elPNous)      elPNous.textContent      = os.pointsMinus  || 0;
-      if (elPEux)       elPEux.textContent       = os.pointsPlus   || 0;
-      if (elSetLabel)   elSetLabel.textContent   = currentSet;
+      // Distinctions : préremplissage automatique selon les stats du match
+      applyAwardsAutofill();
 
-      const totalFautesPourEux = totalMinus;
-      if (elTotFautes) elTotFautes.textContent = totalFautesPourEux;
 
     }
 
@@ -3656,7 +4390,38 @@ function computeOurTeamTotalsFromSnapshot(statsSnapshot) {
         display: none;
       }
     }
-  </style>
+  
+
+    /* --------- DASHBOARD : meilleure lisibilité (codes couleurs) ---------- */
+    #dash-score-box,
+    #dash-team-summary,
+    #dash-opponent-summary,
+    #dash-compare-summary,
+    #match-awards{
+      border-radius:12px;
+      margin:10px 0;
+      padding:10px 12px;
+      border:1px solid rgba(255,255,255,.10);
+    }
+    #dash-score-box{ border-left:6px solid #f49a1e; background: rgba(244,154,30,.10); }
+    #dash-team-summary{ border-left:6px solid #4992db; background: rgba(73,146,219,.12); }
+    #dash-opponent-summary{ border-left:6px solid #ec4f21; background: rgba(236,79,33,.12); }
+    #dash-compare-summary{ border-left:6px solid #9ece09; background: rgba(158,206,9,.10); }
+    #match-awards{ border-left:6px solid #b36bff; background: rgba(179,107,255,.10); }
+
+    #dash-team-summary h3,
+    #dash-opponent-summary h3,
+    #dash-compare-summary h3,
+    #match-awards h3{
+      margin-top:0;
+    }
+
+    /* boutons d'action dashboard */
+    .dash-action-btn{
+      border:1px solid rgba(255,255,255,.18);
+    }
+
+</style>
 </head>
 <body>
   <button class="print-btn" onclick="window.print()">Imprimer / Exporter en PDF</button>
@@ -3734,6 +4499,22 @@ function computeOurTeamTotalsFromSnapshot(statsSnapshot) {
       document.getElementById("dashboard-container").style.display = "block";
       renderDashboard();
     });
+
+    const btnDashPrint = document.getElementById("btn-dashboard-print");
+    if (btnDashPrint) btnDashPrint.addEventListener("click", printDashboardNow);
+
+    const btnDashShare = document.getElementById("btn-dashboard-share");
+    if (btnDashShare) btnDashShare.addEventListener("click", shareDashboardNow);
+
+    const btnDashCopy = document.getElementById("btn-dashboard-copy");
+    if (btnDashCopy) btnDashCopy.addEventListener("click", copyDashboardNow);
+
+    const btnDashWA = document.getElementById("btn-dashboard-wa");
+    if (btnDashWA) btnDashWA.addEventListener("click", shareDashboardWhatsApp);
+
+    const btnDashTG = document.getElementById("btn-dashboard-tg");
+    if (btnDashTG) btnDashTG.addEventListener("click", shareDashboardTelegram);
+
 
     document.getElementById("btn-back-from-dashboard").onclick = () => {
       document.getElementById("dashboard-container").style.display = "none";
@@ -3838,13 +4619,19 @@ function computeOurTeamTotalsFromSnapshot(statsSnapshot) {
   }
 
   // Mode rallye : boutons d'action
-  document.querySelectorAll(".rally-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const cat = btn.dataset.skill;
-      const outcome = btn.dataset.outcome;
-      openRallyOverlay(cat, outcome);
-    });
+document.querySelectorAll(".rally-btn").forEach(btn => {
+  btn.addEventListener("click", (e) => {
+    const cat = btn.dataset.skill;
+    const outcome = btn.dataset.outcome;
+
+    // Si les menus "+" (Défense/Passe) sont ouverts, n'importe quel "-" les termine avant d'enregistrer la faute.
+    if (outcome === "minus" && isRallyMultiOpen()) {
+      closeRallyOverlay();
+    }
+
+    openRallyOverlay(cat, outcome);
   });
+});
 
   // Fermeture overlay rallye
   const rallyOverlay = document.getElementById("rally-overlay");
@@ -3870,21 +4657,6 @@ function computeOurTeamTotalsFromSnapshot(statsSnapshot) {
    });
  
 </script>
-
-  <!-- OVERLAY RALLYE : LISTE DES JOUEUSES SUR LE TERRAIN -->
-  <div id="rally-overlay">
-    <div id="rally-overlay-backdrop"></div>
-    <div id="rally-overlay-panel">
-      <h3 id="rally-overlay-title">Action</h3>
-      <p id="rally-overlay-hint">
-        Tape sur le ou les noms pour ajouter l’action à ce rallye.
-      </p>
-      <div id="rally-player-list"></div>
-      <button id="rally-close-btn" type="button">
-        Terminer le rallye
-      </button>
-    </div>
-  </div>
 
   <div id="app-signature">
     © Coach Eddy Takougang · stat2match-volley
