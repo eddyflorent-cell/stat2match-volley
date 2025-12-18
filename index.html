@@ -895,6 +895,147 @@
       font-size: 13px;
       cursor: pointer;
     }
+  
+/* ===========================
+   TUTORIEL "FUNKY" (4x4)
+   =========================== */
+.help-wrap { padding: 12px; }
+.help-back{
+  border: 1px solid #29b6f6;
+  background:#0f141a;
+  color:#7ad1ff;
+  border-radius: 999px;
+  padding: 7px 12px;
+  cursor:pointer;
+  margin-bottom:10px;
+}
+.help-hero{
+  background: radial-gradient(1200px 600px at 20% 0%, rgba(0,119,255,0.25), transparent 60%),
+              radial-gradient(900px 500px at 90% 10%, rgba(0,230,118,0.20), transparent 55%),
+              linear-gradient(180deg, #15171b, #101114);
+  border: 1px solid #2c2f36;
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+  margin-bottom: 12px;
+}
+.help-hero-top{ display:flex; gap:12px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; }
+.help-title{ margin:0; font-size: 22px; letter-spacing: 0.2px; }
+.help-sub{ margin:4px 0 0; color:#c6c9d1; font-size: 13px; }
+.help-badges{ display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-end; }
+.help-badge{
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #2c2f36;
+  background:#0f1012;
+  color:#eaeaea;
+  white-space: nowrap;
+}
+.help-badge.b-blue{ border-color: rgba(0,119,255,0.55); color:#9fc6ff; }
+.help-badge.b-green{ border-color: rgba(0,230,118,0.55); color:#98ffcd; }
+.help-badge.b-orange{ border-color: rgba(255,179,0,0.55); color:#ffd38a; }
+.help-badge.b-purple{ border-color: rgba(142,36,170,0.55); color:#e5b6ff; }
+
+.help-hero-note{
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.06);
+  color:#dde2ee;
+  font-size: 13px;
+  line-height: 1.35;
+}
+.help-hero-note span{ color:#b9c0d3; }
+
+.help-grid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+@media (min-width: 760px){
+  .help-grid{ grid-template-columns: 1fr 1fr; }
+  .help-grid.help-grid-2{ grid-template-columns: 1fr 1fr; }
+}
+.help-card{
+  background: linear-gradient(180deg, #17181c, #121317);
+  border: 1px solid #2c2f36;
+  border-radius: 16px;
+  padding: 12px 12px 10px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.28);
+  position: relative;
+  overflow: hidden;
+}
+.help-card::before{
+  content:"";
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width: 5px;
+  background: #3a3d45;
+  opacity: 0.9;
+}
+.help-card.c-blue::before{ background:#0077ff; }
+.help-card.c-green::before{ background:#00e676; }
+.help-card.c-orange::before{ background:#ffb300; }
+.help-card.c-purple::before{ background:#8e24aa; }
+.help-card.c-slate::before{ background:#29b6f6; }
+.help-card.c-pink::before{ background:#ff4f8b; }
+.help-card.c-dark::before{ background:#666; }
+
+.help-card-head{ display:flex; gap:10px; align-items:center; margin-bottom: 6px; }
+.help-card-head h3{ margin:0; font-size: 16px; }
+.help-step{
+  width: 28px; height: 28px;
+  border-radius: 10px;
+  display:flex; align-items:center; justify-content:center;
+  font-weight: 800;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  color:#fff;
+  flex: 0 0 auto;
+}
+.help-list{ margin: 6px 0 0; padding-left: 16px; color:#d9dbe2; font-size: 13px; line-height: 1.35; }
+.help-list li{ margin: 6px 0; }
+.help-callout{
+  margin: 10px 0 8px;
+  padding: 10px 10px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.22);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.help-callout.small{ margin-top: 8px; }
+.help-callout-title{ font-weight: 800; font-size: 13px; color:#fff; margin-bottom: 4px; }
+.help-callout-text{ margin:0; font-size: 13px; color:#cfd3df; }
+
+.help-split{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+@media (min-width: 760px){
+  .help-split{ grid-template-columns: 1fr 1fr; }
+}
+.help-mini{
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.18);
+  border-radius: 12px;
+  padding: 10px;
+}
+.help-mini-title{ font-weight: 800; font-size: 13px; margin-bottom: 6px; }
+.help-mini-list{ margin: 0; padding-left: 16px; color:#d9dbe2; font-size: 13px; }
+.help-mini-list li{ margin: 5px 0; }
+.help-footnote{ margin: 8px 0 0; font-size: 12px; color:#b6bdd2; }
+.help-last{ margin-top: 2px; }
+.help-signature{
+  margin: 12px 0 0;
+  text-align: center;
+  color:#b9c0d3;
+  font-size: 12px;
+}
+
   </style>
 </head>
 <body>
@@ -1359,171 +1500,155 @@
   </div>
     <!-- TUTORIEL / AIDE -->
   <div class="container" id="help-container" style="display:none;">
-       <section id="help" class="no-select">
-      <button id="btn-back-from-help">← Retour au terrain</button>
-      <h2>Tutoriel rapide – stat2match-volley (v1.3)</h2>
+    <section id="help" class="no-select help-wrap">
+      <button id="btn-back-from-help" class="help-back">← Retour au terrain</button>
 
-      <p style="font-size:13px;color:#ccc;">
-        Cette page résume comment utiliser l’application en match : préparer l’effectif,
-        placer les joueur·euses, utiliser le mode <strong>rallye</strong>, gérer le score,
-        les temps morts, lire les bilans et archiver les matchs.
-      </p>
+      <div class="help-hero">
+        <div class="help-hero-top">
+          <div>
+            <h2 class="help-title">Stat2Match 4x4</h2>
+            <p class="help-sub">Le guide “match-day” : simple, rapide, sans prises de tête.</p>
+          </div>
+          <div class="help-badges">
+            <span class="help-badge b-blue">⚡ Saisie rapide</span>
+            <span class="help-badge b-green">✅ Offline-ready</span>
+            <span class="help-badge b-orange">📊 Dashboard</span>
+            <span class="help-badge b-purple">🔁 Rallye Défense/Passe</span>
+          </div>
+        </div>
 
-      <h3>1. Préparer l’effectif et l’effectif de match</h3>
-      <ul style="font-size:13px;color:#ddd;">
-        <li>Clique sur <strong>« Gérer l’effectif »</strong>.</li>
-        <li>Ajoute chaque joueur·euse : <strong>Prénom, n°, poste, licence, couleur</strong>.</li>
-        <li>La case <strong>« Dans l’effectif du match »</strong> détermine qui est disponible pour ce match :
-          seuls les joueurs cochés apparaissent sur le terrain et sur le banc.</li>
-        <li>Tu peux décocher quelqu’un (blessure, absence) : il disparaît du banc et des listes du terrain,
-          mais reste dans l’effectif général.</li>
-        <li>Tout est <strong>enregistré automatiquement</strong> dans le navigateur (même hors ligne).</li>
-      </ul>
+        <div class="help-hero-note">
+          <strong>Idée clé :</strong> tu notes les actions en 2 secondes. <br/>
+          <span>Attaque/Service/Bloc/Récep = “one‑tap”. Défense+ & Passe+ = mode rallye (enchaînement).</span>
+        </div>
+      </div>
 
-      <h3>2. Placer les joueur·euses sur le terrain et gérer le banc</h3>
-      <ul style="font-size:13px;color:#ddd;">
-        <li>Dans la zone <strong>« Terrain (4 joueuses) »</strong>, choisis une joueuse dans chaque liste déroulante
-          (Avant gauche, Avant droit, Arrière gauche, Arrière droit).</li>
-        <li>Une joueuse déjà sur le terrain ne peut pas être choisie à un autre poste :
-          elle est marquée comme déjà utilisée.</li>
-        <li>Le <strong>banc</strong> liste automatiquement tous les joueurs :
-          <ul>
-            <li>cochés « dans l’effectif du match » ;</li>
-            <li>et qui ne sont pas actuellement sur le terrain.</li>
+      <div class="help-grid">
+        <div class="help-card c-blue">
+          <div class="help-card-head">
+            <span class="help-step">1</span>
+            <h3>Avant le match</h3>
+          </div>
+          <ul class="help-list">
+            <li><strong>Gérer l’effectif</strong> → ajoute Prénom, n°, poste, licence, couleur.</li>
+            <li>Coche <strong>“Dans l’effectif du match”</strong> pour celles disponibles aujourd’hui.</li>
+            <li>Renseigne <strong>Nom équipe</strong> & <strong>Adversaire</strong> en haut.</li>
+            <li>Tout est sauvegardé automatiquement (même hors ligne).</li>
           </ul>
-        </li>
-        <li>La composition du terrain est <strong>mémorisée</strong> : si tu rafraîchis la page,
-          les postes et le banc sont récupérés depuis la sauvegarde.</li>
-      </ul>
+        </div>
 
-      <h3>3. Utiliser le bandeau « rallye » en live</h3>
-      <ul style="font-size:13px;color:#ddd;">
-        <li>Le bandeau sous le score propose 6 catégories :
-          <strong>Attaque, Service, Bloc, Récep., Défense, Passe</strong>, chacune avec <strong>+ / -</strong>.</li>
-
-        <li>À chaque clic sur <strong>+</strong> ou <strong>-</strong>, une petite fenêtre s’ouvre avec les
-          <strong>joueuses actuellement sur le terrain</strong>.</li>
-
-        <li><strong>Attaque / Service / Bloc / Récep.</strong> : tu choisis une joueuse → l’action est enregistrée →
-          la fenêtre se ferme automatiquement (pas besoin de cliquer sur « Terminer le rallye »).</li>
-
-        <li><strong>Défense + Passe</strong> : les <strong>+</strong> de Défense et de Passe peuvent rester ouverts ensemble
-          pour enregistrer plusieurs défenses et passes dans le même échange.</li>
-
-        <li><strong>Fin d’échange</strong> :
-          <ul>
-            <li>clique sur n’importe quel bouton <strong>-</strong> (dans n’importe quelle catégorie) pour enregistrer la faute / point adverse ;</li>
-            <li>ou, côté <strong>stats adverses</strong>, clique sur <strong>Bloc</strong> ou <strong>Points (hors service)</strong> (<strong>+</strong> ou <strong>-</strong>) : ça clôture aussi le rallye.</li>
+        <div class="help-card c-green">
+          <div class="help-card-head">
+            <span class="help-step">2</span>
+            <h3>Terrain & banc</h3>
+          </div>
+          <ul class="help-list">
+            <li>Choisis les 4 joueuses sur le terrain (AG, AD, ARG, ARD).</li>
+            <li>Le banc se met à jour tout seul : toutes les joueuses “match” non sur le terrain.</li>
+            <li>Astuce : clique sur une joueuse (terrain ou banc) pour ouvrir sa <strong>fiche stats</strong>.</li>
           </ul>
-          Si les menus Défense/Passe étaient ouverts, ils se ferment automatiquement.
-        </li>
+        </div>
 
-        <li><strong>Fenêtre rallye</strong> : elle est <strong>flottante</strong> et <strong>déplaçable</strong> (glisse-la par le titre).
-          Double-clic sur le titre pour <strong>réinitialiser</strong> sa position.</li>
-
-        <li>Tout est compté sur le <strong>set actif</strong> (1–5). Tu peux corriger ensuite via les stats si besoin.</li>
-      </ul>
-
-<h3>4. Voir et corriger les stats individuelles</h3>
-      <ul style="font-size:13px;color:#ddd;">
-        <li>Sur le terrain ou le banc, clique sur une joueuse pour ouvrir sa <strong>fiche stats</strong>.</li>
-        <li>Choisis le <strong>set</strong> en haut, puis utilise <strong>+ / -</strong> pour ajuster attaque,
-          service, bloc, réception, défense, passe.</li>
-        <li>Le bloc <strong>« Récap du set »</strong> affiche fautes, points, delta et impact
-          dans le set / dans le match.</li>
-        <li>Le bloc <strong>« Bilan saison (matchs archivés) »</strong> résume ses stats sur tous les matchs clos.</li>
-      </ul>
-
-      <h3>5. Gérer le score du match et les temps morts</h3>
-      <ul style="font-size:13px;color:#ddd;">
-        <li>Dans <strong>« Score du match »</strong> :
-          <ul>
-            <li>choisis le set (1 à 5) avec les boutons en haut ;</li>
-            <li>utilise <strong>+ / -</strong> pour mettre à jour le score de chaque équipe.</li>
+        <div class="help-card c-orange">
+          <div class="help-card-head">
+            <span class="help-step">3</span>
+            <h3>Score & sets</h3>
+          </div>
+          <ul class="help-list">
+            <li>Choisis le <strong>set actif</strong> (1→5) puis ajuste le score avec <strong>+ / −</strong>.</li>
+            <li>Les <strong>temps morts</strong> (tech, nous, eux) se cochent via les pastilles.</li>
+            <li>Tout ce que tu saisis est enregistré dans le <strong>set courant</strong>.</li>
           </ul>
-        </li>
-        <li>Les <strong>temps morts</strong> sont gérés dans la barre juste sous le score :
-          <ul>
-            <li><strong>TM tech.</strong> : 2 temps morts techniques communs aux deux équipes ;</li>
-            <li><strong>Temps morts nous</strong> : 2 temps morts pour ton équipe ;</li>
-            <li><strong>Temps morts eux</strong> : 2 temps morts pour l’adversaire.</li>
+        </div>
+
+        <div class="help-card c-purple">
+          <div class="help-card-head">
+            <span class="help-step">4</span>
+            <h3>Mode Rallye (Défense & Passe)</h3>
+          </div>
+
+          <div class="help-callout">
+            <div class="help-callout-title">🔁 Quand tu es “dans l’échange”</div>
+            <p class="help-callout-text">
+              Le rallye sert à enchaîner <strong>Défense+</strong> et <strong>Passe+</strong> (plusieurs fois) avant la conclusion du point.
+            </p>
+          </div>
+
+          <ul class="help-list">
+            <li><strong>Défense +</strong> ou <strong>Passe +</strong> → ouvre la fenêtre “Rallye” (flottante).</li>
+            <li>Tu peux cliquer plusieurs fois : tu empiles les actions <strong>dans le même échange</strong>.</li>
+            <li>La fenêtre est <strong>déplaçable</strong> (glisse par le titre). Double‑clic sur le titre = reset position.</li>
           </ul>
-        </li>
-        <li>Clique sur chaque <strong>pastille</strong> pour marquer un temps mort pris
-          (le compteur passe de 0/2 à 1/2, puis 2/2).</li>
-      </ul>
 
-      <h3>6. Renseigner les stats adverses</h3>
-      <ul style="font-size:13px;color:#ddd;">
-        <li>Dans la carte <strong>« Stats adversaires – [Nom] »</strong>, tu peux suivre :
-          <strong>services, bloc, cadeaux, points hors service</strong>.</li>
-        <li>Ces données alimentent le tableau de bord et le rapport final,
-          notamment pour mesurer les <strong>points offerts</strong> à l’adversaire.</li>
-      </ul>
+          <div class="help-split">
+            <div class="help-mini">
+              <div class="help-mini-title">✅ Pour terminer un rallye</div>
+              <ul class="help-mini-list">
+                <li><strong>Attaque + / Attaque −</strong></li>
+                <li><strong>Bloc + / Bloc −</strong></li>
+                <li><strong>Passe −</strong> ou <strong>Défense −</strong></li>
+                <li><strong>Point adverse</strong> via <em>Stats adverses</em> → Bloc / Points (hors service)</li>
+              </ul>
+            </div>
+            <div class="help-mini">
+              <div class="help-mini-title">⛔ Ce qui n’est pas une fin de rallye</div>
+              <ul class="help-mini-list">
+                <li><strong>Service</strong> et <strong>Réception</strong> (c’est le début du point, pas la fin de l’échange).</li>
+              </ul>
+            </div>
+          </div>
 
-      <h3>7. Utiliser le tableau de bord</h3>
-      <ul style="font-size:13px;color:#ddd;">
-        <li>Clique sur <strong>« Tableau de bord »</strong> pour ouvrir la vue synthèse.</li>
-        <li>Choisis le set en haut : tu vois alors le score, nos fautes estimées,
-          et une <strong>vue d’ensemble par secteur de jeu</strong> (attaque, service, bloc, etc.).</li>
-        <li>Le bloc <strong>« Distinctions du match »</strong> est <strong>pré-rempli automatiquement</strong> selon les stats du match
-          (tu peux toujours modifier si besoin) : <strong>MVP, meilleur·e bloqueur·euse, meilleur soutien</strong>.</li>
-        <li>Boutons en haut : <strong>Imprimer/PDF</strong>, <strong>Copier</strong>, <strong>Partager</strong> (et en direct <strong>WhatsApp</strong> / <strong>Telegram</strong>).
-          Les exports incluent toutes les sections (nos stats, stats adverses, comparatif, distinctions).</li>
-        <li>Quand tout est saisi, clique sur <strong>« Clôturer ce match et l’archiver »</strong>
-          pour enregistrer le match dans l’historique.</li>
-      </ul>
+          <p class="help-footnote">
+            Note : Attaque/Service/Bloc/Récep restent des actions “one‑tap” (tu choisis la joueuse → c’est enregistré → ça se ferme).
+          </p>
+        </div>
+      </div>
 
-      <h3>8. Historique des matchs & rapports PDF</h3>
-      <ul style="font-size:13px;color:#ddd;">
-        <li>Dans <strong>« Historique »</strong>, chaque match archivé affiche :
-          <strong>nom du match, score, adversaire, date</strong>.</li>
-        <li>Pour chaque match, tu peux :
-          <ul>
-            <li>Afficher / cacher les <strong>résumés</strong> (détaillé + court).</li>
-            <li><strong>Copier</strong> un résumé pour l’envoyer dans WhatsApp / mail.</li>
-            <li>Ouvrir une <strong>page imprimable</strong> :
-              depuis cette page tu peux imprimer ou exporter en PDF.</li>
-            <li><strong>Supprimer</strong> un match de l’historique si besoin.</li>
+      <div class="help-grid help-grid-2">
+        <div class="help-card c-slate">
+          <div class="help-card-head">
+            <span class="help-step">5</span>
+            <h3>Stats adverses</h3>
+          </div>
+          <ul class="help-list">
+            <li>Suis : <strong>Services</strong>, <strong>Bloc</strong>, <strong>Cadeaux</strong>, <strong>Points (hors service)</strong>.</li>
+            <li>Ça nourrit le comparatif “Nous vs Eux” et le rapport final.</li>
+            <li>Si un rallye est ouvert, cliquer sur <strong>Bloc</strong> ou <strong>Points (hors service)</strong> clôture l’échange.</li>
           </ul>
-        </li>
-      </ul>
+        </div>
 
-      <h3>9. Rapport individuel joueuse / joueur</h3>
-      <ul style="font-size:13px;color:#ddd;">
-        <li>Dans la fiche stats d’une joueuse, la zone
-          <strong>« Rapport individuel à partager »</strong> génère un texte prêt à envoyer.</li>
-        <li>Clique sur <strong>« Générer & copier le rapport individuel »</strong> :
-          le texte est copié, tu peux le coller dans WhatsApp, mail, etc.</li>
-        <li>Ce rapport ne concerne que la joueuse affichée : pour le bilan complet,
-          utilise l’onglet <strong>« Historique »</strong>.</li>
-      </ul>
-
-      <h3>10. Sauvegarder / partager la configuration</h3>
-      <ul style="font-size:13px;color:#ddd;">
-        <li>Dans <strong>« Effectif »</strong>, la zone <strong>« Export / import configuration »</strong> te permet de :
-          <ul>
-            <li>cliquer sur <strong>« Exporter la configuration »</strong> pour copier effectif + noms d’équipes +
-              composition du terrain ;</li>
-            <li>coller ce texte dans WhatsApp, mail ou notes ;</li>
-            <li>sur un autre appareil, coller ce texte puis cliquer sur
-              <strong>« Importer la configuration »</strong> pour retrouver la même équipe.</li>
+        <div class="help-card c-pink">
+          <div class="help-card-head">
+            <span class="help-step">6</span>
+            <h3>Tableau de bord (à partager)</h3>
+          </div>
+          <ul class="help-list">
+            <li>Vue claire : <strong>Nos stats</strong>, <strong>Stats adverses</strong>, <strong>Comparatif</strong>, <strong>Distinctions</strong>.</li>
+            <li>Les distinctions peuvent être <strong>pré‑remplies</strong> automatiquement (tu peux modifier).</li>
+            <li>Boutons : <strong>Imprimer/PDF</strong>, <strong>Partager</strong>, <strong>Copier</strong>, <strong>WhatsApp</strong>, <strong>Telegram</strong>.</li>
           </ul>
-        </li>
-      </ul>
+          <div class="help-callout small">
+            <div class="help-callout-title">📌 Astuce coaching</div>
+            <p class="help-callout-text">Partage le dashboard au groupe après chaque set : ça donne une dynamique, et ça fixe les axes de travail.</p>
+          </div>
+        </div>
+      </div>
 
-      <p style="font-size:12px;color:#888;margin-top:10px;">
-        Astuce : tu peux utiliser l’app sur un seul téléphone pendant le match, ou bien
-        partager la configuration à un adjoint (deuxième appareil) pour qu’il suive
-        les stats pendant que tu te concentres sur le coaching.
-      </p>
+      <div class="help-card c-dark help-last">
+        <div class="help-card-head">
+          <span class="help-step">7</span>
+          <h3>Historique & archivage</h3>
+        </div>
+        <ul class="help-list">
+          <li><strong>Clôturer ce match</strong> → l’app archive le match (date, score, stats, distinctions).</li>
+          <li>Dans <strong>Historique</strong> tu peux relire, copier un résumé, imprimer/exporter en PDF.</li>
+          <li>Les données restent locales dans le navigateur (tu peux exporter/importer la config).</li>
+        </ul>
+      </div>
+
+      <p class="help-signature">🎯 Objectif : noter vite, analyser juste, progresser match après match.</p>
     </section>
-
   </div>
-
-
-
-  
 
   <!-- OVERLAY RALLYE : LISTE DES JOUEUSES SUR LE TERRAIN -->
   <div id="rally-overlay">
