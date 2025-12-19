@@ -1290,7 +1290,90 @@ button:active{
   box-shadow: var(--shadow-soft);
 }
 
-</style>
+
+    /* --------- Match I/O (export / import JSON) --------- */
+    #matchio-overlay{
+      position:fixed; inset:0;
+      display:none;
+      align-items:center; justify-content:center;
+      background: rgba(0,0,0,.55);
+      z-index: 9999;
+    }
+    #matchio-panel{
+      width: min(920px, 92vw);
+      max-height: min(78vh, 740px);
+      background: rgba(20,20,24,0.92);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      position: absolute;
+    }
+    .matchio-head{
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      background: linear-gradient(90deg, rgba(73,146,219,0.22), rgba(236,79,33,0.18));
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      cursor: move;
+      user-select: none;
+    }
+    .matchio-title{ font-weight: 800; letter-spacing: .2px; }
+    .matchio-sub{ font-size: 12px; opacity: .85; margin-top: 2px; }
+    .matchio-x{
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.25);
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+    }
+    .matchio-body{ padding: 12px 14px 14px; }
+    #matchio-text{
+      width: 100%;
+      min-height: 280px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.35);
+      color: #f5f5f5;
+      padding: 10px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      resize: vertical;
+    }
+    .matchio-actions{
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .matchio-hint{
+      margin-top: 10px;
+      font-size: 12px;
+      opacity: .9;
+    }
+    .mini-toast{
+      position: fixed;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      background: rgba(20,20,24,0.92);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 12px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.55);
+      display:none;
+      z-index: 10000;
+      font-size: 13px;
+      backdrop-filter: blur(10px);
+      max-width: min(540px, 92vw);
+      text-align:center;
+    }
+
+  </style>
 </head>
 <body>
   <!-- VUE PRINCIPALE -->
@@ -1660,7 +1743,42 @@ button:active{
         <button id="btn-dashboard-copy" type="button" class="dash-action-btn">Copier</button>
         <button id="btn-dashboard-wa" type="button" class="dash-action-btn">WhatsApp</button>
         <button id="btn-dashboard-tg" type="button" class="dash-action-btn">Telegram</button>
+              <button id="btn-dashboard-save-match" type="button" class="dash-action-btn">Sauvegarder match</button>
+        <button id="btn-dashboard-load-match" type="button" class="dash-action-btn">Importer match</button>
+        <input type="file" id="file-import-match" accept="application/json,.json,.stat2match" style="display:none;" />
+</div>
+      <!-- Match I/O (export / import JSON) -->
+      <div id="matchio-overlay" style="display:none;">
+        <div id="matchio-panel" role="dialog" aria-modal="true" aria-label="Sauvegarde et import de match">
+          <div class="matchio-head" id="matchio-drag-handle">
+            <div>
+              <div class="matchio-title">Match — Sauvegarde / Import</div>
+              <div class="matchio-sub">Export JSON (relecture vidéo) ou import pour reprendre un match.</div>
+            </div>
+            <button id="matchio-close" class="matchio-x" title="Fermer">×</button>
+          </div>
+
+          <div class="matchio-body">
+            <textarea id="matchio-text" placeholder="1) Clique sur “Sauvegarder match” pour générer le JSON
+2) Copie/partage le texte
+3) Plus tard : colle ici le JSON puis clique sur “Importer”.
+
+(Option) Tu peux aussi choisir un fichier .json"></textarea>
+            <div class="matchio-actions">
+              <button id="matchio-pickfile" type="button" class="dash-action-btn">Choisir un fichier…</button>
+              <button id="matchio-import" type="button" class="dash-action-btn" style="background: linear-gradient(90deg, rgba(73,146,219,0.30), rgba(236,79,33,0.24)); border-color: rgba(255,255,255,0.22);">Importer</button>
+              <button id="matchio-copy" type="button" class="dash-action-btn">Copier</button>
+              <button id="matchio-download" type="button" class="dash-action-btn">Télécharger .json</button>
+            </div>
+            <div class="matchio-hint">
+              Astuce : tu peux <strong>sauvegarder</strong> un match en cours (ou juste avant clôture), corriger après vidéo, puis continuer.
+            </div>
+          </div>
+        </div>
       </div>
+
+      <div class="mini-toast" id="mini-toast"></div>
+
 
 
       <div id="set-selector-dashboard">
@@ -1729,7 +1847,17 @@ button:active{
         </div>
         <div id="block-suggestion" class="award-hint"></div>
 
-        <!-- Meilleur soutien -->
+        
+        <!-- Meilleur·e attaquant·e -->
+        <div class="award-row">
+          <label for="select-best-attack">Meilleur·e attaquant·e</label>
+          <select id="select-best-attack">
+            <option value="">— Aucune —</option>
+          </select>
+        </div>
+        <div id="attack-suggestion" class="award-hint"></div>
+
+<!-- Meilleur·e attaquant·e + Meilleur soutien -->
         <div class="award-row">
           <label for="select-best-support">Meilleur soutien</label>
           <select id="select-best-support">
@@ -2466,23 +2594,37 @@ function openRallyOverlayMultiDefensePasse() {
       return out;
     }
 
+    
     function suggestAwardsFromCurrentMatch() {
       // candidates = joueuses cochées "dans l'effectif du match" (ou toutes si la propriété n'existe pas)
       const candidates = players.filter(p => p && p.id).filter(p => (p.inMatch !== false));
 
-      let bestSupport = null; // {id, score}
-      let bestBlock   = null; // {id, score}
-      let bestMVP     = null; // {id, score}
+      let bestSupport = null; // {id, score, agg}
+      let bestBlock   = null; // {id, score, agg}
+      let bestAttack  = null; // {id, score, agg}
+      let bestMVP     = null; // {id, score, agg}
 
       candidates.forEach(p => {
         const agg = getPlayerMatchAgg(p.id);
 
         const supportScore = (agg.byCatPlus.defense || 0) + (agg.byCatPlus.reception || 0);
         const blockScore   = (agg.byCatPlus.bloc || 0);
+        const attackScore  = (agg.byCatPlus.attaque || 0);
         const mvpScore     = agg.plus;
 
         if (!bestSupport || supportScore > bestSupport.score) bestSupport = { id: p.id, score: supportScore, agg };
         if (!bestBlock   || blockScore   > bestBlock.score)   bestBlock   = { id: p.id, score: blockScore,   agg };
+
+        // Meilleur·e attaquant·e => attaque+ max, tie-break: delta attaque
+        const attackDelta = (agg.byCatPlus.attaque || 0) - (agg.byCatMinus.attaque || 0);
+        if (!bestAttack) {
+          bestAttack = { id: p.id, score: attackScore, agg, attackDelta };
+        } else {
+          const bestDelta = (bestAttack.attackDelta ?? ((bestAttack.agg.byCatPlus.attaque||0) - (bestAttack.agg.byCatMinus.attaque||0)));
+          if (attackScore > bestAttack.score || (attackScore === bestAttack.score && attackDelta > bestDelta)) {
+            bestAttack = { id: p.id, score: attackScore, agg, attackDelta };
+          }
+        }
 
         // MVP => plus grand nombre d'actions positives, delta obligatoirement > 0
         if (agg.delta > 0) {
@@ -2490,19 +2632,21 @@ function openRallyOverlayMultiDefensePasse() {
         }
       });
 
-      return { bestSupport, bestBlock, bestMVP };
+      return { bestSupport, bestBlock, bestAttack, bestMVP };
     }
 
-    function applyAwardsAutofill() {
-      const { bestSupport, bestBlock, bestMVP } = suggestAwardsFromCurrentMatch();
+function applyAwardsAutofill() {
+      const { bestSupport, bestBlock, bestAttack, bestMVP } = suggestAwardsFromCurrentMatch();
 
       const mvpSelect     = document.getElementById("select-mvp");
       const supportSelect = document.getElementById("select-best-support");
       const blockSelect   = document.getElementById("select-best-block");
+      const attackSelect  = document.getElementById("select-best-attack");
 
       const mvpHint     = document.getElementById("mvp-suggestion");
       const supportHint = document.getElementById("support-suggestion");
       const blockHint   = document.getElementById("block-suggestion");
+      const attackHint  = document.getElementById("attack-suggestion");
 
       const fmtPlayer = (id) => {
         const p = players.find(x => x.id === id);
@@ -2513,27 +2657,54 @@ function openRallyOverlayMultiDefensePasse() {
       if (mvpSelect) mvpSelect.value = bestMVP ? bestMVP.id : "";
       if (supportSelect) supportSelect.value = bestSupport ? bestSupport.id : "";
       if (blockSelect) blockSelect.value = bestBlock ? bestBlock.id : "";
+      if (attackSelect) attackSelect.value = bestAttack ? bestAttack.id : "";
 
       if (mvpHint) {
         if (!bestMVP) {
-          mvpHint.textContent = "Suggestion auto : aucune (personne n’a un delta > 0 pour l’instant).";
+          mvpHint.textContent = "Suggestion auto : aucune (delta > 0 obligatoire pour l’instant).";
         } else {
           mvpHint.textContent =
             "Suggestion auto : " + fmtPlayer(bestMVP.id) +
             " — Actions + : " + bestMVP.agg.plus + " | Actions - : " + bestMVP.agg.minus + " | Δ " + bestMVP.agg.delta;
         }
       }
-      if (supportHint && bestSupport) {
-        supportHint.textContent =
-          "Suggestion auto : " + fmtPlayer(bestSupport.id) +
-          " — Défense+ (" + (bestSupport.agg.byCatPlus.defense||0) + ") + Récep+ (" + (bestSupport.agg.byCatPlus.reception||0) + ") = " + bestSupport.score;
+
+      if (supportHint) {
+        if (!bestSupport) {
+          supportHint.textContent = "Suggestion auto : aucune.";
+        } else {
+          const dPlus = (bestSupport.agg.byCatPlus.defense || 0);
+          const rPlus = (bestSupport.agg.byCatPlus.reception || 0);
+          supportHint.textContent =
+            "Suggestion auto : " + fmtPlayer(bestSupport.id) +
+            " — Défense+ (" + dPlus + ") + Récep+ (" + rPlus + ") = " + bestSupport.score;
+        }
       }
-      if (blockHint && bestBlock) {
-        blockHint.textContent =
-          "Suggestion auto : " + fmtPlayer(bestBlock.id) +
-          " — Bloc+ : " + bestBlock.score;
+
+      if (blockHint) {
+        if (!bestBlock) {
+          blockHint.textContent = "Suggestion auto : aucune.";
+        } else {
+          blockHint.textContent =
+            "Suggestion auto : " + fmtPlayer(bestBlock.id) +
+            " — Bloc+ : " + bestBlock.score;
+        }
+      }
+
+      if (attackHint) {
+        if (!bestAttack) {
+          attackHint.textContent = "Suggestion auto : aucune.";
+        } else {
+          const aPlus = (bestAttack.agg.byCatPlus.attaque || 0);
+          const aMinus = (bestAttack.agg.byCatMinus.attaque || 0);
+          const aDelta = aPlus - aMinus;
+          attackHint.textContent =
+            "Suggestion auto : " + fmtPlayer(bestAttack.id) +
+            " — Attaque+ : " + aPlus + " | Attaque- : " + aMinus + " | Δ " + aDelta;
+        }
       }
     }
+
 
     function computeDashboardData(setNumber) {
       const score = getSetScore(setNumber);
@@ -2595,7 +2766,7 @@ function openRallyOverlayMultiDefensePasse() {
       const oppTeam = getOppTeamName() || "Eux";
 
       // --- Distinctions (sélection + suggestion auto) ---
-      const { bestSupport, bestBlock, bestMVP } = suggestAwardsFromCurrentMatch();
+      const { bestSupport, bestBlock, bestAttack, bestMVP } = suggestAwardsFromCurrentMatch();
 
       const fmtPlayer = (id) => {
         if (!id) return "—";
@@ -2630,9 +2801,11 @@ function openRallyOverlayMultiDefensePasse() {
         oppTeam,
         bestSupport,
         bestBlock,
+        bestAttack,
         bestMVP,
         selMVP,
         selBlock,
+        selAttack,
         selSupport,
         fmtPlayer
       };
@@ -2668,6 +2841,7 @@ function openRallyOverlayMultiDefensePasse() {
 
 
 
+    
     function buildDashboardShareText(setNumber) {
       const d = computeDashboardData(setNumber);
 
@@ -2677,18 +2851,22 @@ function openRallyOverlayMultiDefensePasse() {
       lines.push("━━━━━━━━━━━━━━━━━━━━");
       lines.push("");
 
-      lines.push("🟦 NOS STATS");
+      lines.push("🟦 NOUS");
       STAT_CATEGORIES.forEach(cat => {
         const label = d.namesMap[cat] || cat;
-        lines.push(`• ${label} : ${(d.acc[cat+"Minus"]||0)} ${d.sepFor(cat)} ${(d.acc[cat+"Plus"]||0)}`);
+        const plus = (d.acc[cat+"Plus"]||0);
+        const minus = (d.acc[cat+"Minus"]||0);
+        const delta = plus - minus;
+        lines.push(`• ${label} : +${plus} / -${minus} (Δ ${delta})`);
       });
-      lines.push(`• TOTAL (impact score) : ${d.totalMinus} fautes / ${d.totalPlus} points marqués (Att + Serv + Bloc)`);
+      lines.push(`• Total points (Att+Serv+Bloc) : ${d.totalPlus}`);
+      lines.push(`• Total fautes (toutes rubriques) : ${d.totalMinus}`);
       lines.push("");
 
       lines.push("🟥 ADVERSAIRE");
-      lines.push(`• Services : ${(d.os.serviceMinus||0)} fautes / ${(d.os.servicePlus||0)} points`);
-      lines.push(`• Bloc : ${(d.os.blocPlus||0)} points`);
-      lines.push(`• Cadeaux (points offerts) : ${(d.os.cadeauxPlus||0)} points pour nous`);
+      lines.push(`• Services : ${(d.os.serviceMinus||0)} fautes / ${(d.os.servicePlus||0)} points directs`);
+      lines.push(`• Bloc : ${(d.os.blocPlus||0)} points au bloc`);
+      lines.push(`• Cadeaux : ${(d.os.cadeauxPlus||0)} points offerts à nous`);
       lines.push(`• Points (hors service) : ${(d.os.pointsMinus||0)} pour nous / ${(d.os.pointsPlus||0)} pour eux`);
       lines.push("");
 
@@ -2698,7 +2876,6 @@ function openRallyOverlayMultiDefensePasse() {
       lines.push(`• Impact global : ${d.impactOurPct}% de nos points / ${d.impactOppPct}% des points adverses (sur nos fautes)`);
       lines.push("");
 
-      
       lines.push("⭐ HIGHLIGHTS (set)");
       const hi = getSetHighlights(d.setNumber);
       const hiList = (arr, fmt) => (arr && arr.length) ? arr.map(fmt).join(" | ") : "—";
@@ -2706,15 +2883,18 @@ function openRallyOverlayMultiDefensePasse() {
       lines.push(`• Top soutien (Déf+ & Récep+) : ${hiList(hi.topSupport, x => d.fmtPlayer(x.id) + " (" + x.support + ")")}`);
       lines.push(`• Fautes à surveiller : ${hiList(hi.topFaults, x => d.fmtPlayer(x.id) + " (" + x.minus + ")")}`);
       lines.push("");
-lines.push("🏅 DISTINCTIONS");
-      lines.push(`• MVP : ${d.fmtPlayer(d.selMVP)} | auto : ${d.bestMVP ? d.fmtPlayer(d.bestMVP.id) + " (Δ " + d.bestMVP.delta + ")" : "—"}`);
+
+      lines.push("🏅 DISTINCTIONS (match)");
+      lines.push(`• MVP : ${d.fmtPlayer(d.selMVP)} | auto : ${d.bestMVP ? d.fmtPlayer(d.bestMVP.id) + " (Δ " + d.bestMVP.agg.delta + ")" : "—"}`);
       lines.push(`• Meilleur·e bloqueur·euse : ${d.fmtPlayer(d.selBlock)} | auto : ${d.bestBlock ? d.fmtPlayer(d.bestBlock.id) : "—"}`);
+      lines.push(`• Meilleur·e attaquant·e : ${d.fmtPlayer(d.selAttack)} | auto : ${d.bestAttack ? d.fmtPlayer(d.bestAttack.id) : "—"}`);
       lines.push(`• Meilleur soutien : ${d.fmtPlayer(d.selSupport)} | auto : ${d.bestSupport ? d.fmtPlayer(d.bestSupport.id) : "—"}`);
       lines.push("");
 
       lines.push("🕒 Export généré le " + new Date().toLocaleString());
       return lines.join("\n");
     }
+
 
     function buildDashboardPrintHTML(setNumber) {
       const d = computeDashboardData(setNumber);
@@ -3303,7 +3483,8 @@ lines.push("🏅 DISTINCTIONS");
   const mvpSelect     = document.getElementById("select-mvp");
   const supportSelect = document.getElementById("select-best-support");
   const blockSelect   = document.getElementById("select-best-block");
-  if (!mvpSelect && !supportSelect && !blockSelect) return;
+  const attackSelect  = document.getElementById("select-best-attack");
+  if (!mvpSelect && !supportSelect && !blockSelect && !attackSelect) return;
 
   function fillSelect(select) {
     if (!select) return;
@@ -3331,6 +3512,7 @@ lines.push("🏅 DISTINCTIONS");
   fillSelect(mvpSelect);
   fillSelect(supportSelect);
   fillSelect(blockSelect);
+  fillSelect(attackSelect);
 }
 
 
@@ -4702,12 +4884,14 @@ function computeOurTeamTotalsFromSnapshot(statsSnapshot) {
       const mvpSelect     = document.getElementById("select-mvp");
       const supportSelect = document.getElementById("select-best-support");
       const blockSelect   = document.getElementById("select-best-block");
+      const attackSelect  = document.getElementById("select-best-attack");
 
       const mvpId         = mvpSelect ? (mvpSelect.value || "") : "";
       const bestSupportId = supportSelect ? (supportSelect.value || "") : "";
       const bestBlockerId = blockSelect ? (blockSelect.value || "") : "";
+      const bestAttackId  = attackSelect ? (attackSelect.value || "") : "";
 
-      if (opponent !== null) {
+if (opponent !== null) {
         teamNames.opp = (opponent || "").trim();
         saveTeamNames();
       }
@@ -4728,7 +4912,8 @@ function computeOurTeamTotalsFromSnapshot(statsSnapshot) {
         opponentStatsSnapshot: deepClone(opponentStats),
         mvpId,
         bestSupportId,
-        bestBlockerId
+        bestBlockerId,
+        bestAttackId
       };
 
       entry.summaryText = buildMatchSummaryText(entry);
@@ -5193,7 +5378,273 @@ function computeOurTeamTotalsFromSnapshot(statsSnapshot) {
     btnCloseMatch.addEventListener("click", archiveCurrentMatch);
   }
 
-  /* --------- init globale ---------- */
+  
+/* ===================== Match I/O (export/import JSON) ===================== */
+function buildMatchSnapshot() {
+  const snap = {
+    app: "Stat2Match Volley 4x4",
+    schema: "stat2match.match.v1",
+    createdAt: new Date().toISOString(),
+    teamNames: {
+      our: getOurTeamName ? (getOurTeamName() || "") : "",
+      opp: getOppTeamName ? (getOppTeamName() || "") : ""
+    },
+    currentSet: currentSet || 1,
+    players: Array.isArray(players) ? players : [],
+    stats: stats || {},
+    setScores: setScores || {},
+    opponentStats: opponentStats || {},
+    court: (typeof getCourtAssignments === "function") ? getCourtAssignments() : (typeof loadCourtFromStorage === "function" ? loadCourtFromStorage() : {}),
+    awards: {
+      mvpId: document.getElementById("select-mvp")?.value || "",
+      bestSupportId: document.getElementById("select-best-support")?.value || "",
+      bestBlockerId: document.getElementById("select-best-block")?.value || "",
+      bestAttackId: document.getElementById("select-best-attack")?.value || ""
+    }
+  };
+  return snap;
+}
+
+function applyMatchSnapshot(snap) {
+  if (!snap || typeof snap !== "object") throw new Error("Snapshot invalide");
+
+  // Team names
+  if (snap.teamNames) {
+    if (typeof snap.teamNames.our === "string") {
+      // teamNames peut être géré via storage et input
+      const inpOur = document.getElementById("team-name-input");
+      if (inpOur) inpOur.value = snap.teamNames.our;
+    }
+    if (typeof snap.teamNames.opp === "string") {
+      const inpOpp = document.getElementById("opponent-name-input");
+      if (inpOpp) inpOpp.value = snap.teamNames.opp;
+    }
+    if (typeof saveTeamNames === "function") saveTeamNames();
+    if (typeof updateTeamNamesUI === "function") updateTeamNamesUI();
+  }
+
+  players = Array.isArray(snap.players) ? snap.players : [];
+  stats = snap.stats || {};
+  setScores = snap.setScores || {};
+  opponentStats = snap.opponentStats || {};
+
+  if (typeof savePlayers === "function") savePlayers();
+  if (typeof saveStats === "function") saveStats();
+  if (typeof saveSetScores === "function") saveSetScores();
+  if (typeof saveOpponentStats === "function") saveOpponentStats();
+
+  // Court
+  if (snap.court && typeof snap.court === "object") {
+    try { localStorage.setItem(COURT_KEY, JSON.stringify(snap.court)); } catch(e){}
+    if (typeof applyCourtFromStorage === "function") applyCourtFromStorage();
+  }
+
+  // Awards
+  const a = snap.awards || {};
+  const setVal = (id, v) => { const el=document.getElementById(id); if (el) el.value = v || ""; };
+  setVal("select-mvp", a.mvpId);
+  setVal("select-best-support", a.bestSupportId);
+  setVal("select-best-block", a.bestBlockerId);
+  setVal("select-best-attack", a.bestAttackId);
+
+  if (typeof refreshAwardsSelectors === "function") refreshAwardsSelectors();
+  if (typeof applyAwardsAutofill === "function") applyAwardsAutofill();
+
+  // Current set
+  if (snap.currentSet) {
+    try { setCurrentSet(Number(snap.currentSet) || 1); } catch(e){}
+  }
+
+  // UI refresh
+  if (typeof refreshPositionSelects === "function") refreshPositionSelects();
+  if (typeof renderBench === "function") renderBench();
+  if (typeof updateAllViews === "function") updateAllViews();
+}
+
+function openMatchIOModal(prefillText) {
+  const overlay = document.getElementById("matchio-overlay");
+  const panel = document.getElementById("matchio-panel");
+  const ta = document.getElementById("matchio-text");
+  if (!overlay || !panel || !ta) return;
+
+  overlay.style.display = "flex";
+  // center panel (or keep last pos)
+  if (!panel.dataset.posSet) {
+    panel.style.left = "50%";
+    panel.style.top = "12%";
+    panel.style.transform = "translateX(-50%)";
+  }
+
+  if (typeof prefillText === "string") ta.value = prefillText;
+  ta.focus();
+
+  makeMatchIOPanelDraggable();
+}
+
+function closeMatchIOModal() {
+  const overlay = document.getElementById("matchio-overlay");
+  const panel = document.getElementById("matchio-panel");
+  if (overlay) overlay.style.display = "none";
+  if (panel) panel.dataset.posSet = panel.dataset.posSet || "1";
+}
+
+function showMiniToast(msg){
+  const t = document.getElementById("mini-toast");
+  if (!t) return;
+  t.textContent = String(msg || "");
+  t.style.display = "block";
+  clearTimeout(t._to);
+  t._to = setTimeout(()=>{ t.style.display="none"; }, 2200);
+}
+
+function copyTextToClipboard(text){
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.position = "fixed";
+  ta.style.left = "-9999px";
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand("copy"); } catch(e){}
+  document.body.removeChild(ta);
+}
+
+function downloadJSONFile(filename, obj){
+  const blob = new Blob([JSON.stringify(obj, null, 2)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 0);
+}
+
+function safeParseJSON(txt){
+  const t = String(txt || "").trim();
+  if (!t) throw new Error("JSON vide");
+  return JSON.parse(t);
+}
+
+function makeMatchIOPanelDraggable() {
+  const overlay = document.getElementById("matchio-overlay");
+  const panel = document.getElementById("matchio-panel");
+  const handle = document.getElementById("matchio-drag-handle");
+  if (!overlay || !panel || !handle) return;
+
+  let dragging=false, startX=0, startY=0, startLeft=0, startTop=0;
+
+  const getXY = (ev) => {
+    const e = ev.touches && ev.touches[0] ? ev.touches[0] : ev;
+    return { x: e.clientX, y: e.clientY };
+  };
+
+  function onDown(ev){
+    ev.preventDefault();
+    dragging = true;
+    const xy = getXY(ev);
+    startX = xy.x; startY = xy.y;
+    const rect = panel.getBoundingClientRect();
+    startLeft = rect.left;
+    startTop = rect.top;
+    panel.style.transform = "none";
+    panel.dataset.posSet = "1";
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onUp);
+    document.addEventListener("touchmove", onMove, {passive:false});
+    document.addEventListener("touchend", onUp);
+  }
+  function onMove(ev){
+    if (!dragging) return;
+    ev.preventDefault();
+    const xy = getXY(ev);
+    const dx = xy.x - startX;
+    const dy = xy.y - startY;
+    const left = Math.max(8, Math.min(window.innerWidth - 60, startLeft + dx));
+    const top  = Math.max(8, Math.min(window.innerHeight - 60, startTop + dy));
+    panel.style.left = left + "px";
+    panel.style.top = top + "px";
+  }
+  function onUp(){
+    dragging=false;
+    document.removeEventListener("mousemove", onMove);
+    document.removeEventListener("mouseup", onUp);
+    document.removeEventListener("touchmove", onMove);
+    document.removeEventListener("touchend", onUp);
+  }
+
+  if (!handle.dataset.dragBound) {
+    handle.addEventListener("mousedown", onDown);
+    handle.addEventListener("touchstart", onDown, {passive:false});
+    handle.dataset.dragBound = "1";
+  }
+}
+
+function initMatchIOButtons(){
+  const btnSave = document.getElementById("btn-dashboard-save-match");
+  const btnLoad = document.getElementById("btn-dashboard-load-match");
+  const fileInp = document.getElementById("file-import-match");
+
+  const overlay = document.getElementById("matchio-overlay");
+  const closeBtn = document.getElementById("matchio-close");
+  const pickBtn = document.getElementById("matchio-pickfile");
+  const importBtn = document.getElementById("matchio-import");
+  const copyBtn = document.getElementById("matchio-copy");
+  const dlBtn = document.getElementById("matchio-download");
+  const ta = document.getElementById("matchio-text");
+
+  if (btnSave) btnSave.addEventListener("click", ()=>{
+    const snap = buildMatchSnapshot();
+    const txt = JSON.stringify(snap, null, 2);
+    openMatchIOModal(txt);
+  });
+
+  if (btnLoad) btnLoad.addEventListener("click", ()=>{
+    openMatchIOModal(ta ? ta.value : "");
+  });
+
+  if (closeBtn) closeBtn.addEventListener("click", closeMatchIOModal);
+  if (overlay) overlay.addEventListener("click", (ev)=>{ if (ev.target === overlay) closeMatchIOModal(); });
+
+  if (pickBtn) pickBtn.addEventListener("click", ()=>{ if (fileInp) fileInp.click(); });
+
+  if (fileInp) fileInp.addEventListener("change", async ()=>{
+    const f = fileInp.files && fileInp.files[0];
+    if (!f) return;
+    const txt = await f.text();
+    const ta2 = document.getElementById("matchio-text");
+    if (ta2) ta2.value = txt;
+    showMiniToast("Fichier chargé. Clique sur Importer.");
+    fileInp.value = "";
+  });
+
+  if (importBtn) importBtn.addEventListener("click", ()=>{
+    try{
+      const txt = (ta && ta.value) ? ta.value : "";
+      const snap = safeParseJSON(txt);
+      applyMatchSnapshot(snap);
+      showMiniToast("Match importé. Tu peux continuer la saisie.");
+      closeMatchIOModal();
+    }catch(err){
+      alert("Import impossible : " + (err && err.message ? err.message : err));
+    }
+  });
+
+  if (copyBtn) copyBtn.addEventListener("click", ()=>{
+    const txt = (ta && ta.value) ? ta.value : "";
+    copyTextToClipboard(txt);
+    showMiniToast("JSON copié ✅");
+  });
+
+  if (dlBtn) dlBtn.addEventListener("click", ()=>{
+    const snap = safeParseJSON((ta && ta.value) ? ta.value : JSON.stringify(buildMatchSnapshot()));
+    const name = "stat2match_4x4_" + new Date().toISOString().slice(0,19).replace(/[:T]/g,"-") + ".json";
+    downloadJSONFile(name, snap);
+    showMiniToast("Fichier .json téléchargé ✅");
+  });
+}
+/* =================== Fin Match I/O =================== */
+
+
+/* --------- init globale ---------- */
   loadPlayers();
   loadStats();
   loadSetScores();
@@ -5213,7 +5664,9 @@ function computeOurTeamTotalsFromSnapshot(statsSnapshot) {
   setCurrentSet(1);
   updateTeamNamesUI();
 
-  // écouteurs sur les champs de noms d’équipe
+  
+  initMatchIOButtons();
+// écouteurs sur les champs de noms d’équipe
   const inpOurTeam = document.getElementById("team-name-input");
   const inpOppTeam = document.getElementById("opponent-name-input");
 
@@ -5249,16 +5702,25 @@ document.querySelectorAll(".rally-btn").forEach(btn => {
     const cat = btn.dataset.skill;
     const outcome = btn.dataset.outcome;
 
-    // Si les menus "+" (Défense/Passe) sont ouverts, n'importe quel "-" les termine avant d'enregistrer la faute.
-    if (outcome === "minus" && isRallyMultiOpen()) {
-      closeRallyOverlay();
+    // Mode "rallye en cours" = menus Défense+/Passe+ ouverts
+    if (isRallyMultiOpen()) {
+      // En rallye, Service/Réception ne sont pas des fins d'échange : on bloque pour éviter les erreurs.
+      if (cat === "service" || cat === "reception") {
+        showMiniToast("On est déjà dans le rallye : Service / Réception ne se notent pas ici. Termine l'échange (Passe−/Défense−/Attaque±/Bloc± ou Point adverse).");
+        return;
+      }
+
+      // Fin de rallye : tout ce qui marque la fin du point le ferme avant enregistrement
+      if (outcome === "minus" || cat === "attaque" || cat === "bloc") {
+        closeRallyOverlay();
+      }
     }
 
     openRallyOverlay(cat, outcome);
   });
 });
 
-  // Fermeture overlay rallye
+// Fermeture overlay rallye
   const rallyOverlay = document.getElementById("rally-overlay");
   const rallyBackdrop = document.getElementById("rally-overlay-backdrop");
   const rallyCloseBtn = document.getElementById("rally-close-btn");
