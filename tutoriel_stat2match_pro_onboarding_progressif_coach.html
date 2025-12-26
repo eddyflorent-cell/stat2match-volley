@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stat2Match PRO — Tutoriel Coach (Onboarding progressif)</title>
+<style>
+  :root{
+    --bg1:#2b193d;
+    --bg2:#0b0b12;
+    --card: rgba(255,255,255,0.07);
+    --card2: rgba(255,255,255,0.05);
+    --text:#f5f5f7;
+    --muted:#cfcfda;
+    --pink:#ff2e88;
+    --yellow:#ffd166;
+    --blue:#4cc9f0;
+    --green:#2ecc71;
+    --orange:#f39c12;
+    --red:#e74c3c;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+    color:var(--text);
+    background: radial-gradient(circle at top left, var(--bg1), var(--bg2) 70%);
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:28px 18px 88px}
+  header{
+    display:flex; gap:14px; align-items:flex-start; flex-wrap:wrap;
+    padding:16px 18px; border-radius:18px;
+    background: linear-gradient(180deg, rgba(255,46,136,0.22), rgba(255,255,255,0.03));
+    box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+  }
+  .logo{
+    width:46px;height:46px;border-radius:14px;
+    display:grid;place-items:center;
+    background: rgba(255,46,136,0.18);
+    border:1px solid rgba(255,46,136,0.35);
+    font-size:22px;
+  }
+  h1{margin:0;font-size:1.9rem;line-height:1.15}
+  .subtitle{margin:4px 0 0;color:var(--muted);line-height:1.5}
+  .pillrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .pill{
+    display:inline-flex;gap:8px;align-items:center;
+    padding:6px 10px;border-radius:999px;
+    background: rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.10);
+    color:var(--muted);
+    font-size:0.88rem;
+  }
+  .pill b{color:var(--text);font-weight:700}
+  .grid{display:grid;grid-template-columns: 1fr; gap:14px; margin-top:18px}
+  @media (min-width: 860px){ .grid{grid-template-columns: 1.1fr 0.9fr;} }
+  .card{
+    background: var(--card);
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius:18px;
+    padding:16px 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.28);
+  }
+  .card.soft{background:var(--card2)}
+  h2{
+    margin:0 0 10px;
+    font-size:1.35rem;
+    line-height:1.2;
+    display:flex;gap:10px;align-items:center;
+  }
+  .mark{
+    width:10px;height:28px;border-radius:999px;
+    background: var(--pink);
+    box-shadow: 0 0 0 6px rgba(255,46,136,0.10);
+  }
+  h3{margin:14px 0 8px;color:var(--yellow);font-size:1.05rem}
+  p{margin:10px 0;line-height:1.65;color:#e9e9ee}
+  ul{margin:8px 0 0 18px; padding:0}
+  li{margin:6px 0; line-height:1.5; color:#e9e9ee}
+  .rule{
+    display:flex; gap:10px; align-items:flex-start;
+    padding:12px 12px; border-radius:16px;
+    background: rgba(76,201,240,0.10);
+    border:1px solid rgba(76,201,240,0.28);
+    margin-top:10px;
+  }
+  .badge{
+    display:inline-block; padding:4px 10px; border-radius:999px;
+    font-size:0.82rem; font-weight:700; letter-spacing:0.2px;
+  }
+  .b-green{background: rgba(46,204,113,0.20); color:#c8ffd9; border:1px solid rgba(46,204,113,0.35)}
+  .b-blue{background: rgba(52,152,219,0.20); color:#d7efff; border:1px solid rgba(52,152,219,0.35)}
+  .b-orange{background: rgba(243,156,18,0.20); color:#ffe7bf; border:1px solid rgba(243,156,18,0.35)}
+  .b-red{background: rgba(231,76,60,0.22); color:#ffd7d3; border:1px solid rgba(231,76,60,0.35)}
+  .mini{
+    display:grid; grid-template-columns: 1fr; gap:10px; margin-top:10px;
+  }
+  @media (min-width: 720px){ .mini{grid-template-columns: 1fr 1fr;} }
+  .mini .k{
+    background: rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius:16px;
+    padding:12px 12px;
+  }
+  .k .t{color:var(--muted); font-size:0.9rem}
+  .k .v{margin-top:4px; font-size:1.05rem; font-weight:750}
+  .quote{
+    margin-top:10px;
+    padding:12px 14px;
+    border-radius:16px;
+    background: rgba(255,255,255,0.05);
+    border:1px dashed rgba(255,255,255,0.20);
+    color:#f3f3f7;
+  }
+  .steps{counter-reset: step; margin:0; padding:0; list-style:none}
+  .steps li{
+    counter-increment: step;
+    margin:10px 0;
+    padding:12px 12px;
+    border-radius:16px;
+    background: rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.10);
+  }
+  .steps li::before{
+    content: counter(step);
+    display:inline-grid; place-items:center;
+    width:28px; height:28px; border-radius:10px;
+    margin-right:10px;
+    background: rgba(255,46,136,0.18);
+    border:1px solid rgba(255,46,136,0.35);
+    font-weight:800;
+  }
+  details{
+    background: rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius:16px;
+    padding:12px 12px;
+    margin:10px 0;
+  }
+  summary{
+    cursor:pointer;
+    font-weight:800;
+    color:#f7f7fb;
+    outline:none;
+  }
+  summary::-webkit-details-marker{display:none}
+  .foot{
+    margin-top:28px;
+    text-align:center;
+    color: rgba(245,245,247,0.55);
+    font-size:0.9rem;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">🏐</div>
+      <div>
+        <h1>Stat2Match PRO — Tutoriel Coach</h1>
+        <div class="subtitle">
+          Onboarding progressif : tu apprends <b>au bon moment</b>, sans te noyer dans les infos.<br/>
+          Simple pour un enfant, utile pour un coach.
+        </div>
+        <div class="pillrow">
+          <span class="pill"><b>+ / −</b> = qualité</span>
+          <span class="pill"><b>P / F</b> = score</span>
+          <span class="pill">🎯 1 priorité à la fois</span>
+          <span class="pill">🧠 Comprendre & décider</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2><span class="mark"></span>1) L’idée de base</h2>
+        <p>
+          Stat2Match PRO ne sert pas à “tout compter”. Il sert à <b>voir clair</b> :
+          <b>où l’équipe marque</b> et <b>où elle donne des points</b>.
+        </p>
+        <div class="quote">
+          <b>Règle d’or :</b> tu n’es pas là pour juger. Tu es là pour comprendre et décider.
+        </div>
+
+        <h3>Ce que tu notes</h3>
+        <ul>
+          <li>Ce qui <b>fait gagner</b> un point (P)</li>
+          <li>Ce qui <b>donne</b> un point (F)</li>
+          <li>La <b>qualité</b> d’une action ( + / − )</li>
+        </ul>
+
+        <h3>Ce que tu évites</h3>
+        <ul>
+          <li>Noter tout → tu perds le sens.</li>
+          <li>Donner 10 consignes → personne ne retient.</li>
+          <li>Analyser un set entier en plein échange → tu rates le match.</li>
+        </ul>
+      </section>
+
+      <aside class="card soft">
+        <h2><span class="mark"></span>2) Les 4 boutons essentiels</h2>
+
+        <div class="mini">
+          <div class="k">
+            <div class="t"><span class="badge b-green">➕ +</span> Action positive</div>
+            <div class="v">Bonne qualité (ne change pas le score)</div>
+          </div>
+          <div class="k">
+            <div class="t"><span class="badge b-orange">➖ −</span> Action négative</div>
+            <div class="v">À améliorer (ne change pas le score)</div>
+          </div>
+          <div class="k">
+            <div class="t"><span class="badge b-blue">P</span> Point pour nous</div>
+            <div class="v">Change le score ✅</div>
+          </div>
+          <div class="k">
+            <div class="t"><span class="badge b-red">F</span> Faute (point pour eux)</div>
+            <div class="v">Change le score ✅</div>
+          </div>
+        </div>
+
+        <div class="rule">
+          <div>🧠</div>
+          <div>
+            <b>Ultra simple :</b><br/>
+            <span class="badge b-blue">P</span> / <span class="badge b-red">F</span> = le score bouge. <br/>
+            <span class="badge b-green">+</span> / <span class="badge b-orange">−</span> = on décrit la qualité.
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="card">
+      <h2><span class="mark"></span>3) Mode Rallye (la lecture du point)</h2>
+      <p>
+        Le mode Rallye sert à comprendre <b>comment</b> le point se construit.
+        Tu relis les actions jusqu’à l’issue : point (P) ou faute (F).
+      </p>
+      <div class="rule">
+        <div>🔄</div>
+        <div>
+          <b>Règle PRO :</b> un rallye ne se termine jamais par “service” ou “réception”.<br/>
+          Il se termine par <b>attaque</b>, <b>bloc</b> ou <b>faute</b>.
+        </div>
+      </div>
+
+      <h3>Exemple ultra simple</h3>
+      <ol class="steps">
+        <li>Tu actives Rallye.</li>
+        <li>Tu notes les actions clés (passe, défense, relance…).</li>
+        <li>La dernière action décisive = <b>P</b> (point) ou <b>F</b> (faute).</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2><span class="mark"></span>4) Diagnostic PRO (joueuse ↔ équipe ↔ adversaire)</h2>
+      <p>
+        Le Diagnostic PRO transforme des chiffres en décisions coachables.
+        Il compare la joueuse à son équipe, puis replace tout face à l’adversaire.
+      </p>
+
+      <details open>
+        <summary>✅ Comment lire en 20 secondes</summary>
+        <ul>
+          <li><b>Impact net</b> : P − F (ce que la joueuse apporte réellement au score)</li>
+          <li><b>Efficacité</b> : actions positives / tentatives</li>
+          <li><b>Risque</b> : fautes / tentatives</li>
+          <li><b>Comparaison</b> : au-dessus / dans la norme / en dessous de l’équipe</li>
+          <li><b>Décision</b> : 1 priorité simple pour le set suivant</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>🎯 Exemple de phrase coach (simple & utile)</summary>
+        <p>
+          « Myriam est <b>au-dessus de la moyenne équipe</b> sur la réception.
+          Son risque est faible : <b>on s’appuie sur elle</b> en money-time.
+          Priorité : sécuriser le service (0 faute sur 3 prochains services). »
+        </p>
+      </details>
+    </section>
+
+    <section class="card">
+      <h2><span class="mark"></span>5) Routine coach PRO (sans se perdre)</h2>
+      <div class="mini">
+        <div class="k">
+          <div class="t">Début de set</div>
+          <div class="v">Noter simple : surtout P / F</div>
+        </div>
+        <div class="k">
+          <div class="t">Milieu de set</div>
+          <div class="v">1 regard rapide stats → 1 priorité</div>
+        </div>
+        <div class="k">
+          <div class="t">Fin de set</div>
+          <div class="v">Diagnostic PRO → consigne claire</div>
+        </div>
+        <div class="k">
+          <div class="t">Fin de match</div>
+          <div class="v">1 point fort + 1 axe entraînement</div>
+        </div>
+      </div>
+
+      <div class="quote">
+        <b>Rappel :</b> une consigne claire vaut mieux que dix stats.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span class="mark"></span>6) Rapport individuel (débrief intelligent)</h2>
+      <p>
+        Le rapport individuel sert à débriefer <b>vite</b>, <b>bien</b>, et <b>sans blesser</b>.
+        Il doit rester lisible : 1 force, 1 point à travailler, 1 objectif concret.
+      </p>
+      <details>
+        <summary>📌 Exemple d’objectif concret</summary>
+        <p>
+          « Sur le prochain match : viser <b>0 faute directe</b> au service sur 5 tentatives.
+          Si ça passe, on augmente le risque. »
+        </p>
+      </details>
+    </section>
+
+    <div class="foot">
+      Stat2Match PRO — Tutoriel Coach (Onboarding progressif).<br/>
+      Version autonome : à intégrer comme page “Tutoriel”.
+    </div>
+  </div>
+</body>
+</html>
